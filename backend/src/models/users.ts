@@ -1,33 +1,47 @@
 import sequelize from '../config/database';
 
-import { DataTypes } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+} from 'sequelize';
 
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    unique: true,
-  },
-  passwordHash: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  rankId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id: number;
+  declare username: string;
+  declare email: string;
+  declare passwordHash: string;
+  declare rankId: number;
+}
 
-console.log('user.ts running');
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
+    passwordHash: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    rankId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  { sequelize, modelName: 'User' }
+);
 
 export default User;
