@@ -8,15 +8,21 @@ const User = sequelize.define('User', {
     autoIncrement: true,
     primaryKey: true,
   },
-  fileName: {
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+  },
+  passwordHash: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  url: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
+  rankId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

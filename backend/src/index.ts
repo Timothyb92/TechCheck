@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import sequelize from './config/database';
+import { sequelize } from './models';
 
 dotenv.config();
 
@@ -19,6 +19,11 @@ sequelize
   .authenticate()
   .then(() => console.log('Database connected ✅'))
   .catch((err) => console.error('DB connection error ❌', err));
+
+sequelize
+  .sync({ alter: true, logging: false })
+  .then(() => console.log('db synced'))
+  .catch((err) => console.error('db sync error', err));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
