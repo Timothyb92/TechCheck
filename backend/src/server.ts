@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { sequelize } from './models';
-import { seedCharacters } from './seeders/charactersSeeder';
+import { seedTables } from './seeders/seeders';
+// import { seedCharacters } from './seeders/charactersSeeder';
 
 import api from './routes/api';
 
@@ -33,7 +34,7 @@ sequelize
   .sync({ alter: true, logging: false })
   .then(async () => {
     console.log('db synced');
-    await seedCharacters();
+    await seedTables();
   })
   .catch((err) => console.error('db sync error', err));
 

@@ -1,18 +1,33 @@
 import sequelize from '../config/database';
 
-import { DataTypes } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+} from 'sequelize';
 
-const Rank = sequelize.define('Rank', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+class Rank extends Model<InferAttributes<Rank>, InferCreationAttributes<Rank>> {
+  declare id: number;
+  declare name: string;
+}
+
+Rank.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
+  {
+    sequelize,
+    modelName: 'Rank',
+  }
+);
 
 export default Rank;
