@@ -1,18 +1,36 @@
 import sequelize from '../config/database';
 
-import { DataTypes } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+} from 'sequelize';
 
-const Character = sequelize.define('Character', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+class Character extends Model<
+  InferAttributes<Character>,
+  InferCreationAttributes<Character>
+> {
+  declare id: number;
+  declare name: string;
+}
+
+Character.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
+  {
+    sequelize,
+    modelName: 'Character',
+  }
+);
 
 export default Character;

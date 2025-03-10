@@ -2,7 +2,6 @@ import sequelize from '../config/database';
 
 import {
   DataTypes,
-  UUIDV4,
   Model,
   InferAttributes,
   InferCreationAttributes,
@@ -13,10 +12,11 @@ class MatchRequest extends Model<
   InferCreationAttributes<MatchRequest>
 > {
   declare id: number;
-  declare userId: number;
-  declare rankId: number;
+  declare playerOneId: number;
+  declare characterOneId: number;
   declare status: string;
-  declare challengerId: number;
+  declare playerTwoId: number;
+  declare characterTwoId: number;
 }
 
 MatchRequest.init(
@@ -26,11 +26,11 @@ MatchRequest.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
+    playerOneId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    rankId: {
+    characterOneId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -38,9 +38,13 @@ MatchRequest.init(
       type: DataTypes.ENUM('open', 'matched', 'cancelled', 'pending'),
       defaultValue: 'open',
     },
-    challengerId: {
+    playerTwoId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    characterTwoId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   { sequelize, modelName: 'MatchRequest' }

@@ -1,7 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 import { sequelize } from './models';
+import { seedCharacters } from './seeders/charactersSeeder';
 
 import api from './routes/api';
 
@@ -29,7 +31,10 @@ sequelize
 
 sequelize
   .sync({ alter: true, logging: false })
-  .then(() => console.log('db synced'))
+  .then(async () => {
+    console.log('db synced');
+    await seedCharacters();
+  })
   .catch((err) => console.error('db sync error', err));
 
 app.listen(PORT, () => {
