@@ -15,8 +15,8 @@ class MatchRequest extends Model<
   declare playerOneId: number;
   declare characterOneId: number;
   declare status: string;
-  declare playerTwoId: number;
-  declare characterTwoId: number;
+  declare playerTwoId?: number;
+  declare characterTwoId?: number;
 }
 
 MatchRequest.init(
@@ -35,7 +35,7 @@ MatchRequest.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('open', 'matched', 'cancelled', 'pending'),
+      type: DataTypes.ENUM('open', 'matched', 'cancelled', 'completed'),
       defaultValue: 'open',
     },
     playerTwoId: {
