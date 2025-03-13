@@ -44,7 +44,7 @@ MatchRequest.init(
     },
     characterTwoId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   { sequelize, modelName: 'MatchRequest' }

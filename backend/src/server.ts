@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import { sequelize } from './models';
 import { seedTables } from './seeders/seeders';
-// import { seedCharacters } from './seeders/charactersSeeder';
+import { setupAssociations } from './models/associations';
 
 import api from './routes/api';
 
@@ -24,6 +24,8 @@ app.use('/api', api);
 app.get('/api', (req, res) => {
   res.send('Welcome to TechCheck API!');
 });
+
+setupAssociations();
 
 sequelize
   .authenticate()

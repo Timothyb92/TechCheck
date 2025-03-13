@@ -16,10 +16,7 @@ export const createMatchRequest = async (
   return await MatchRequest.create(match);
 };
 
-export const cancelMatchRequest = async (
-  matchId: number
-  // match: InferAttributes<MatchRequest>
-) => {
+export const cancelMatchRequest = async (matchId: number) => {
   try {
     const matchToUpdate = await getOneMatchRequest(matchId);
 

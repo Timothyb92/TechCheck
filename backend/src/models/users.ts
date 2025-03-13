@@ -1,4 +1,7 @@
 import sequelize from '../config/database';
+import Rank from './ranks';
+import Character from './characters';
+import MatchRequest from './matchRequests';
 
 import {
   DataTypes,
@@ -13,6 +16,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare email: string;
   declare passwordHash: string;
   declare rankId: number;
+  declare mainCharacterId: number;
 }
 
 User.init(
@@ -38,7 +42,11 @@ User.init(
     },
     rankId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+    },
+    mainCharacterId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
   },
   { sequelize, modelName: 'User' }
