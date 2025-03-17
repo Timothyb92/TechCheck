@@ -20,8 +20,14 @@ const MatchRequests = [
   {
     id: 3,
     playerOneId: 1,
-    characterOneId: 21,
+    characterOneId: 23,
     status: 'cancelled',
+  },
+  {
+    id: 4,
+    playerOneId: 2,
+    characterOneId: 21,
+    status: 'open',
   },
 ];
 

@@ -1,6 +1,6 @@
 import MatchRequest from '../models/matchRequests';
 
-import { InferCreationAttributes, InferAttributes } from 'sequelize';
+import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
 
 export const getAllMatchRequests = async () => {
   return await MatchRequest.findAll();
@@ -26,6 +26,42 @@ export const cancelMatchRequest = async (matchId: number) => {
 
     matchToUpdate.status = 'cancelled';
     matchToUpdate.save();
+    return matchToUpdate;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAllMatchesCreatedByUser = async (id: number) => {
+  try {
+    const matchesCreated = await MatchRequest.findAll({
+      where: { playerOneId: id },
+    });
+    return matchesCreated;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAllMatchesJoinedByUser = async (id: number) => {
+  try {
+    const matchesCreated = await MatchRequest.findAll({
+      where: { playerTwoId: id },
+    });
+    return matchesCreated;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAllMatchesByUser = async (id: number) => {
+  try {
+    const matches = await MatchRequest.findAll({
+      where: {
+        [Op.or]: [{ playerOneId: id }, { playerTwoId: id }],
+      },
+    });
+    return matches;
   } catch (err) {
     console.error(err);
   }
