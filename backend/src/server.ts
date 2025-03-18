@@ -7,6 +7,7 @@ import { seedTables } from './seeders/seeders';
 import { setupAssociations } from './models/associations';
 
 import api from './routes/api';
+import auth from './routes/auth';
 
 dotenv.config();
 
@@ -19,7 +20,9 @@ app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.path}`);
   next();
 });
+
 app.use('/api', api);
+app.use('/auth', auth);
 
 app.get('/api', (req, res) => {
   res.send('Welcome to TechCheck API!');
