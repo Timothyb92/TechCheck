@@ -10,9 +10,9 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'No auth code' });
     }
 
-    const token = await exchangeCode(code);
+    const user = await exchangeCode(code);
 
-    return res.status(200).json(token);
+    return res.status(200).json(user);
   } catch (err) {
     console.error(err);
   }

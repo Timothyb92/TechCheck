@@ -1,4 +1,3 @@
-// import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 
 import {
@@ -10,26 +9,64 @@ import {
   DISCORD_REDIRECT_URI,
 } from '../config/env';
 
-export const exchangeCode = async (code: string) => {
-  const data = new URLSearchParams({
-    grant_type: 'authorization_code',
-    code: code.toString(),
-    redirect_uri: DISCORD_REDIRECT_URI,
-    client_id: DISCORD_CLIENT_ID,
-    client_secret: DISCORD_CLIENT_SECRET,
-  });
+type Token = {
+  token_type: string;
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+};
 
-  const response = await fetch(`${DISCORD_TOKEN_ENDPOINT}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: data,
-  });
+type User = {
+  id: string;
+  username: string;
+  discriminator: string;
+  avatar: string;
+  email?: string;
+};
 
-  if (!response.ok) {
-    throw new Error(`HTTP error - Status: ${response.status}`);
+export const exchangeCode = async (code: string): Promise<User & Token> => {
+  try {
+    const data = new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: code.toString(),
+      redirect_uri: DISCORD_REDIRECT_URI,
+      client_id: DISCORD_CLIENT_ID,
+      client_secret: DISCORD_CLIENT_SECRET,
+    });
+
+    const tokenResponse = await fetch(`${DISCORD_TOKEN_ENDPOINT}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data,
+    });
+
+    if (!tokenResponse.ok) {
+      throw new Error(`Failed to exchange token: ${tokenResponse.statusText}`);
+    }
+
+    const tokenData = (await tokenResponse.json()) as Token;
+
+    const userResponse: any = await fetch(`${DISCORD_API_ENDPOINT}/users/@me`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${tokenData.access_token}`,
+      },
+    });
+
+    if (!userResponse.ok) {
+      throw new Error(
+        `Failed to fetch user info - Status: ${userResponse.status}`
+      );
+    }
+
+    const userInfo = await userResponse.json();
+    const userPlusTokenData = { ...userInfo, ...tokenData };
+
+    return userPlusTokenData;
+  } catch (err) {
+    console.error(`OAuth Error: ${err}`);
+    throw new Error('OAuth authentication failed');
   }
-
-  return await response.json();
+  //TODO: Look into refreshing tokens so users don't have to reauth every 7 days
 };
