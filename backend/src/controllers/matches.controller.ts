@@ -1,45 +1,45 @@
 import { Request, Response } from 'express';
 
 import {
-  getAllMatchRequests,
-  getOneMatchRequest,
-  createMatchRequest,
-  cancelMatchRequest,
+  getAllMatches,
+  getOneMatch,
+  createMatch,
+  cancelMatch,
   getAllMatchesCreatedByUser,
   getAllMatchesJoinedByUser,
   getAllMatchesByUser,
-} from '../services/matchRequestServices';
+} from '../services/matchServices';
 
-export const httpGetAllMatchRequests = async (req: Request, res: Response) => {
+export const httpGetAllMatches = async (req: Request, res: Response) => {
   try {
-    const matches = await getAllMatchRequests();
+    const matches = await getAllMatches();
     return res.status(200).json(matches);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const httpGetOneMatchRequest = async (req: Request, res: Response) => {
+export const httpGetOneMatch = async (req: Request, res: Response) => {
   try {
-    const match = await getOneMatchRequest(+req.params.id);
+    const match = await getOneMatch(+req.params.id);
     return res.status(200).json(match);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const httpCreateMatchRequest = async (req: Request, res: Response) => {
+export const httpCreateMatch = async (req: Request, res: Response) => {
   try {
-    const createdMatchRequest = await createMatchRequest(req.body);
-    return res.status(200).json(createdMatchRequest);
+    const createdMatch = await createMatch(req.body);
+    return res.status(200).json(createdMatch);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const httpCancelMatchRequest = async (req: Request, res: Response) => {
+export const httpCancelMatch = async (req: Request, res: Response) => {
   try {
-    const cancelledMatch = await cancelMatchRequest(+req.params.id);
+    const cancelledMatch = await cancelMatch(+req.params.id);
     return res.status(200).json(cancelledMatch);
   } catch (err) {
     console.error(err);

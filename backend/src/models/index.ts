@@ -1,6 +1,6 @@
 import sequelize from '../config/database';
 import Character from './characters';
-import MatchRequest from './matchRequests';
+import MatchRequest from './matches';
 import Rank from './ranks';
 import User from './users';
 

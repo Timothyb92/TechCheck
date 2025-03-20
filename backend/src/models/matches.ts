@@ -7,9 +7,9 @@ import {
   InferCreationAttributes,
 } from 'sequelize';
 
-class MatchRequest extends Model<
-  InferAttributes<MatchRequest>,
-  InferCreationAttributes<MatchRequest>
+class Match extends Model<
+  InferAttributes<Match>,
+  InferCreationAttributes<Match>
 > {
   declare id: number;
   declare playerOneId: number;
@@ -19,7 +19,7 @@ class MatchRequest extends Model<
   declare characterTwoId?: number;
 }
 
-MatchRequest.init(
+Match.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -47,7 +47,7 @@ MatchRequest.init(
       allowNull: true,
     },
   },
-  { sequelize, modelName: 'MatchRequest' }
+  { sequelize, modelName: 'Match' }
 );
 
-export default MatchRequest;
+export default Match;

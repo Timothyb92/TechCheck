@@ -1,6 +1,9 @@
 import express from 'express';
 
-import { httpGetAllRanks, httpGetOneRank } from './ranks.controller';
+import {
+  httpGetAllRanks,
+  httpGetOneRank,
+} from '../controllers/ranks.controller';
 
 const rankRouter = express.Router();
 

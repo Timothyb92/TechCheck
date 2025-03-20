@@ -3,7 +3,7 @@ import express from 'express';
 import {
   httpGetAllCharacters,
   httpGetOneCharacter,
-} from '../routes/characters.controller';
+} from '../controllers/characters.controller';
 
 const characterRouter = express.Router();
 

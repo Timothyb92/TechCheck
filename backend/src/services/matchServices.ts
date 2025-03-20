@@ -1,24 +1,22 @@
-import MatchRequest from '../models/matchRequests';
+import Match from '../models/matches';
 
 import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
 
-export const getAllMatchRequests = async () => {
-  return await MatchRequest.findAll();
+export const getAllMatches = async () => {
+  return await Match.findAll();
 };
 
-export const getOneMatchRequest = async (id: number) => {
-  return await MatchRequest.findByPk(id);
+export const getOneMatch = async (id: number) => {
+  return await Match.findByPk(id);
 };
 
-export const createMatchRequest = async (
-  match: InferCreationAttributes<MatchRequest>
-) => {
-  return await MatchRequest.create(match);
+export const createMatch = async (match: InferCreationAttributes<Match>) => {
+  return await Match.create(match);
 };
 
-export const cancelMatchRequest = async (matchId: number) => {
+export const cancelMatch = async (matchId: number) => {
   try {
-    const matchToUpdate = await getOneMatchRequest(matchId);
+    const matchToUpdate = await getOneMatch(matchId);
 
     if (!matchToUpdate) {
       throw new Error(`Match with ID of ${matchId} not found.`);
@@ -34,7 +32,7 @@ export const cancelMatchRequest = async (matchId: number) => {
 
 export const getAllMatchesCreatedByUser = async (id: number) => {
   try {
-    const matchesCreated = await MatchRequest.findAll({
+    const matchesCreated = await Match.findAll({
       where: { playerOneId: id },
     });
     return matchesCreated;
@@ -45,7 +43,7 @@ export const getAllMatchesCreatedByUser = async (id: number) => {
 
 export const getAllMatchesJoinedByUser = async (id: number) => {
   try {
-    const matchesCreated = await MatchRequest.findAll({
+    const matchesCreated = await Match.findAll({
       where: { playerTwoId: id },
     });
     return matchesCreated;
@@ -56,7 +54,7 @@ export const getAllMatchesJoinedByUser = async (id: number) => {
 
 export const getAllMatchesByUser = async (id: number) => {
   try {
-    const matches = await MatchRequest.findAll({
+    const matches = await Match.findAll({
       where: {
         [Op.or]: [{ playerOneId: id }, { playerTwoId: id }],
       },

@@ -1,4 +1,4 @@
-import MatchRequest from '../models/matchRequests';
+import MatchRequest from '../models/matches';
 
 const MatchRequests = [
   {
@@ -31,7 +31,7 @@ const MatchRequests = [
   },
 ];
 
-export const seedMatchRequests = async () => {
+export const seedMatches = async () => {
   try {
     await MatchRequest.bulkCreate(MatchRequests, { ignoreDuplicates: true });
     console.log('✅ MatchRequests table seeded successfully');

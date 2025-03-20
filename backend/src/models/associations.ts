@@ -1,5 +1,5 @@
 import User from './users';
-import MatchRequest from './matchRequests';
+import MatchRequest from './matches';
 import Rank from './ranks';
 import Character from './characters';
 
