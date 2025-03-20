@@ -28,6 +28,7 @@ export const httpGetOneUser = async (req: Request, res: Response) => {
 
 export const httpCreateUser = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     const user = await createUser(req.body);
     return res.status(201).json(user);
   } catch (err) {

@@ -12,7 +12,12 @@ export const getOneUser = async (id: number) => {
 };
 
 export const createUser = async (user: InferCreationAttributes<User>) => {
-  return await User.create(user);
+  // return await User.create(user);
+  console.log(user);
+  return await User.findOrCreate({
+    where: { id: user.id },
+    defaults: { ...user },
+  });
 };
 
 export const deleteUser = async (id: number) => {

@@ -1,7 +1,4 @@
 import sequelize from '../config/database';
-import Rank from './ranks';
-import Character from './characters';
-import MatchRequest from './matchRequests';
 
 import {
   DataTypes,
@@ -17,13 +14,16 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare passwordHash: string;
   declare rankId: number;
   declare mainCharacterId: number;
+  declare avatar: string;
+  declare global_name: string;
+  declare locale: string;
 }
 
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.BIGINT,
+      // autoIncrement: true,
       primaryKey: true,
     },
     username: {
@@ -38,7 +38,7 @@ User.init(
     },
     passwordHash: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     rankId: {
       type: DataTypes.INTEGER,
@@ -46,6 +46,18 @@ User.init(
     },
     mainCharacterId: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    global_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    locale: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },

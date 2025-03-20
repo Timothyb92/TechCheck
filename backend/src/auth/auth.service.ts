@@ -61,7 +61,13 @@ export const exchangeCode = async (code: string): Promise<User & Token> => {
     }
 
     const userInfo = await userResponse.json();
-    const userPlusTokenData = { ...userInfo, ...tokenData };
+    const userPlusTokenData = { ...userInfo, ...tokenData, id: +userInfo.id };
+
+    await fetch('http://localhost:8000/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userPlusTokenData),
+    });
 
     return userPlusTokenData;
   } catch (err) {

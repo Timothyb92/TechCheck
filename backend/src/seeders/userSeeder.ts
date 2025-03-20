@@ -3,11 +3,14 @@ import User from '../models/users';
 const Users = [
   {
     id: 1,
-    username: 'Tzk',
+    username: 'TzMFk',
     email: 'tzk@tzk.com',
     passwordHash: 'asdf',
     rankId: 40,
     mainCharacterId: 23,
+    global_name: 'Tim',
+    locale: 'en-us',
+    avatar: 'abc123',
   },
   {
     id: 2,
@@ -16,6 +19,9 @@ const Users = [
     passwordHash: 'asdf',
     rankId: 41,
     mainCharacterId: 21,
+    global_name: 'Joey',
+    locale: 'en-us',
+    avatar: '123abc',
   },
 ];
 

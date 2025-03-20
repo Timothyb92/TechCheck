@@ -12,7 +12,7 @@ import auth from './routes/auth';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT: number = Number(process.env.PORT) || 8000;
 
 app.use(cors());
 app.use(express.json());
