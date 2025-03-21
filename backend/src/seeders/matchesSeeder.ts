@@ -1,4 +1,4 @@
-import Match from '../models/matches';
+import Match from '../models/matches.model';
 
 // type MatchSeedData = Omit<Partial<Match>, 'id'> & { id?: number };
 

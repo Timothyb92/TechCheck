@@ -1,4 +1,4 @@
-import Rank from '../models/ranks';
+import Rank from '../models/ranks.model';
 
 const Ranks = [
   { id: 1, name: 'Unranked' },

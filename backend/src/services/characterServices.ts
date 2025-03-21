@@ -1,4 +1,4 @@
-import Character from '../models/characters';
+import Character from '../models/characters.model';
 
 export const getAllCharacters = async () => {
   return await Character.findAll();

@@ -1,4 +1,4 @@
-import Match from '../models/matches';
+import Match from '../models/matches.model';
 
 import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
 
