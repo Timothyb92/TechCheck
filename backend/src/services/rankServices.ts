@@ -1,4 +1,4 @@
-import Rank from '../models/ranks';
+import Rank from '../models/ranks.model';
 
 export const getAllRanks = async () => {
   try {

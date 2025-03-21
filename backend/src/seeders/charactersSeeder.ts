@@ -1,4 +1,4 @@
-import Character from '../models/characters';
+import Character from '../models/characters.model';
 
 const characters = [
   { id: 1, name: 'Ryu' },

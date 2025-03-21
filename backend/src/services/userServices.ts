@@ -1,4 +1,4 @@
-import User from '../models/users';
+import User from '../models/users.model';
 
 type Updates = {
   characterId?: number;
