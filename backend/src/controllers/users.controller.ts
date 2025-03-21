@@ -5,6 +5,7 @@ import {
   getOneUser,
   createUser,
   deleteUser,
+  updateUser,
 } from '../services/userServices';
 
 export const httpGetAllUsers = async (req: Request, res: Response) => {
@@ -42,6 +43,15 @@ export const httpDeleteUser = async (req: Request, res: Response) => {
     const userId = +req.params.id;
     const deletedUser = deleteUser(userId);
     res.json(deletedUser);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const httpUpdateUser = async (req: Request, res: Response) => {
+  try {
+    const updatedUser = await updateUser(+req.params.id, req.body);
+    return res.status(200).json(updatedUser);
   } catch (err) {
     console.error(err);
   }
