@@ -1,5 +1,11 @@
 import User from '../models/users';
 
+type Updates = {
+  characterId?: number;
+  rankId?: number;
+  cfnName?: string;
+};
+
 import { InferCreationAttributes, InferAttributes } from 'sequelize';
 
 export const getAllUsers = async () => {
@@ -7,12 +13,10 @@ export const getAllUsers = async () => {
 };
 
 export const getOneUser = async (id: number) => {
-  console.log('Get one service running');
   return await User.findByPk(id);
 };
 
 export const createUser = async (user: InferCreationAttributes<User>) => {
-  // return await User.create(user);
   console.log(user);
   return await User.findOrCreate({
     where: { id: user.id },
@@ -21,10 +25,21 @@ export const createUser = async (user: InferCreationAttributes<User>) => {
 };
 
 export const deleteUser = async (id: number) => {
-  console.log('Delete one service running');
   const user = await User.findByPk(id);
   if (!user) {
     throw new Error('User not found');
   }
   await user.destroy();
+};
+
+export const updateUser = async (id: number, updates: Updates) => {
+  const user = await getOneUser(id);
+
+  if (!user) {
+    throw new Error(`No user found`);
+  }
+
+  Object.assign(user as User, updates);
+  user.save();
+  return user;
 };

@@ -5,6 +5,7 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
+  CreationOptional,
 } from 'sequelize';
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -17,6 +18,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare avatar: string;
   declare global_name: string;
   declare locale: string;
+  declare cfnName: CreationOptional<string>;
 }
 
 User.init(
@@ -57,6 +59,10 @@ User.init(
       allowNull: false,
     },
     locale: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    cfnName: {
       type: DataTypes.STRING,
       allowNull: true,
     },
