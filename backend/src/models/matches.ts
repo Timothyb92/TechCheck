@@ -5,13 +5,14 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
+  CreationOptional,
 } from 'sequelize';
 
 class Match extends Model<
   InferAttributes<Match>,
   InferCreationAttributes<Match>
 > {
-  declare id: number;
+  declare id: CreationOptional<number>;
   declare playerOneId: number;
   declare characterOneId: number;
   declare status: string;
@@ -22,12 +23,12 @@ class Match extends Model<
 Match.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
     },
     playerOneId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     characterOneId: {
@@ -39,7 +40,7 @@ Match.init(
       defaultValue: 'open',
     },
     playerTwoId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: true,
     },
     characterTwoId: {

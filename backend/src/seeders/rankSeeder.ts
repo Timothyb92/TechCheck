@@ -50,7 +50,6 @@ const Ranks = [
 export const seedRanks = async () => {
   try {
     await Rank.bulkCreate(Ranks, { ignoreDuplicates: true });
-    console.log('✅ Ranks table seeded successfully');
   } catch (err) {
     console.error('❌ Error seeding ranks table:', err);
   }

@@ -1,8 +1,9 @@
-import MatchRequest from '../models/matches';
+import Match from '../models/matches';
 
-const MatchRequests = [
+// type MatchSeedData = Omit<Partial<Match>, 'id'> & { id?: number };
+
+const Matches = [
   {
-    id: 1,
     playerOneId: 1,
     characterOneId: 23,
     status: 'completed',
@@ -10,7 +11,6 @@ const MatchRequests = [
     characterTwoId: 21,
   },
   {
-    id: 2,
     playerOneId: 2,
     characterOneId: 23,
     status: 'completed',
@@ -18,13 +18,11 @@ const MatchRequests = [
     characterTwoId: 21,
   },
   {
-    id: 3,
     playerOneId: 1,
     characterOneId: 23,
     status: 'cancelled',
   },
   {
-    id: 4,
     playerOneId: 2,
     characterOneId: 21,
     status: 'open',
@@ -33,8 +31,7 @@ const MatchRequests = [
 
 export const seedMatches = async () => {
   try {
-    await MatchRequest.bulkCreate(MatchRequests, { ignoreDuplicates: true });
-    console.log('✅ MatchRequests table seeded successfully');
+    await Match.bulkCreate(Matches, { ignoreDuplicates: true });
   } catch (err) {
     console.error(err);
   }

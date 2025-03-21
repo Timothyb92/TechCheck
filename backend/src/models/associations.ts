@@ -32,5 +32,5 @@ Character.hasMany(MatchRequest, {
 Rank.hasMany(User, { foreignKey: 'rankId' });
 
 export const setupAssociations = () => {
-  console.log('Table associations set');
+  return null;
 };

@@ -31,7 +31,6 @@ const characters = [
 export const seedCharacters = async () => {
   try {
     await Character.bulkCreate(characters, { ignoreDuplicates: true });
-    console.log('✅ Characters table seeded successfully');
   } catch (err) {
     console.error('❌ Error seeding characters table:', err);
   }

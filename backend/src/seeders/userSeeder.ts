@@ -28,7 +28,6 @@ const Users = [
 export const seedUsers = async () => {
   try {
     await User.bulkCreate(Users, { ignoreDuplicates: true });
-    console.log('✅ Users table seeded successfully');
   } catch (err) {
     console.error(err);
   }

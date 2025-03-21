@@ -30,15 +30,9 @@ app.get('/api', (req, res) => {
 
 setupAssociations();
 
-// sequelize
-//   .authenticate()
-//   .then(() => console.log('Database connected ✅'))
-//   .catch((err) => console.error('DB connection error ❌', err));
-
 sequelize
   .sync({ force: true, logging: false })
   .then(async () => {
-    console.log('db synced');
     seedTables();
   })
   .catch((err) => console.error('db sync error', err));

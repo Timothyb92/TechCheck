@@ -9,6 +9,7 @@ export const seedTables = async () => {
     await seedCharacters();
     await seedUsers();
     await seedMatches();
+    console.log('✅ Tables seeded successfully');
   } catch (err) {
     console.error(err);
   }
