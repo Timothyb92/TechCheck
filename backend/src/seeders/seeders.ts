@@ -11,7 +11,7 @@ export const seedTables = async () => {
     await seedUsers();
     await seedMatches();
     await seedUserBlocks();
-    console.log('✅ Tables seeded successfully');
+    // console.info('✅ Tables seeded successfully');
   } catch (err) {
     console.error(err);
   }

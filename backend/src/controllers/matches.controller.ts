@@ -31,6 +31,7 @@ export const httpGetOneMatch = async (req: Request, res: Response) => {
 export const httpCreateMatch = async (req: Request, res: Response) => {
   try {
     const createdMatch = await createMatch(req.body);
+    console.log(createdMatch);
     return res.status(200).json(createdMatch);
   } catch (err) {
     console.error(err);
