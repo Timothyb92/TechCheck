@@ -4,7 +4,7 @@ import {
   httpGetAllMatches,
   httpGetOneMatch,
   httpCreateMatch,
-  httpCancelMatch,
+  httpUpdateMatch,
   httpGetAllMatchesCreatedByUser,
   httpGetAllMatchesJoinedByUser,
   httpGetAllMatchesByUser,
@@ -14,9 +14,7 @@ const matchRouter = express.Router();
 
 matchRouter.route('/').get(httpGetAllMatches).post(httpCreateMatch);
 
-matchRouter.route('/:id').get(httpGetOneMatch);
-
-matchRouter.route('/cancel/:id').put(httpCancelMatch);
+matchRouter.route('/:id').get(httpGetOneMatch).put(httpUpdateMatch);
 
 matchRouter.route('/created-by/:id').get(httpGetAllMatchesCreatedByUser);
 
