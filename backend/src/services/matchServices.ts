@@ -2,38 +2,44 @@ import Match from '../models/matches.model';
 
 import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
 
+type Updates = {
+  playerTwoId: number;
+  characterTwoId: number;
+  status: string;
+};
+
 export const getAllMatches = async () => {
   return await Match.findAll();
 };
 
-export const getOneMatch = async (id: number) => {
-  return await Match.findByPk(id);
+export const getOneMatch = async (matchId: number) => {
+  return await Match.findByPk(matchId);
 };
 
 export const createMatch = async (match: InferCreationAttributes<Match>) => {
   return await Match.create(match);
 };
 
-export const cancelMatch = async (matchId: number) => {
+export const updateMatch = async (matchId: number, updates: Updates) => {
   try {
-    const matchToUpdate = await getOneMatch(matchId);
+    const match = await getOneMatch(matchId);
 
-    if (!matchToUpdate) {
-      throw new Error(`Match with ID of ${matchId} not found.`);
+    if (!match) {
+      throw new Error(`No match found`);
     }
 
-    matchToUpdate.status = 'cancelled';
-    matchToUpdate.save();
-    return matchToUpdate;
+    Object.assign(match, updates);
+    match.save();
+    return match;
   } catch (err) {
     console.error(err);
   }
 };
 
-export const getAllMatchesCreatedByUser = async (id: number) => {
+export const getAllMatchesCreatedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
-      where: { playerOneId: id },
+      where: { playerOneId: userId },
     });
     return matchesCreated;
   } catch (err) {
@@ -41,10 +47,10 @@ export const getAllMatchesCreatedByUser = async (id: number) => {
   }
 };
 
-export const getAllMatchesJoinedByUser = async (id: number) => {
+export const getAllMatchesJoinedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
-      where: { playerTwoId: id },
+      where: { playerTwoId: userId },
     });
     return matchesCreated;
   } catch (err) {
@@ -52,11 +58,11 @@ export const getAllMatchesJoinedByUser = async (id: number) => {
   }
 };
 
-export const getAllMatchesByUser = async (id: number) => {
+export const getAllMatchesByUser = async (userId: number) => {
   try {
     const matches = await Match.findAll({
       where: {
-        [Op.or]: [{ playerOneId: id }, { playerTwoId: id }],
+        [Op.or]: [{ playerOneId: userId }, { playerTwoId: userId }],
       },
     });
     return matches;

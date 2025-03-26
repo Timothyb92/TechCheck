@@ -4,7 +4,7 @@ import {
   getAllMatches,
   getOneMatch,
   createMatch,
-  cancelMatch,
+  updateMatch,
   getAllMatchesCreatedByUser,
   getAllMatchesJoinedByUser,
   getAllMatchesByUser,
@@ -37,10 +37,11 @@ export const httpCreateMatch = async (req: Request, res: Response) => {
   }
 };
 
-export const httpCancelMatch = async (req: Request, res: Response) => {
+export const httpUpdateMatch = async (req: Request, res: Response) => {
   try {
-    const cancelledMatch = await cancelMatch(+req.params.id);
-    return res.status(200).json(cancelledMatch);
+    // const matchToUpdate = getOneMatch(+req.params.id)
+    const updatedMatch = await updateMatch(+req.params.id, req.body);
+    return res.status(200).json(updateMatch);
   } catch (err) {
     console.error(err);
   }
