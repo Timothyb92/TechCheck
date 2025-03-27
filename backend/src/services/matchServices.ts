@@ -3,9 +3,9 @@ import Match from '../models/matches.model';
 import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
 
 type Updates = {
-  playerTwoId: number;
-  characterTwoId: number;
-  status: string;
+  playerTwoId?: number;
+  characterTwoId?: number;
+  status?: string;
 };
 
 export const getAllMatches = async () => {
@@ -28,11 +28,16 @@ export const updateMatch = async (matchId: number, updates: Updates) => {
       throw new Error(`No match found`);
     }
 
+    if (updates.status === 'pending' && match.status !== 'open') {
+      throw new Error(`Can't apply to match that isn't open`);
+    }
+
     Object.assign(match, updates);
-    match.save();
+    await match.save();
     return match;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 };
 

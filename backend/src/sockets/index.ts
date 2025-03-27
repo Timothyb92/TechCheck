@@ -33,16 +33,12 @@ export class ServerSocket {
   }
 
   StartListeners = (socket: Socket) => {
-    console.info('Message received from ' + socket.id);
+    console.info('New connection from ' + socket.id);
 
     matchSocket(socket);
 
     socket.on('handshake', () => {
       console.info('Handshake received from ' + socket.id);
-    });
-
-    socket.on('connect', () => {
-      console.info('Connection from ' + socket.id);
     });
 
     socket.on('disconnect', () => {
