@@ -17,7 +17,6 @@ export const getOneUser = async (id: number) => {
 };
 
 export const createUser = async (user: InferCreationAttributes<User>) => {
-  console.log(user);
   return await User.findOrCreate({
     where: { id: user.id },
     defaults: { ...user },

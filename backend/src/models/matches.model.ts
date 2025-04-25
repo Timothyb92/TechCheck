@@ -36,7 +36,13 @@ Match.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('open', 'matched', 'cancelled', 'completed'),
+      type: DataTypes.ENUM(
+        'open',
+        'matched',
+        'cancelled',
+        'completed',
+        'pending'
+      ),
       defaultValue: 'open',
     },
     playerTwoId: {

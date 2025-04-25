@@ -1,7 +1,3 @@
-// import User from './users.model';
-// import Match from './matches.model';
-// import Rank from './ranks.model';
-// import Character from './characters.model';
 import { models } from './index';
 const { User, Match, Rank, Character, UserBlock } = models;
 
@@ -40,7 +36,7 @@ UserBlock.belongsTo(User, { foreignKey: 'blockedId', as: 'blocked' });
 
 export const setupAssociations = () => {
   try {
-    console.log('Table associations set');
+    // console.log('Table associations set');
     return null;
   } catch (err) {
     console.error(err);

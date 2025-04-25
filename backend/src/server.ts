@@ -1,3 +1,4 @@
+import http from 'http';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -6,13 +7,18 @@ import { sequelize } from './models';
 import { seedTables } from './seeders/seeders';
 import { setupAssociations } from './models/associations';
 
+import { ServerSocket } from './sockets';
+
 import api from './routes/api';
 import auth from './routes/auth';
 
 dotenv.config();
 
 const app = express();
+const httpServer = http.createServer(app);
 const PORT: number = Number(process.env.PORT) || 8000;
+
+new ServerSocket(httpServer);
 
 app.use(cors());
 app.use(express.json());
@@ -37,6 +43,6 @@ sequelize
   })
   .catch((err) => console.error('db sync error', err));
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+httpServer.listen(PORT, () => {
+  console.info(`Server running on port ${PORT}`);
 });
