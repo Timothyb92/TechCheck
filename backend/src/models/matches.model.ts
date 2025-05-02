@@ -18,6 +18,7 @@ class Match extends Model<
   declare status: string;
   declare playerTwoId?: number;
   declare characterTwoId?: number;
+  declare creatorSocketId?: string;
 }
 
 Match.init(
@@ -51,6 +52,10 @@ Match.init(
     },
     characterTwoId: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    creatorSocketId: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },

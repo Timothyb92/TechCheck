@@ -21,7 +21,9 @@ const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
   const matchData = {
     playerOneId: 2,
     characterOneId: 2,
+    creatorSocketId: socket.id,
   };
+  // console.log(matchData);
   emitCreateMatch(matchData);
 };
 

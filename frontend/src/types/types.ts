@@ -5,4 +5,5 @@ export interface MatchType {
   characterOneId: number;
   characterTwoId?: number;
   status?: string;
+  creatorSocketId?: string;
 }

@@ -12,7 +12,15 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
 
     const user = await exchangeCode(code);
 
-    return res.status(200).json(user);
+    await fetch('http://localhost:8000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+
+    return res.redirect('http://localhost:5173/lobby');
   } catch (err) {
     console.error(err);
   }
