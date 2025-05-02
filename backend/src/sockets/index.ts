@@ -2,7 +2,7 @@ import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 
-import { matchSocket } from './matchSockets';
+import { matchSocket } from './serverMatchSockets';
 
 export class ServerSocket {
   public static instance: ServerSocket;

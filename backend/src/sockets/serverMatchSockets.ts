@@ -52,4 +52,14 @@ export const matchSocket = (socket: Socket) => {
       console.error(err);
     }
   });
+
+  socket.on('connect', async () => {
+    try {
+      const ongoingMatches = await fetch(`http://localhost:8000/api/matches`);
+
+      socket.emit('ongoing matches fetched', ongoingMatches);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 };
