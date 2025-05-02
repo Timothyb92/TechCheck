@@ -2,14 +2,16 @@ import React from 'react';
 
 interface BubbleProps {
   children: React.ReactNode;
+  [key: string]: unknown;
 }
 
-export const Bubble = ({ children }: BubbleProps) => {
+export const Bubble = ({ children, ...otherProps }: BubbleProps) => {
   return (
-    <>
-      <div className="bubble">
-        <p>{children}</p>
-      </div>
-    </>
+    // <>
+    //   <div {...otherProps}>
+    //     <span>{children}</span>
+    //   </div>
+    // </>
+    <span {...otherProps}>{children}</span>
   );
 };

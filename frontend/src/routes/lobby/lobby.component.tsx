@@ -1,20 +1,36 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import { MatchList } from '../../components/match-list/matchList.component';
 
+import { MatchType } from '../../types/types';
+
 export const Lobby = () => {
+  const [matches, setMatches] = useState<MatchType[]>([]);
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const response = await axios.get<MatchType[]>(
+          'http://localhost:8000/api/matches'
+        );
+
+        setMatches(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMatches();
+  }, []);
+
   return (
     <>
       <div>
         <h1>Lobby</h1>
         <div>
           Lobby
-          <MatchList
-            matches={[
-              {
-                playerOneId: 1,
-                characterOneId: 1,
-              },
-            ]}
-          ></MatchList>
+          <MatchList matches={matches}></MatchList>
           {/* Create Match button */}
           {/* All matches, open, in progres filter buttons */}
           {/* Open/active/online players count tags/bubbles */}

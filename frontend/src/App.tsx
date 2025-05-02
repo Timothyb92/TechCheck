@@ -4,16 +4,12 @@ import { io } from 'socket.io-client';
 
 import './App.css';
 
-import { fetchTest } from './api';
-
 import { Home } from './routes/home/home.component';
 import { Navigation } from './routes/navigation/Navigation.component';
 import { Lobby } from './routes/lobby/lobby.component';
 
 import { socket } from './sockets/index';
 import { emitCreateMatch } from './sockets/clientMatchSockets';
-
-import { MatchType } from './types/types';
 
 socket.on('connect', () => {
   console.log('Connected from client: ' + socket.id);
@@ -75,9 +71,9 @@ socket.on('new match', addMatch);
 function App() {
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    fetchTest().then((data) => setMessage(data));
-  }, []);
+  // useEffect(() => {
+  //   fetchTest().then((data) => setMessage(data));
+  // }, []);
 
   return (
     <div>
