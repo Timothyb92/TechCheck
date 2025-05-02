@@ -2,6 +2,8 @@ import { MatchType } from '../../types/types';
 
 import { MatchCard } from '../match-card/matchCard.component';
 
+import './matchList.styles.css';
+
 interface MatchListProps {
   matches: MatchType[];
 }
