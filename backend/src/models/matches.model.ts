@@ -39,10 +39,10 @@ Match.init(
     status: {
       type: DataTypes.ENUM(
         'open',
+        'pending',
         'matched',
         'cancelled',
-        'completed',
-        'pending'
+        'completed'
       ),
       defaultValue: 'open',
     },

@@ -8,6 +8,20 @@ type Updates = {
   status?: string;
 };
 
+const validateCrateMatch = async (userId: number) => {
+  let canCreateMatch: boolean;
+  const openMatches = await Match.findAll({
+    where: {
+      playerOneId: userId,
+      status: {
+        [Op.notIn]: ['cancelled', 'completed'],
+      },
+    },
+  });
+  canCreateMatch = openMatches.length > 0 ? false : true;
+  return canCreateMatch;
+};
+
 export const getAllMatches = async () => {
   return await Match.findAll();
 };
@@ -17,7 +31,11 @@ export const getOneMatch = async (matchId: number) => {
 };
 
 export const createMatch = async (match: InferCreationAttributes<Match>) => {
-  return await Match.create(match);
+  if (await validateCrateMatch(match.playerOneId)) {
+    return await Match.create(match);
+  } else {
+    throw new Error('User already has open match');
+  }
 };
 
 export const updateMatch = async (matchId: number, updates: Updates) => {
