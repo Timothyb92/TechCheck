@@ -3,6 +3,7 @@ import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 
 import { matchSocket } from './serverMatchSockets';
+import { userSocket } from './serverUserSockets';
 
 export class ServerSocket {
   public static instance: ServerSocket;
@@ -36,6 +37,7 @@ export class ServerSocket {
     console.info('New connection from ' + socket.id);
 
     matchSocket(socket);
+    userSocket(socket);
 
     socket.on('handshake', () => {
       console.info('Handshake received from ' + socket.id);

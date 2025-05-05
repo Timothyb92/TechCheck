@@ -14,6 +14,20 @@ socket.on('connect', () => {
   console.log('Connected from client: ' + socket.id);
 });
 
+const updateUser = () => {
+  const user = {
+    id: 1,
+    mainCharacterId: 1,
+    rankId: 20,
+  };
+  console.log('Update user running');
+  socket.emit('update user', user);
+};
+
+socket.on('updated user', () => {
+  console.log('updated user emit received on front end');
+});
+
 const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
   console.log(e);
@@ -87,6 +101,7 @@ function App() {
                 message={message}
                 createMatchListener={createMatchListener}
                 updateMatchListener={updateMatchListener}
+                updateUser={updateUser}
               />
             }
           />

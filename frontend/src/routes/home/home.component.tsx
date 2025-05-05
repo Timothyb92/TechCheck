@@ -2,12 +2,14 @@ interface HomeProps {
   message: string;
   createMatchListener: (event: React.MouseEvent<HTMLButtonElement>) => void;
   updateMatchListener: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  updateUser: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Home = ({
   message,
   createMatchListener,
   updateMatchListener,
+  updateUser,
 }: HomeProps) => {
   return (
     <div>
@@ -19,6 +21,7 @@ export const Home = ({
       <div id="matches"></div>
       <br />
       <button onClick={updateMatchListener}>Apply to join</button>
+      <button onClick={updateUser}>Manual user update</button>
     </div>
   );
 };
