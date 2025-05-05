@@ -26,6 +26,16 @@ export const getAllMatches = async () => {
   return await Match.findAll();
 };
 
+export const getAllOpenMatches = async () => {
+  return await Match.findAll({
+    where: {
+      status: {
+        [Op.notIn]: ['cancelled', 'completed'],
+      },
+    },
+  });
+};
+
 export const getOneMatch = async (matchId: number) => {
   return await Match.findByPk(matchId);
 };

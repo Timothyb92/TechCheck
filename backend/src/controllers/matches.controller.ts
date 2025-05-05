@@ -8,6 +8,7 @@ import {
   getAllMatchesCreatedByUser,
   getAllMatchesJoinedByUser,
   getAllMatchesByUser,
+  getAllOpenMatches,
 } from '../services/matchServices';
 
 export const httpGetAllMatches = async (req: Request, res: Response) => {
@@ -16,6 +17,15 @@ export const httpGetAllMatches = async (req: Request, res: Response) => {
     return res.status(200).json(matches);
   } catch (err) {
     console.error(err);
+    return res.status(500).json({ error: err });
+  }
+};
+
+export const httpGetAllOpenMatches = async (req: Request, res: Response) => {
+  try {
+    const matches = await getAllOpenMatches();
+    return res.status(200).json(matches);
+  } catch (err) {
     return res.status(500).json({ error: err });
   }
 };

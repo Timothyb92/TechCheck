@@ -8,11 +8,12 @@ import {
   httpGetAllMatchesCreatedByUser,
   httpGetAllMatchesJoinedByUser,
   httpGetAllMatchesByUser,
+  httpGetAllOpenMatches,
 } from '../controllers/matches.controller';
 
 const matchRouter = express.Router();
 
-matchRouter.route('/').get(httpGetAllMatches).post(httpCreateMatch);
+matchRouter.route('/').get(httpGetAllOpenMatches).post(httpCreateMatch);
 
 matchRouter.route('/:id').get(httpGetOneMatch).put(httpUpdateMatch);
 
@@ -21,5 +22,7 @@ matchRouter.route('/created-by/:id').get(httpGetAllMatchesCreatedByUser);
 matchRouter.route('/joined-by/:id').get(httpGetAllMatchesJoinedByUser);
 
 matchRouter.route('/all-by/:id').get(httpGetAllMatchesByUser);
+
+matchRouter.route('/all').get(httpGetAllMatches);
 
 export default matchRouter;
