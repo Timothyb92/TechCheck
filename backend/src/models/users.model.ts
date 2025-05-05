@@ -19,6 +19,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare global_name: string;
   declare locale: string;
   declare cfnName: CreationOptional<string>;
+  declare deleted: boolean;
 }
 
 User.init(
@@ -65,6 +66,11 @@ User.init(
     cfnName: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   { sequelize, modelName: 'User' }

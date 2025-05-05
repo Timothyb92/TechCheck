@@ -3,7 +3,7 @@ import {
   httpCreateUser,
   httpGetAllUsers,
   httpGetOneUser,
-  httpDeleteUser,
+  // httpDeleteUser,
   httpUpdateUser,
 } from '../controllers/users.controller';
 
@@ -14,7 +14,7 @@ userRouter.route('/').get(httpGetAllUsers).post(httpCreateUser);
 userRouter
   .route('/:id')
   .get(httpGetOneUser)
-  .delete(httpDeleteUser)
+  // .delete(httpDeleteUser)
   .patch(httpUpdateUser);
 
 export default userRouter;

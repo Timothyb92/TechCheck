@@ -23,13 +23,15 @@ export const createUser = async (user: InferCreationAttributes<User>) => {
   });
 };
 
-export const deleteUser = async (id: number) => {
-  const user = await User.findByPk(id);
-  if (!user) {
-    throw new Error('User not found');
-  }
-  await user.destroy();
-};
+// export const deleteUser = async (id: number) => {
+//   const user = await User.findByPk(id);
+//   if (!user) {
+//     throw new Error('User not found');
+//   }
+//   user.deleted = true;
+//   await user.save();
+//   return user;
+// };
 
 export const updateUser = async (id: number, updates: Updates) => {
   const user = await getOneUser(id);
