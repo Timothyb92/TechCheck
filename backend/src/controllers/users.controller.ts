@@ -4,7 +4,7 @@ import {
   getAllUsers,
   getOneUser,
   createUser,
-  deleteUser,
+  // deleteUser,
   updateUser,
 } from '../services/userServices';
 
@@ -36,15 +36,15 @@ export const httpCreateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const httpDeleteUser = async (req: Request, res: Response) => {
-  try {
-    const userId = +req.params.id;
-    const deletedUser = deleteUser(userId);
-    res.json(deletedUser);
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const httpDeleteUser = async (req: Request, res: Response) => {
+//   try {
+//     const userId = +req.params.id;
+//     const deletedUser = deleteUser(userId);
+//     res.json(deletedUser);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 export const httpUpdateUser = async (req: Request, res: Response) => {
   try {

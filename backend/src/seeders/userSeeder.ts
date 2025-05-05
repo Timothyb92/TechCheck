@@ -11,6 +11,7 @@ const Users = [
     global_name: 'Tim',
     locale: 'en-us',
     avatar: 'abc123',
+    deleted: false,
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const Users = [
     global_name: 'Joey',
     locale: 'en-us',
     avatar: '123abc',
+    deleted: false,
   },
 ];
 
