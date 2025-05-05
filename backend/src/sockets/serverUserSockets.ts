@@ -1,25 +1,12 @@
 import { Socket } from 'socket.io';
-import fetch from 'node-fetch';
+
+import { updateUser } from '../services/userServices';
 
 export const userSocket = (socket: Socket) => {
-  socket.on('update user', async (data) => {
+  socket.on('update user', async (userData) => {
     try {
-      const userData = JSON.stringify(data);
-      const response = await fetch(
-        `http://localhost:8000/api/users/${data.id}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: userData,
-        }
-      );
+      const updatedUser = updateUser(userData.id, userData);
 
-      if (!response.ok) {
-        console.error('Failed to update user');
-        return;
-      }
-
-      const updatedUser = await response.json();
       socket.emit('updated user', updatedUser);
     } catch (err) {
       console.error(err);

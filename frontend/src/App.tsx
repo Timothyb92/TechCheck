@@ -20,7 +20,6 @@ const updateUser = () => {
     mainCharacterId: 1,
     rankId: 20,
   };
-  console.log('Update user running');
   socket.emit('update user', user);
 };
 
@@ -28,11 +27,15 @@ socket.on('updated user', () => {
   console.log('updated user emit received on front end');
 });
 
+socket.on('match updated', () => {
+  console.log('Match udpated emit received on front end');
+});
+
 const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
   console.log(e);
   const matchData = {
-    playerOneId: 2,
+    playerOneId: 1,
     characterOneId: 2,
     creatorSocketId: socket.id,
   };

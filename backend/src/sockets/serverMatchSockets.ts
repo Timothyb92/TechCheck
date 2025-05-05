@@ -1,51 +1,25 @@
 import { Socket } from 'socket.io';
-import fetch from 'node-fetch';
+
+import {
+  createMatch,
+  updateMatch,
+  getAllOpenMatches,
+} from '../services/matchServices';
 
 export const matchSocket = (socket: Socket) => {
-  socket.on('create match', async (data) => {
+  socket.on('create match', async (matchData) => {
     try {
-      const matchData = JSON.stringify(data);
-      const response = await fetch('http://localhost:8000/api/matches', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: matchData,
-      });
+      const newMatch = await createMatch(matchData);
 
-      if (!response.ok) {
-        console.error(`Failed to create match`);
-        return;
-      }
-
-      const newMatch = await response.json();
-
-      socket.emit('new match', newMatch);
+      socket.emit('match created', newMatch);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
     }
   });
 
-  socket.on('update match', async (data) => {
+  socket.on('update match', async (matchData) => {
     try {
-      const matchData = JSON.stringify(data);
-      console.log(matchData);
-      const response = await fetch(
-        `http://localhost:8000/api/matches/${data.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: matchData,
-        }
-      );
-
-      if (!response.ok) {
-        console.error(`Failed to update match`);
-      }
-
-      const updatedMatch = await response.json();
+      const updatedMatch = await updateMatch(matchData.id, matchData);
 
       socket.emit('match updated', updatedMatch);
     } catch (err) {
@@ -55,9 +29,9 @@ export const matchSocket = (socket: Socket) => {
 
   socket.on('connect', async () => {
     try {
-      const ongoingMatches = await fetch(`http://localhost:8000/api/matches`);
+      const ongoingMatches = await getAllOpenMatches();
 
-      socket.emit('ongoing matches fetched', ongoingMatches);
+      socket.emit('open matches fetch', ongoingMatches);
     } catch (err) {
       console.error(err);
     }
