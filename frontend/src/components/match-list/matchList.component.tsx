@@ -15,8 +15,10 @@ export const MatchList = ({ matches }: MatchListProps) => {
         {matches.map((match) => {
           return (
             <MatchCard
+              key={match.id}
               playerOneId={match.playerOneId}
               characterOneId={match.characterOneId}
+              creatorSocketId={match.creatorSocketId}
             ></MatchCard>
           );
         })}

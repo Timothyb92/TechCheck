@@ -6,6 +6,10 @@ export const emitCreateMatch = (matchData: MatchType) => {
   socket.emit('create match', matchData);
 };
 
+export const emitUpdateMatch = (matchData: MatchType) => {
+  socket.emit('update match', matchData);
+};
+
 export const emitCancelMatch = (matchData: MatchType) => {
   socket.emit('cancel match', matchData);
 };
