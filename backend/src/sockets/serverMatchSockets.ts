@@ -21,6 +21,27 @@ export const matchSocket = (socket: Socket) => {
     try {
       const updatedMatch = await updateMatch(matchData.id, matchData);
 
+      switch (updatedMatch.status) {
+        case 'open':
+          socket.emit('match reopened', updatedMatch);
+          break;
+
+        case 'pending':
+          socket.emit('applied to match', updatedMatch);
+          break;
+
+        case 'matched':
+          socket.emit('match started', updatedMatch);
+          break;
+
+        case 'cancelled':
+          socket.emit('match cancelled', updatedMatch);
+          break;
+
+        case 'completed':
+          socket.emit('match completed', updatedMatch);
+          break;
+      }
       socket.emit('match updated', updatedMatch);
     } catch (err) {
       console.error(err);
