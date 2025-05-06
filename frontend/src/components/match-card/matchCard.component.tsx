@@ -9,10 +9,17 @@ import { socket } from '../../sockets';
 import './matchCard.styles.css';
 
 export const MatchCard = (match: MatchType) => {
-  // console.log(match);
-  // console.log(
-  //   `Socket ID: ${socket.id} \n Creator ID: ${match.creatorSocketId}`
-  // );
+  //TODO Take in current user as argument | Needed to populate match data with user info (mainCharacter, cfnName, etc)
+
+  const handleApply = () => {
+    socket.emit('update match', {
+      matchId: match.id,
+      status: 'pending',
+      playerTwoId: match.playerTwoId,
+      characterTwoId: match.characterTwoId,
+    });
+  };
+
   return (
     <>
       <div className="match-card">
@@ -22,18 +29,16 @@ export const MatchCard = (match: MatchType) => {
         {/* join match button */}
         {/* Cancel match button IF USER CREATED IT */}
         <CharacterImage characterId={match.characterOneId} />
-        <p>Hosted by {match.playerOneId}</p>
+        <p>Hosted by {match.playerOneCfn}</p>
         <div className="matchup-container">
           <Bubble className="matchup-bubble">Ryu</Bubble> VS{' '}
           <Bubble className="matchup-bubble">Any</Bubble>
         </div>
-        <Button>
-          {match.creatorSocketId === socket.id ? (
-            <span>Cancel Match</span>
-          ) : (
-            <span>Join Match</span>
-          )}
-        </Button>
+        {match.creatorSocketId === socket.id ? (
+          <Button>Cancel Match</Button>
+        ) : (
+          <Button>Join Match</Button>
+        )}
       </div>
     </>
   );

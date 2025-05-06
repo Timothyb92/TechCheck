@@ -14,9 +14,11 @@ class Match extends Model<
 > {
   declare id: CreationOptional<number>;
   declare playerOneId: number;
+  declare playerOneCfn?: string;
   declare characterOneId: number;
   declare status: string;
   declare playerTwoId?: number;
+  declare playerTwoCfn?: string;
   declare characterTwoId?: number;
   declare creatorSocketId?: string;
 }
@@ -31,6 +33,10 @@ Match.init(
     playerOneId: {
       type: DataTypes.BIGINT,
       allowNull: false,
+    },
+    playerOneCfn: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     characterOneId: {
       type: DataTypes.INTEGER,
@@ -48,6 +54,10 @@ Match.init(
     },
     playerTwoId: {
       type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    playerTwoCfn: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     characterTwoId: {

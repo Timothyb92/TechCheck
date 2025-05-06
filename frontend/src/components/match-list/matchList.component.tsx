@@ -17,8 +17,12 @@ export const MatchList = ({ matches }: MatchListProps) => {
             <MatchCard
               key={match.id}
               playerOneId={match.playerOneId}
+              playerOneCfn={match.playerOneCfn}
               characterOneId={match.characterOneId}
               creatorSocketId={match.creatorSocketId}
+              playerTwoId={match.playerTwoId}
+              playerTwoCfn={match.playerTwoCfn}
+              characterTwoId={match.characterTwoId}
             ></MatchCard>
           );
         })}
