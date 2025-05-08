@@ -23,13 +23,14 @@ type User = {
   discriminator: string;
   avatar: string;
   email?: string;
+  cfnName?: string;
 };
 
 export const exchangeCode = async (code: string): Promise<User & Token> => {
   try {
     const data = new URLSearchParams({
       grant_type: 'authorization_code',
-      code: code.toString(),
+      code,
       redirect_uri: DISCORD_REDIRECT_URI,
       client_id: DISCORD_CLIENT_ID,
       client_secret: DISCORD_CLIENT_SECRET,
@@ -63,7 +64,7 @@ export const exchangeCode = async (code: string): Promise<User & Token> => {
     const userInfo = await userResponse.json();
     const userPlusTokenData = { ...userInfo, ...tokenData, id: +userInfo.id };
 
-    await fetch('http://localhost:8000/api/users', {
+    await fetch('http://192.168.5.230:8000/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userPlusTokenData),
@@ -72,7 +73,7 @@ export const exchangeCode = async (code: string): Promise<User & Token> => {
     return userPlusTokenData;
   } catch (err) {
     console.error(`OAuth Error: ${err}`);
-    throw new Error('OAuth authentication failed');
+    throw new Error(`OAuth authentication failed: ${err}`);
   }
   //TODO: Look into refreshing tokens so users don't have to reauth every 7 days
 };

@@ -1,9 +1,16 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
+import jwt from 'jsonwebtoken';
 
 import { matchSocket } from './serverMatchSockets';
 import { userSocket } from './serverUserSockets';
+import { JWT_SECRET } from '../config/env';
+
+interface JwtPayload {
+  id: number;
+  cfnName?: string;
+}
 
 export class ServerSocket {
   public static instance: ServerSocket;
@@ -26,6 +33,22 @@ export class ServerSocket {
       cors: {
         origin: '*',
       },
+    });
+
+    this.io.use((socket, next) => {
+      const token = socket.handshake.auth.token;
+
+      if (!token) {
+        return next(new Error('Missing socket token'));
+      }
+
+      try {
+        const user = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+        socket.data.user = user;
+        next();
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.io.on('connect', this.StartListeners);

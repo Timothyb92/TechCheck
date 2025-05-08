@@ -43,6 +43,6 @@ sequelize
   })
   .catch((err) => console.error('db sync error', err));
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, '0.0.0.0', () => {
   console.info(`Server running on port ${PORT}`);
 });

@@ -33,7 +33,6 @@ socket.on('match updated', () => {
 
 const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
-  console.log(e);
   const matchData = {
     playerOneId: 1,
     characterOneId: 2,
