@@ -1,14 +1,16 @@
 import axios from 'axios';
 
-const API = axios.create({
-  baseURL: '/api',
+export const http = axios.create({
+  baseURL: 'http://192.168.5.230:8000/api',
 });
 
-export const fetchTest = async () => {
-  try {
-    const res = await API.get('/');
-    return res.data;
-  } catch (error) {
-    console.error('Error fetching API', error);
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+    console.log(`Bearer token set in axios interceptor`);
+  } else {
+    console.log(`No bearer token in axios interceptor`);
   }
-};
+  return config;
+});

@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import { Socket } from 'socket.io';
 
 import {
@@ -9,7 +10,13 @@ import {
 export const matchSocket = (socket: Socket) => {
   socket.on('create match', async (matchData) => {
     try {
-      const newMatch = await createMatch(matchData);
+      // const newMatch = await createMatch(matchData);
+      const formattedMatch = JSON.stringify(matchData);
+      const newMatch = await fetch('http://192.168.5.230:8000/api/matches', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: formattedMatch,
+      });
 
       socket.emit('match created', newMatch);
     } catch (err) {

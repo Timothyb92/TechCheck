@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { http } from '../../api';
 
 import { MatchList } from '../../components/match-list/matchList.component';
 
@@ -11,9 +11,7 @@ export const Lobby = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get<MatchType[]>(
-          'http://localhost:8000/api/matches'
-        );
+        const response = await http.get<MatchType[]>('/matches');
 
         setMatches(response.data);
       } catch (error) {
