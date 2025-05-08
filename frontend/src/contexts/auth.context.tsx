@@ -41,8 +41,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
       }
     }
-
-    console.log(token);
   }, []);
 
   return (
