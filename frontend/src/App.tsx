@@ -1,14 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import './App.css';
 
 import { Home } from './routes/home/home.component';
 import { Navigation } from './routes/navigation/Navigation.component';
 import { Lobby } from './routes/lobby/lobby.component';
+import { AuthContext } from './contexts/auth.context';
 
 import { socket } from './sockets/index';
 import { emitCreateMatch } from './sockets/clientMatchSockets';
+import { useMatchSocketListeners } from './hooks/useMatchSocketListeners';
 
 socket.on('connect', () => {
   console.log('Connected from client: ' + socket.id);
@@ -27,66 +29,73 @@ socket.on('updated user', () => {
   console.log('updated user emit received on front end');
 });
 
-socket.on('match updated', () => {
-  console.log('Match udpated emit received on front end');
-});
+// socket.on('match updated', (callback) => {
+//   console.log('match updated emit received on front end: ', callback);
+// });
 
-const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  const matchData = {
-    playerOneId: 1,
-    characterOneId: 2,
-    creatorSocketId: socket.id,
-  };
-  // console.log(matchData);
-  emitCreateMatch(matchData);
-};
+// const addMatch = (match: MatchData) => {
+//   const matchList = document.getElementById('matches');
+//   const newMatch = document.createElement('p');
+//   const applyButton = document.createElement('button');
 
-const updateMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  // const {
-  //   matchId,
-  //   playerOneId,
-  //   characterOneId,
-  //   playerTwoId,
-  //   characterTwoId,
-  //   status,
-  // } = e.target.attributes;
-  const match = {
-    id: 4,
-    playerOneId: 1,
-    characterOneId: 1,
-    playerTwoId: 2,
-    characterTwoId: 2,
-    status: 'pending',
-  };
+//   newMatch.setAttribute('matchId', match.id);
+//   newMatch.setAttribute('playerOneId', match.playerOneId);
+//   newMatch.setAttribute('characterOneId', match.characterOneId);
+//   newMatch.setAttribute('playerTwoId', match.playerTwoId);
+//   newMatch.setAttribute('characterTwoId', match.characterTwoId);
+//   newMatch.setAttribute('status', match.status);
 
-  socket.emit('update match', match);
-  return;
-};
+//   applyButton.innerHTML = `Apply to match`;
+//   newMatch.innerHTML = `Match ID: ${match.id}, Player 1 ID: ${match.playerOneId}, Status: ${match.status}`;
 
-const addMatch = (match: MatchData) => {
-  const matchList = document.getElementById('matches');
-  const newMatch = document.createElement('p');
-  const applyButton = document.createElement('button');
+//   matchList?.append(newMatch);
+// };
 
-  newMatch.setAttribute('matchId', match.id);
-  newMatch.setAttribute('playerOneId', match.playerOneId);
-  newMatch.setAttribute('characterOneId', match.characterOneId);
-  newMatch.setAttribute('playerTwoId', match.playerTwoId);
-  newMatch.setAttribute('characterTwoId', match.characterTwoId);
-  newMatch.setAttribute('status', match.status);
-
-  applyButton.innerHTML = `Apply to match`;
-  newMatch.innerHTML = `Match ID: ${match.id}, Player 1 ID: ${match.playerOneId}, Status: ${match.status}`;
-
-  matchList?.append(newMatch);
-};
-
-socket.on('new match', addMatch);
+// socket.on('new match', addMatch);
 
 function App() {
   const [message, setMessage] = useState('');
+  const { user } = useContext(AuthContext);
+
+  useMatchSocketListeners();
+
+  const createMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('Create match button clicked');
+    if (!user || !user.cfnName) {
+      console.log('Short circuit in create match, no user or no cfn');
+      return;
+    }
+
+    const matchData = {
+      playerOneId: user.id,
+      characterOneId: 2,
+      creatorSocketId: socket.id,
+      playerOneCfn: user.cfnName,
+      playerTwoCfn: 'p2 cfn',
+    };
+    console.log(matchData);
+    socket.emit('create match', matchData);
+  };
+
+  const updateMatchListener = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(e);
+    console.log('Update match button clicked');
+    const matchData = {
+      id: 4,
+      playerOneId: 1,
+      characterOneId: 1,
+      playerTwoId: 2,
+      characterTwoId: 2,
+      status: 'pending',
+    };
+
+    socket.emit('update match', matchData);
+    return;
+  };
+
+  const applyToMatch = (e: React.MouseEvent<HTMLButtonElement>) => {};
 
   // useEffect(() => {
   //   fetchTest().then((data) => setMessage(data));

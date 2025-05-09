@@ -8,3 +8,7 @@
   align-items: center;
   justify-content: space-evenly;
 } */
+
+.status-pending {
+  background-color: red;
+}

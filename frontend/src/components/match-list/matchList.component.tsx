@@ -1,27 +1,43 @@
-import { MatchType } from '../../types/types';
+import { useContext } from 'react';
+// import { MatchType } from '../../types/types';
 
 import { MatchCard } from '../match-card/matchCard.component';
 
+import { MatchesContext } from '../../contexts/matches.context';
+
 import './matchList.styles.css';
 
-interface MatchListProps {
-  matches: MatchType[];
-}
+// interface MatchListProps {
+//   matches: MatchType[] | null;
+// }
 
-export const MatchList = ({ matches }: MatchListProps) => {
+export const MatchList = () => {
+  const { matches } = useContext(MatchesContext);
+  // export const MatchList = ({ matches }: MatchListProps) => {
+  console.log('MatchList re-rendered with matches:', matches);
   return (
     <>
       <div className="match-list-container">
-        {matches.map((match) => {
-          return (
-            <MatchCard
-              key={match.id}
-              playerOneId={match.playerOneId}
-              characterOneId={match.characterOneId}
-              creatorSocketId={match.creatorSocketId}
-            ></MatchCard>
-          );
-        })}
+        {matches ? (
+          matches.map((match) => {
+            return (
+              <MatchCard
+                key={match.id}
+                id={match.id}
+                playerOneId={match.playerOneId}
+                playerOneCfn={match.playerOneCfn}
+                characterOneId={match.characterOneId}
+                creatorSocketId={match.creatorSocketId}
+                playerTwoId={match.playerTwoId}
+                playerTwoCfn={match.playerTwoCfn}
+                characterTwoId={match.characterTwoId}
+                status={match.status}
+              ></MatchCard>
+            );
+          })
+        ) : (
+          <div>No matches</div>
+        )}
       </div>
     </>
   );
