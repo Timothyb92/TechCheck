@@ -1,28 +1,34 @@
+import { useContext } from 'react';
+
 import { MatchType } from '../../types/types';
 
 import { Bubble } from '../bubble/bubble.component';
 import { Button } from '../button/button.component';
+// import { matchActionButton } from '../matchActionButton/matchActionButton';
 import { CharacterImage } from '../character-image/characterImage.component';
 
 import { socket } from '../../sockets';
 
+import { AuthContext } from '../../contexts/auth.context';
+
 import './matchCard.styles.css';
 
 export const MatchCard = (match: MatchType) => {
-  //TODO Take in current user as argument | Needed to populate match data with user info (mainCharacter, cfnName, etc)
+  const { user } = useContext(AuthContext);
 
   const handleApply = () => {
     socket.emit('update match', {
-      matchId: match.id,
+      id: match.id,
       status: 'pending',
-      playerTwoId: match.playerTwoId,
-      characterTwoId: match.characterTwoId,
+      playerTwoId: user?.id,
+      characterTwoId: 3,
     });
   };
 
+  //TODO Update button section to use matchActionButton
   return (
     <>
-      <div className="match-card">
+      <div className={`match-card status-${match.status}`}>
         {/* Character pfp, passing character ID as prop */}
         {/* character bubble vs opponent character bubble */}
         {/* region bubble, rank bubble */}
@@ -34,10 +40,11 @@ export const MatchCard = (match: MatchType) => {
           <Bubble className="matchup-bubble">Ryu</Bubble> VS{' '}
           <Bubble className="matchup-bubble">Any</Bubble>
         </div>
-        {match.creatorSocketId === socket.id ? (
+        {/* {!user ? null : matchActionButton(match, user)} */}
+        {!user ? null : match.playerOneId === user.id ? (
           <Button>Cancel Match</Button>
         ) : (
-          <Button>Join Match</Button>
+          <Button onClick={handleApply}>Join Match</Button>
         )}
       </div>
     </>

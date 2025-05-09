@@ -1,5 +1,6 @@
-import fetch from 'node-fetch';
 import { Socket } from 'socket.io';
+
+import { ServerSocket } from './index';
 
 import {
   createMatch,
@@ -8,48 +9,45 @@ import {
 } from '../services/matchServices';
 
 export const matchSocket = (socket: Socket) => {
+  const io = ServerSocket.getIO();
+
   socket.on('create match', async (matchData) => {
     try {
-      // const newMatch = await createMatch(matchData);
-      const formattedMatch = JSON.stringify(matchData);
-      const newMatch = await fetch('http://192.168.5.230:8000/api/matches', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: formattedMatch,
-      });
+      const newMatch = await createMatch(matchData);
 
-      socket.emit('match created', newMatch);
+      io.emit('match created', newMatch);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
     }
   });
 
   socket.on('update match', async (matchData) => {
+    console.log('Match data in socket:', matchData);
     try {
       const updatedMatch = await updateMatch(matchData.id, matchData);
 
       switch (updatedMatch.status) {
         case 'open':
-          socket.emit('match reopened', updatedMatch);
+          io.emit('match reopened', updatedMatch);
           break;
 
         case 'pending':
-          socket.emit('applied to match', updatedMatch);
+          io.emit('applied to match', updatedMatch);
           break;
 
         case 'matched':
-          socket.emit('match started', updatedMatch);
+          io.emit('match started', updatedMatch);
           break;
 
         case 'cancelled':
-          socket.emit('match cancelled', updatedMatch);
+          io.emit('match cancelled', updatedMatch);
           break;
 
         case 'completed':
-          socket.emit('match completed', updatedMatch);
+          io.emit('match completed', updatedMatch);
           break;
       }
-      socket.emit('match updated', updatedMatch);
+      io.emit('match updated', updatedMatch);
     } catch (err) {
       console.error(err);
     }

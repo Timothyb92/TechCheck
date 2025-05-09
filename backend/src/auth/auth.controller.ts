@@ -23,7 +23,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       throw new Error(`JWT error`);
     }
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
 
     //TODO Change from fetch request to using the internal service to add user to db
     await fetch('http://192.168.5.230:8000/api/users', {

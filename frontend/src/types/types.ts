@@ -9,3 +9,11 @@ export interface MatchType {
   status?: string;
   creatorSocketId?: string;
 }
+
+export interface UserType {
+  id: number;
+  // username: string;
+  cfnName?: string;
+  rankId?: number;
+  mainCharacterId?: number;
+}

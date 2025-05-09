@@ -18,6 +18,14 @@ export class ServerSocket {
 
   public users: { [uid: string]: string };
 
+  static getIO(): Server {
+    if (!ServerSocket.instance) {
+      throw new Error('ServerSocket not yet initialized');
+    }
+
+    return ServerSocket.instance.io;
+  }
+
   constructor(server: HttpServer) {
     if (ServerSocket.instance) {
       throw new Error('ServerSocket has already been initialized');
