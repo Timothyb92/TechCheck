@@ -1,21 +1,44 @@
 import { socket } from '.';
 
-import { MatchType } from '../types/types';
+import { MatchType, UserType } from '../types/types';
 
-export const emitCreateMatch = (matchData: MatchType) => {
+export const emitCreateMatch = (user: UserType) => {
+  const matchData = {
+    playerOneId: user.id,
+    characterOneId: user.mainCharacterId,
+    creatorSocketId: socket.id,
+    playerOneCfn: user.cfnName,
+  };
   socket.emit('create match', matchData);
 };
 
-export const emitUpdateMatch = (matchData: MatchType) => {
-  socket.emit('update match', matchData);
+export const emitUpdateMatch = (user: UserType, match: MatchType) => {
+  switch (match.status) {
+    case 'pending':
+      if (!user.cfnName) return;
+      match.playerTwoId = user.id;
+      match.playerTwoCfn = user.cfnName;
+      match.characterTwoId = user.mainCharacterId;
+      break;
+
+    case 'cancelled':
+      break;
+  }
+  socket.emit('update match', match);
 };
 
 export const emitCancelMatch = (matchData: MatchType) => {
   socket.emit('cancel match', matchData);
 };
 
-export const emitApplyToMatch = (matchData: MatchType) => {
-  socket.emit('apply to match', matchData);
+export const emitApplyToMatch = (match: MatchType) => {
+  if (!match) return;
+  socket.emit('apply to match', match);
+};
+
+export const emitReopenMatch = (match: MatchType) => {
+  if (!match) return;
+  socket.emit('reopen match', match);
 };
 
 export const emitDeclineMatchApplication = (matchData: MatchType) => {
@@ -24,6 +47,11 @@ export const emitDeclineMatchApplication = (matchData: MatchType) => {
 
 export const emitStartMatch = (matchData: MatchType) => {
   socket.emit('start match', matchData);
+};
+
+export const emitBlockUser = (match: MatchType) => {
+  emitDeclineMatchApplication(match);
+  socket.emit('block user', match);
 };
 
 export const emitCloseMatch = (matchData: MatchType) => {

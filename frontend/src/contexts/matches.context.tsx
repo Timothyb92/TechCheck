@@ -26,7 +26,6 @@ export const MatchesProvider = ({ children }: { children: ReactNode }) => {
         const { data } = await http.get<MatchType[]>('/matches');
         setMatches(data);
       } catch (err) {
-        console.log('Error fetching matches in context');
         console.error(err);
       }
     };

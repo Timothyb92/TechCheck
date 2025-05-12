@@ -17,3 +17,10 @@ export interface UserType {
   rankId?: number;
   mainCharacterId?: number;
 }
+
+export interface MatchAction {
+  label: string;
+  onClick: () => void;
+  // show: boolean;
+  style?: 'notify' | 'applied' | 'primary' | 'decline' | 'accept';
+}
