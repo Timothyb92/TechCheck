@@ -9,6 +9,17 @@
   justify-content: space-evenly;
 } */
 
-.status-pending {
+/* .status-pending {
   background-color: red;
+}
+  */
+
+.notice {
+  background-color: yellow;
+  color: black;
+}
+
+.applied {
+  background-color: aquamarine;
+  color: black;
 }

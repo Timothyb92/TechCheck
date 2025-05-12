@@ -36,7 +36,6 @@ UserBlock.belongsTo(User, { foreignKey: 'blockedId', as: 'blocked' });
 
 export const setupAssociations = () => {
   try {
-    // console.log('Table associations set');
     return null;
   } catch (err) {
     console.error(err);

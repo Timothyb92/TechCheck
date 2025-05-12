@@ -2,7 +2,11 @@ import { MatchType, UserType } from '../../types/types';
 
 import { Button } from '../button/button.component';
 
-export const matchActionButton = (match: MatchType, user: UserType) => {
+export const matchActionButton = (
+  match: MatchType,
+  user: UserType,
+  action: () => void
+) => {
   if (!user) return null;
 
   const isOwner = match.playerOneId === user.id;
@@ -10,22 +14,24 @@ export const matchActionButton = (match: MatchType, user: UserType) => {
   switch (match.status) {
     case 'open':
       return isOwner ? (
-        <Button>Cancel Match</Button>
+        <Button onClick={action}>Cancel Match</Button>
       ) : (
-        <Button>Join Match</Button>
+        <Button onClick={action}>Join Match</Button>
       );
 
     case 'pending':
       return isOwner ? (
         <div>
-          <Button>Accept</Button>
-          <Button>Decline</Button>
-          <Button>Block User</Button>
+          <Button onClick={action}>Accept</Button>
+          <Button onClick={action}>Decline</Button>
+          <Button onClick={action}>Block User</Button>
         </div>
       ) : (
         <div>
-          <Button disabled>Join Match</Button>
-          <Button>Cancel Join</Button>
+          <Button onClick={action} disabled>
+            Join Match
+          </Button>
+          <Button onClick={action}>Cancel Join</Button>
         </div>
       );
 

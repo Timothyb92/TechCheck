@@ -16,26 +16,27 @@ export const useMatchSocketListeners = () => {
     };
 
     const handleMatchApply = (match: MatchType) => {
-      if (!user) return new Error('User not found');
-      if (!user.cfnName) return new Error('User must have CFN name');
+      setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
+    };
 
-      const updatedMatch = {
-        ...match,
-        playerTwoId: user.id,
-        playerOneCfn: user.cfnName,
-        status: 'pending',
-      };
-      setMatches((prev) =>
-        prev.map((m) => (m.id === updatedMatch.id ? updatedMatch : m))
-      );
+    const handleMatchReopen = (match: MatchType) => {
+      setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
+    };
+
+    const handleStartMatch = (match: MatchType) => {
+      setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
     };
 
     socket.on('match created', handleMatchCreated);
     socket.on('applied to match', handleMatchApply);
+    socket.on('reopen match', handleMatchReopen);
+    socket.on('match started', handleStartMatch);
 
     return () => {
       socket.off('match created', handleMatchCreated);
       socket.off('apply to match', handleMatchApply);
+      socket.off('reopen match', handleMatchReopen);
+      socket.off('match started', handleStartMatch);
     };
   }, [setMatches, user]);
 };

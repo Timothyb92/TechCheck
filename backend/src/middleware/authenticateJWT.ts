@@ -17,10 +17,8 @@ export const authenticateJWT = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.headers);
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    console.log('No auth header middleware');
     return res.status(401).json({ message: 'Missing token' });
   }
 
@@ -33,11 +31,9 @@ export const authenticateJWT = (
       return res.status(403);
     }
 
-    console.log('jwt auth middleware user: ', decoded);
     req.user = decoded;
     next();
   } catch (err) {
-    console.log('catch block in auht middleware');
     console.error(err);
     return res.status(403).json({ message: 'Invalid token' });
   }

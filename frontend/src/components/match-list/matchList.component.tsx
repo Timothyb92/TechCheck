@@ -14,7 +14,6 @@ import './matchList.styles.css';
 export const MatchList = () => {
   const { matches } = useContext(MatchesContext);
   // export const MatchList = ({ matches }: MatchListProps) => {
-  console.log('MatchList re-rendered with matches:', matches);
   return (
     <>
       <div className="match-list-container">
