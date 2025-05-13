@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 
-// import { socket } from '../../sockets';
 import { getAvailableActions } from '../../utils/matchActions';
-// import { emitUpdateMatch } from '../../sockets/clientMatchSockets';
 
 import { MatchType, UserType } from '../../types/types';
 
@@ -17,15 +15,10 @@ import './matchCard.styles.css';
 export const MatchCard = (match: MatchType) => {
   const { user } = useContext(AuthContext);
 
-  // const handleApply = () => {
-  //   if (!user) return;
-  //   match.status = 'pending';
-  //   emitUpdateMatch(user, match);
-  // };
-
   const actions = getAvailableActions(match, user as UserType);
 
   //TODO Update button section to use matchActionButton
+  console.log(match);
   return (
     <>
       <div
@@ -43,8 +36,11 @@ export const MatchCard = (match: MatchType) => {
         <CharacterImage characterId={match.characterOneId} />
         <p>Hosted by {match.playerOneCfn}</p>
         <div className="matchup-container">
-          <Bubble className="matchup-bubble">Ryu</Bubble> VS{' '}
-          <Bubble className="matchup-bubble">Any</Bubble>
+          <Bubble className="matchup-bubble">{match.characterOne.name}</Bubble>{' '}
+          VS{' '}
+          <Bubble className="matchup-bubble">
+            {match.characterTwo?.name ?? 'Loading...'}
+          </Bubble>
         </div>
         <div className="button-container">
           {actions?.map((action, index) => {

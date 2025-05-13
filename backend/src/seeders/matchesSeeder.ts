@@ -11,6 +11,8 @@ const Matches = [
     playerTwoId: 2,
     playerTwoCfn: 'Ninjoh',
     characterTwoId: 21,
+    locale: 'en-US',
+    customRoomId: '12341234',
   },
   {
     playerOneId: 2,
@@ -20,18 +22,26 @@ const Matches = [
     playerTwoId: 1,
     playerTwoCfn: 'TzMFk',
     characterTwoId: 21,
+    locale: 'en-US',
+    customRoomId: '43124312',
   },
   {
     playerOneId: 1,
     playerOneCfn: 'TzMFk',
     characterOneId: 23,
+    characterTwoId: 999,
     status: 'cancelled',
+    locale: 'en-US',
+    customRoomId: '43124312',
   },
   {
     playerOneId: 2,
     playerOneCfn: 'Ninjoh',
     characterOneId: 21,
+    characterTwoId: 999,
     status: 'open',
+    locale: 'en-US',
+    customRoomId: '43124312',
   },
 ];
 

@@ -31,6 +31,9 @@ export const MatchList = () => {
                 playerTwoCfn={match.playerTwoCfn}
                 characterTwoId={match.characterTwoId}
                 status={match.status}
+                locale={match.locale}
+                characterOne={match.characterOne}
+                characterTwo={match.characterTwo}
               ></MatchCard>
             );
           })

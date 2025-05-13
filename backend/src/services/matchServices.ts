@@ -1,6 +1,13 @@
 import Match from '../models/matches.model';
+import Character from '../models/characters.model';
 
-import { InferCreationAttributes, InferAttributes, Op, or } from 'sequelize';
+import {
+  InferCreationAttributes,
+  InferAttributes,
+  Op,
+  or,
+  Model,
+} from 'sequelize';
 
 type Updates = {
   playerTwoId?: number;
@@ -22,8 +29,30 @@ const validateCrateMatch = async (userId: number) => {
   return canCreateMatch;
 };
 
+export const createMatch = async (match: InferCreationAttributes<Match>) => {
+  if (await validateCrateMatch(match.playerOneId)) {
+    const newMatch = await Match.create(match);
+    return getOneMatch(newMatch.id);
+  } else {
+    throw new Error('User already has open match');
+  }
+};
+
 export const getAllMatches = async () => {
-  return await Match.findAll();
+  return await Match.findAll({
+    include: [
+      {
+        model: Character,
+        as: 'characterOne',
+        attributes: ['name'],
+      },
+      {
+        model: Character,
+        as: 'characterTwo',
+        attributes: ['name'],
+      },
+    ],
+  });
 };
 
 export const getAllOpenMatches = async () => {
@@ -33,19 +62,36 @@ export const getAllOpenMatches = async () => {
         [Op.notIn]: ['cancelled', 'completed'],
       },
     },
+    include: [
+      {
+        model: Character,
+        as: 'characterOne',
+        attributes: ['name'],
+      },
+      {
+        model: Character,
+        as: 'characterTwo',
+        attributes: ['name'],
+      },
+    ],
   });
 };
 
 export const getOneMatch = async (matchId: number) => {
-  return await Match.findByPk(matchId);
-};
-
-export const createMatch = async (match: InferCreationAttributes<Match>) => {
-  if (await validateCrateMatch(match.playerOneId)) {
-    return await Match.create(match);
-  } else {
-    throw new Error('User already has open match');
-  }
+  return await Match.findByPk(matchId, {
+    include: [
+      {
+        model: Character,
+        as: 'characterOne',
+        attributes: ['name'],
+      },
+      {
+        model: Character,
+        as: 'characterTwo',
+        attributes: ['name'],
+      },
+    ],
+  });
 };
 
 export const updateMatch = async (matchId: number, updates: Updates) => {
@@ -73,6 +119,18 @@ export const getAllMatchesCreatedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
       where: { playerOneId: userId },
+      include: [
+        {
+          model: Character,
+          as: 'characterOne',
+          attributes: ['name'],
+        },
+        {
+          model: Character,
+          as: 'characterTwo',
+          attributes: ['name'],
+        },
+      ],
     });
     return matchesCreated;
   } catch (err) {
@@ -84,6 +142,18 @@ export const getAllMatchesJoinedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
       where: { playerTwoId: userId },
+      include: [
+        {
+          model: Character,
+          as: 'characterOne',
+          attributes: ['name'],
+        },
+        {
+          model: Character,
+          as: 'characterTwo',
+          attributes: ['name'],
+        },
+      ],
     });
     return matchesCreated;
   } catch (err) {
@@ -97,6 +167,18 @@ export const getAllMatchesByUser = async (userId: number) => {
       where: {
         [Op.or]: [{ playerOneId: userId }, { playerTwoId: userId }],
       },
+      include: [
+        {
+          model: Character,
+          as: 'characterOne',
+          attributes: ['name'],
+        },
+        {
+          model: Character,
+          as: 'characterTwo',
+          attributes: ['name'],
+        },
+      ],
     });
     return matches;
   } catch (err) {

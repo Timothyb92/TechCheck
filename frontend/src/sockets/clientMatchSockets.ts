@@ -2,12 +2,19 @@ import { socket } from '.';
 
 import { MatchType, UserType } from '../types/types';
 
-export const emitCreateMatch = (user: UserType) => {
+export const emitCreateMatch = (
+  user: UserType,
+  customRoomId: string,
+  characterTwoId?: number
+) => {
   const matchData = {
     playerOneId: user.id,
     characterOneId: user.mainCharacterId,
     creatorSocketId: socket.id,
     playerOneCfn: user.cfnName,
+    customRoomId,
+    locale: user.locale,
+    characterTwoId,
   };
   socket.emit('create match', matchData);
 };
