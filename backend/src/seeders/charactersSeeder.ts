@@ -1,14 +1,15 @@
 import Character from '../models/characters.model';
 
 const characters = [
+  { id: 999, name: 'Any Character' },
   { id: 1, name: 'Ryu' },
   { id: 2, name: 'Luke' },
-  { id: 3, name: 'Ken' },
-  { id: 4, name: 'Jamie' },
-  { id: 5, name: 'Chun-Li' },
-  { id: 6, name: 'Guile' },
-  { id: 7, name: 'Kimberly' },
-  { id: 8, name: 'Juri' },
+  { id: 3, name: 'Jamie' },
+  { id: 4, name: 'Chun-Li' },
+  { id: 5, name: 'Guile' },
+  { id: 6, name: 'Kimberly' },
+  { id: 7, name: 'Juri' },
+  { id: 8, name: 'Ken' },
   { id: 9, name: 'Blanka' },
   { id: 10, name: 'Dhalsim' },
   { id: 11, name: 'E.Honda' },
@@ -26,6 +27,7 @@ const characters = [
   { id: 23, name: 'M.Bison' },
   { id: 24, name: 'Terry' },
   { id: 25, name: 'Mai' },
+  { id: 26, name: 'Elena' },
 ];
 
 export const seedCharacters = async () => {

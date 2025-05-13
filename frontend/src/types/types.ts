@@ -5,9 +5,12 @@ export interface MatchType {
   playerTwoId?: number;
   playerTwoCfn: string;
   characterOneId: number;
+  characterOne: { name: string };
   characterTwoId?: number;
+  characterTwo: { name: string };
   status?: string;
   creatorSocketId?: string;
+  locale: string;
 }
 
 export interface UserType {
@@ -16,6 +19,12 @@ export interface UserType {
   cfnName?: string;
   rankId?: number;
   mainCharacterId?: number;
+  locale: string;
+}
+
+export interface CharacterType {
+  id: number;
+  name: string;
 }
 
 export interface MatchAction {

@@ -19,8 +19,10 @@ class Match extends Model<
   declare status: string;
   declare playerTwoId?: number;
   declare playerTwoCfn?: string;
-  declare characterTwoId?: number;
+  declare characterTwoId: number;
   declare creatorSocketId?: string;
+  declare locale: string;
+  declare customRoomId: string;
 }
 
 Match.init(
@@ -62,11 +64,19 @@ Match.init(
     },
     characterTwoId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
     creatorSocketId: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    locale: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    customRoomId: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   { sequelize, modelName: 'Match' }
