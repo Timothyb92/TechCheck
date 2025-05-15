@@ -16,13 +16,18 @@ export interface MatchType {
 export interface UserType {
   id: number;
   // username: string;
-  cfnName?: string;
+  cfnName: string;
   rankId?: number;
   mainCharacterId?: number;
   locale: string;
 }
 
 export interface CharacterType {
+  id: number;
+  name: string;
+}
+
+export interface RankType {
   id: number;
   name: string;
 }

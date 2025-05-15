@@ -6,6 +6,7 @@ import { Home } from './routes/home/home.component';
 import { Navigation } from './routes/navigation/Navigation.component';
 import { Lobby } from './routes/lobby/lobby.component';
 import { CreateMatchForm } from './components/create-match-form/createMatchForm.component';
+import { User } from './routes/user/user.component';
 
 // import { socket } from './sockets/index';
 import { useMatchSocketListeners } from './hooks/useMatchSocketListeners';
@@ -30,6 +31,7 @@ function App() {
           />
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/create" element={<CreateMatchForm />} />
+          <Route path="/user" element={<User />} />
         </Route>
       </Routes>
     </div>
