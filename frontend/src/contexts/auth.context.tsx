@@ -12,6 +12,17 @@ import { http } from '../api';
 type User = {
   id: number;
   cfnName?: string;
+  mainCharacterId: number;
+  locale: string;
+  rankId: number;
+  Rank: {
+    id: number;
+    name: string;
+  };
+  Character: {
+    id: number;
+    name: string;
+  };
 };
 
 export const AuthContext = createContext<{

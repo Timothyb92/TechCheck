@@ -1,4 +1,6 @@
 import User from '../models/users.model';
+import Rank from '../models/ranks.model';
+import Character from '../models/characters.model';
 
 type Updates = {
   characterId?: number;
@@ -9,11 +11,33 @@ type Updates = {
 import { InferCreationAttributes, InferAttributes } from 'sequelize';
 
 export const getAllUsers = async () => {
-  return await User.findAll();
+  return await User.findAll({
+    include: [
+      {
+        model: Rank,
+        attributes: ['name', 'id'],
+      },
+      {
+        model: Character,
+        attributes: ['name', 'id'],
+      },
+    ],
+  });
 };
 
 export const getOneUser = async (id: number) => {
-  return await User.findByPk(id);
+  return await User.findByPk(id, {
+    include: [
+      {
+        model: Rank,
+        attributes: ['name'],
+      },
+      {
+        model: Character,
+        attributes: ['name'],
+      },
+    ],
+  });
 };
 
 export const createUser = async (user: InferCreationAttributes<User>) => {
