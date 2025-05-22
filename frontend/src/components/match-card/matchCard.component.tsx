@@ -19,6 +19,9 @@ export const MatchCard = (match: MatchType) => {
 
   //TODO Update button section to use matchActionButton
   console.log(match);
+
+  if (match.status === 'cancelled' || match.status === 'completed') return;
+
   return (
     <>
       <div

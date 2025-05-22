@@ -6,6 +6,7 @@ import {
   createMatch,
   updateMatch,
   getAllOpenMatches,
+  getOneMatch,
 } from '../services/matchServices';
 
 import { getOneUser } from '../services/userServices';
@@ -51,6 +52,18 @@ export const matchSocket = (socket: Socket) => {
       io.emit('match created', newMatch);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
+    }
+  });
+
+  socket.on('cancel match', async (match) => {
+    try {
+      const cancelledMatch = await updateMatch(match.id, {
+        ...match,
+        status: 'cancelled',
+      });
+      io.emit('match cancelled', cancelledMatch);
+    } catch (err) {
+      console.error(err);
     }
   });
 
