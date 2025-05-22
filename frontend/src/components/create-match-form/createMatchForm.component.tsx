@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { http } from '../../api';
 
 import { Button } from '../button/button.component';
@@ -11,8 +12,13 @@ import { CharacterType, UserType } from '../../types/types';
 export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
   const [roomId, setRoomId] = useState('');
-  const [selectedChar, setSelectedChar] = useState<CharacterType | null>(null);
+  const [selectedChar, setSelectedChar] = useState<CharacterType | null>({
+    id: 999,
+    name: 'Any Character',
+  });
   const [characters, setCharacters] = useState<CharacterType[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -49,9 +55,11 @@ export const CreateMatchForm = () => {
           ))}
         </select>
         <Button
-          onClick={() =>
-            emitCreateMatch(user as UserType, roomId, selectedChar?.id)
-          }
+          onClick={() => {
+            if (!selectedChar) return new Error('No selected character');
+            emitCreateMatch(user as UserType, roomId, selectedChar.id);
+            navigate('/lobby');
+          }}
         >
           Create Match
         </Button>

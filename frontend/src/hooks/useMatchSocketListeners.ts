@@ -33,14 +33,14 @@ export const useMatchSocketListeners = () => {
 
     socket.on('match created', handleMatchCreated);
     socket.on('applied to match', handleUpdateMatch);
-    socket.on('reopen match', handleUpdateMatch);
+    socket.on('match reopened', handleUpdateMatch);
     socket.on('match started', handleUpdateMatch);
     socket.on('match cancelled', handleUpdateMatch);
 
     return () => {
       socket.off('match created', handleMatchCreated);
       socket.off('apply to match', handleUpdateMatch);
-      socket.off('reopen match', handleUpdateMatch);
+      socket.off('match reopened', handleUpdateMatch);
       socket.off('match started', handleUpdateMatch);
       socket.off('match cancelled', handleUpdateMatch);
     };
