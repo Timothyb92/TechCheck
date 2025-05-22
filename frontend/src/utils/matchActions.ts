@@ -15,6 +15,10 @@ export const getAvailableActions = (match: MatchType, user: UserType) => {
   const isApplicant = match.playerTwoId === user.id;
   const isOpen = match.status === 'open';
   const isPending = match.status === 'pending';
+  const hasMainCharacter = user.mainCharacterId;
+  const characterMatch =
+    match.characterTwoId === user.mainCharacterId ||
+    match.characterTwoId === 999;
 
   const actions: MatchAction[] = [];
 
@@ -26,7 +30,13 @@ export const getAvailableActions = (match: MatchType, user: UserType) => {
     });
   }
 
-  if (isOpen && !isCreator && !isApplicant) {
+  if (
+    isOpen &&
+    !isCreator &&
+    !isApplicant &&
+    hasMainCharacter &&
+    characterMatch
+  ) {
     actions.push({
       label: 'Join Match',
       onClick: () => emitApplyToMatch(match),

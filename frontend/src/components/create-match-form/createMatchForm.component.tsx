@@ -12,15 +12,12 @@ export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
   const [roomId, setRoomId] = useState('');
   const [selectedChar, setSelectedChar] = useState<CharacterType | null>(null);
-  const [characters, setCharacters] = useState<CharacterType[]>([
-    { id: 999, name: 'Any' },
-    //TODO Remove starter object - 'Any' character is populated in DB
-  ]);
+  const [characters, setCharacters] = useState<CharacterType[]>([]);
 
   useEffect(() => {
     const getCharacters = async () => {
       const response = await http.get<CharacterType[]>(`/characters`);
-      setCharacters([{ id: 999, name: 'Any' }, ...response.data]);
+      setCharacters([...response.data]);
     };
     getCharacters();
   }, []);
