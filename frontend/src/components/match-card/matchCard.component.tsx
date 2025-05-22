@@ -18,8 +18,6 @@ export const MatchCard = (match: MatchType) => {
   const actions = getAvailableActions(match, user as UserType);
 
   //TODO Update button section to use matchActionButton
-  console.log(match);
-
   if (match.status === 'cancelled' || match.status === 'completed') return;
 
   return (
@@ -36,8 +34,12 @@ export const MatchCard = (match: MatchType) => {
             : ''
         }`}
       >
-        <CharacterImage characterId={match.characterOneId} />
         <p>Hosted by {match.playerOneCfn}</p>
+        <div className="character-pic-container">
+          <CharacterImage characterId={match.characterOneId} />
+          <span>VERSUS</span>
+          <CharacterImage characterId={match.characterTwoId!} />
+        </div>
         <div className="matchup-container">
           <Bubble className="matchup-bubble">{match.characterOne.name}</Bubble>{' '}
           VS{' '}

@@ -20,6 +20,7 @@ class Match extends Model<
   declare playerTwoId?: number;
   declare playerTwoCfn?: string;
   declare characterTwoId: number;
+  declare applicantCharId?: number;
   declare creatorSocketId?: string;
   declare locale: string;
   declare customRoomId: string;
@@ -65,6 +66,10 @@ Match.init(
     characterTwoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    applicantCharId: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     creatorSocketId: {
       type: DataTypes.STRING,

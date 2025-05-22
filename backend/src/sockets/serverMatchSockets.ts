@@ -14,42 +14,11 @@ import { getOneUser } from '../services/userServices';
 export const matchSocket = (socket: Socket) => {
   const io = ServerSocket.getIO();
 
-  // socket.on('update match', async (matchData) => {
-  //   try {
-  //     const updatedMatch = await updateMatch(matchData.id, matchData);
-
-  //     switch (updatedMatch.status) {
-  //       case 'open':
-  //         io.emit('match reopened', updatedMatch);
-  //         break;
-
-  //       case 'pending':
-  //         io.emit('applied to match', updatedMatch);
-  //         break;
-
-  //       case 'matched':
-  //         io.emit('match started', updatedMatch);
-  //         break;
-
-  //       case 'cancelled':
-  //         io.emit('match cancelled', updatedMatch);
-  //         break;
-
-  //       case 'completed':
-  //         io.emit('match completed', updatedMatch);
-  //         break;
-  //     }
-  //     io.emit('match updated', updatedMatch);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // });
-
-  socket.on('create match', async (matchData) => {
+  socket.on('create match', async (match) => {
     try {
-      const newMatch = await createMatch(matchData);
+      const newMatch = await createMatch(match);
 
-      io.emit('match created', newMatch);
+      io.emit('match created', newMatch?.dataValues);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
     }
@@ -74,7 +43,7 @@ export const matchSocket = (socket: Socket) => {
         ...match,
         playerTwoId: applicant?.id,
         playerTwoCfn: applicant?.cfnName,
-        characterTwoId: applicant?.mainCharacterId,
+        applicantCharId: applicant?.mainCharacterId,
         status: 'pending',
       });
       io.emit('applied to match', updatedMatch);
@@ -89,10 +58,9 @@ export const matchSocket = (socket: Socket) => {
         ...match,
         playerTwoId: null,
         playerTwoCfn: null,
-        characterTwoId: null,
         status: 'open',
       });
-      io.emit('reopen match', updatedMatch);
+      io.emit('match reopened', updatedMatch);
     } catch (err) {
       console.error(err);
     }
@@ -100,8 +68,13 @@ export const matchSocket = (socket: Socket) => {
 
   socket.on('start match', async (match) => {
     try {
-      const updatedMatch = await updateMatch(match.id, {
+      const matchToStart = await getOneMatch(match.id);
+      const applicantCharId = matchToStart?.applicantCharId;
+
+      if (!matchToStart) return new Error('No match to start');
+      const updatedMatch = await updateMatch(matchToStart.id, {
         ...match,
+        characterTwoId: applicantCharId,
         status: 'matched',
       });
       io.emit('match started', updatedMatch);

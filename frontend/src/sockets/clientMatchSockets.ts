@@ -5,9 +5,9 @@ import { MatchType, UserType } from '../types/types';
 export const emitCreateMatch = (
   user: UserType,
   customRoomId: string,
-  characterTwoId?: number
+  characterTwoId: number
 ) => {
-  const matchData = {
+  const match = {
     playerOneId: user.id,
     characterOneId: user.mainCharacterId,
     creatorSocketId: socket.id,
@@ -16,7 +16,11 @@ export const emitCreateMatch = (
     locale: user.locale,
     characterTwoId,
   };
-  socket.emit('create match', matchData);
+  try {
+    socket.emit('create match', match);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const emitUpdateMatch = (user: UserType, match: MatchType) => {
