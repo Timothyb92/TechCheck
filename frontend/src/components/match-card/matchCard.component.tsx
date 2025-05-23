@@ -47,6 +47,16 @@ export const MatchCard = (match: MatchType) => {
             {match.characterTwo?.name ?? 'Loading...'}
           </Bubble>
         </div>
+        <div className="rank-container">
+          <p>
+            Min rank:{' '}
+            <Bubble className="rank-bubble">{match.minRank.name}</Bubble>
+          </p>
+          <p>
+            Max rank:{' '}
+            <Bubble className="rank-bubble">{match.maxRank.name}</Bubble>
+          </p>
+        </div>
         <div className="button-container">
           {actions?.map((action, index) => {
             return (

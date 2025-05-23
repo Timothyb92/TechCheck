@@ -11,11 +11,12 @@ export interface MatchType {
   status?: string;
   creatorSocketId?: string;
   locale: string;
+  minRank: { name: string; id: number };
+  maxRank: { name: string; id: number };
 }
 
 export interface UserType {
   id: number;
-  // username: string;
   cfnName: string;
   rankId?: number;
   mainCharacterId?: number;
@@ -35,6 +36,5 @@ export interface RankType {
 export interface MatchAction {
   label: string;
   onClick: () => void;
-  // show: boolean;
   style?: 'notify' | 'applied' | 'primary' | 'decline' | 'accept';
 }

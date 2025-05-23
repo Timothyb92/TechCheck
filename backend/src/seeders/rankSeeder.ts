@@ -1,7 +1,7 @@
 import Rank from '../models/ranks.model';
 
 const Ranks = [
-  { id: 1, name: 'Unranked' },
+  { id: 1, name: 'Any Rank' },
   { id: 2, name: 'Rookie 1' },
   { id: 3, name: 'Rookie 2' },
   { id: 4, name: 'Rookie 3' },
@@ -45,6 +45,7 @@ const Ranks = [
   { id: 42, name: 'Master 1600 - 1699 MR' },
   { id: 43, name: 'Master 1700 - 1799 MR' },
   { id: 44, name: 'Master 1800+ MR' },
+  // { id: 999, name: 'Any Rank' },
 ];
 
 export const seedRanks = async () => {

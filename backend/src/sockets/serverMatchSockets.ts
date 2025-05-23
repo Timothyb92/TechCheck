@@ -18,7 +18,7 @@ export const matchSocket = (socket: Socket) => {
     try {
       const newMatch = await createMatch(match);
 
-      io.emit('match created', newMatch?.dataValues);
+      io.emit('match created', newMatch);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
     }

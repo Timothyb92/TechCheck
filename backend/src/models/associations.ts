@@ -11,6 +11,8 @@ Match.belongsTo(Character, {
   foreignKey: 'characterTwoId',
   as: 'characterTwo',
 });
+Match.belongsTo(Rank, { foreignKey: 'minRankId', as: 'minRank' });
+Match.belongsTo(Rank, { foreignKey: 'maxRankId', as: 'maxRank' });
 
 User.hasMany(Match, { foreignKey: 'playerOneId', as: 'matchesCreated' });
 User.hasMany(Match, { foreignKey: 'playerTwoId', as: 'matchesJoined' });
@@ -30,6 +32,14 @@ Character.hasMany(Match, {
 });
 
 Rank.hasMany(User, { foreignKey: 'rankId' });
+Rank.hasMany(Match, {
+  foreignKey: 'minRankId',
+  as: 'minRank',
+});
+Rank.hasMany(Match, {
+  foreignKey: 'maxRankId',
+  as: 'maxRank',
+});
 
 UserBlock.belongsTo(User, { foreignKey: 'blockerId', as: 'blocker' });
 UserBlock.belongsTo(User, { foreignKey: 'blockedId', as: 'blocked' });
