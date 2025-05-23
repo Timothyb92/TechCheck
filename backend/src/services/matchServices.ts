@@ -1,5 +1,6 @@
 import Match from '../models/matches.model';
 import Character from '../models/characters.model';
+import Rank from '../models/ranks.model';
 
 import {
   InferCreationAttributes,
@@ -32,6 +33,7 @@ const validateCrateMatch = async (userId: number) => {
 export const createMatch = async (match: InferCreationAttributes<Match>) => {
   if (await validateCrateMatch(match.playerOneId)) {
     const newMatch = await Match.create(match);
+    console.log(match);
     return getOneMatch(newMatch.id);
   } else {
     throw new Error('User already has open match');
@@ -51,6 +53,16 @@ export const getAllMatches = async () => {
         as: 'characterTwo',
         attributes: ['name'],
       },
+      {
+        model: Rank,
+        as: 'minRank',
+        attributes: ['name', 'id'],
+      },
+      {
+        model: Rank,
+        as: 'maxRank',
+        attributes: ['name', 'id'],
+      },
     ],
   });
 };
@@ -66,12 +78,22 @@ export const getAllOpenMatches = async () => {
       {
         model: Character,
         as: 'characterOne',
-        attributes: ['name'],
+        attributes: ['name', 'id'],
       },
       {
         model: Character,
         as: 'characterTwo',
-        attributes: ['name'],
+        attributes: ['name', 'id'],
+      },
+      {
+        model: Rank,
+        as: 'minRank',
+        attributes: ['name', 'id'],
+      },
+      {
+        model: Rank,
+        as: 'maxRank',
+        attributes: ['name', 'id'],
       },
     ],
   });
@@ -89,6 +111,16 @@ export const getOneMatch = async (matchId: number) => {
         model: Character,
         as: 'characterTwo',
         attributes: ['name'],
+      },
+      {
+        model: Rank,
+        as: 'minRank',
+        attributes: ['name', 'id'],
+      },
+      {
+        model: Rank,
+        as: 'maxRank',
+        attributes: ['name', 'id'],
       },
     ],
   });
@@ -130,6 +162,16 @@ export const getAllMatchesCreatedByUser = async (userId: number) => {
           as: 'characterTwo',
           attributes: ['name'],
         },
+        {
+          model: Rank,
+          as: 'minRank',
+          attributes: ['name', 'id'],
+        },
+        {
+          model: Rank,
+          as: 'maxRank',
+          attributes: ['name', 'id'],
+        },
       ],
     });
     return matchesCreated;
@@ -152,6 +194,16 @@ export const getAllMatchesJoinedByUser = async (userId: number) => {
           model: Character,
           as: 'characterTwo',
           attributes: ['name'],
+        },
+        {
+          model: Rank,
+          as: 'minRank',
+          attributes: ['name', 'id'],
+        },
+        {
+          model: Rank,
+          as: 'maxRank',
+          attributes: ['name', 'id'],
         },
       ],
     });
@@ -177,6 +229,16 @@ export const getAllMatchesByUser = async (userId: number) => {
           model: Character,
           as: 'characterTwo',
           attributes: ['name'],
+        },
+        {
+          model: Rank,
+          as: 'minRank',
+          attributes: ['name', 'id'],
+        },
+        {
+          model: Rank,
+          as: 'maxRank',
+          attributes: ['name', 'id'],
         },
       ],
     });

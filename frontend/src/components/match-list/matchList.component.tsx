@@ -30,6 +30,8 @@ export const MatchList = ({ matches }: MatchListProps) => {
                   locale={match.locale}
                   characterOne={match.characterOne}
                   characterTwo={match.characterTwo}
+                  minRank={match.minRank}
+                  maxRank={match.maxRank}
                 ></MatchCard>
               );
             }

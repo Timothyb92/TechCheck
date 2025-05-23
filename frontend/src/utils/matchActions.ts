@@ -9,7 +9,7 @@ import {
 } from '../sockets/clientMatchSockets';
 
 export const getAvailableActions = (match: MatchType, user: UserType) => {
-  if (!match || !user) return;
+  if (!match || !user || !user.rankId) return;
 
   const isCreator = match.playerOneId === user.id;
   const isApplicant = match.playerTwoId === user.id;
@@ -19,6 +19,9 @@ export const getAvailableActions = (match: MatchType, user: UserType) => {
   const characterMatch =
     match.characterTwoId === user.mainCharacterId ||
     match.characterTwoId === 999;
+  const rankMatch =
+    (user.rankId >= match.minRank.id || match.minRank.id === 1) &&
+    (user.rankId <= match.maxRank.id || match.maxRank.id === 1);
 
   const actions: MatchAction[] = [];
 
@@ -35,7 +38,8 @@ export const getAvailableActions = (match: MatchType, user: UserType) => {
     !isCreator &&
     !isApplicant &&
     hasMainCharacter &&
-    characterMatch
+    characterMatch &&
+    rankMatch
   ) {
     actions.push({
       label: 'Join Match',

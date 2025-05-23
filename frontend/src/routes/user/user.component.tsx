@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { http } from '../../api';
 
 import { AuthContext } from '../../contexts/auth.context';
@@ -13,6 +14,8 @@ export const User = () => {
   const [ranks, setRanks] = useState<RankType[]>([]);
   const [selectedRank, setSelectedRank] = useState<RankType | null>(null);
   const [cfnName, setCfnName] = useState<string | undefined>('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -124,6 +127,7 @@ export const User = () => {
               updateUser(updatedUser);
 
               await http.patch<UserType>(`/users/${user.id}`, updatedUser);
+              navigate('/lobby');
             }}
           >
             Update User
