@@ -4,31 +4,29 @@ import { useContext, useEffect } from 'react';
 import { MatchesContext } from '../contexts/matches.context';
 import { AuthContext } from '../contexts/auth.context';
 
-import { MatchType } from '../types/types';
+import { MatchType, UserType } from '../types/types';
 
 export const useMatchSocketListeners = () => {
   const { setMatches } = useContext(MatchesContext);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
     const handleMatchCreated = (newMatch: MatchType) => {
       setMatches((prev) => [...prev, newMatch]);
     };
 
-    // const handleMatchApply = (match: MatchType) => {
-    //   setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
-    // };
-
-    // const handleMatchReopen = (match: MatchType) => {
-    //   setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
-    // };
-
-    // const handleStartMatch = (match: MatchType) => {
-    //   setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
-    // };
-
     const handleUpdateMatch = (match: MatchType) => {
       setMatches((prev) => prev.map((m) => (m.id === match.id ? match : m)));
+    };
+
+    const handleUpdateUser = (updatedUser: Partial<UserType>) => {
+      setUser((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          ...updatedUser,
+        };
+      });
     };
 
     socket.on('match created', handleMatchCreated);
@@ -36,6 +34,7 @@ export const useMatchSocketListeners = () => {
     socket.on('match reopened', handleUpdateMatch);
     socket.on('match started', handleUpdateMatch);
     socket.on('match cancelled', handleUpdateMatch);
+    socket.on('user updated', handleUpdateUser);
 
     return () => {
       socket.off('match created', handleMatchCreated);
@@ -43,6 +42,7 @@ export const useMatchSocketListeners = () => {
       socket.off('match reopened', handleUpdateMatch);
       socket.off('match started', handleUpdateMatch);
       socket.off('match cancelled', handleUpdateMatch);
+      socket.off('user updated', handleUpdateUser);
     };
-  }, [setMatches, user]);
+  }, [setMatches, setUser, user]);
 };

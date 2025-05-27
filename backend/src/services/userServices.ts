@@ -1,11 +1,13 @@
 import User from '../models/users.model';
 import Rank from '../models/ranks.model';
+import Match from '../models/matches.model';
 import Character from '../models/characters.model';
 
 type Updates = {
   characterId?: number;
   rankId?: number;
   cfnName?: string;
+  canApplyJoin?: boolean;
 };
 
 import { InferCreationAttributes, InferAttributes } from 'sequelize';
@@ -65,6 +67,6 @@ export const updateUser = async (id: number, updates: Updates) => {
   }
 
   Object.assign(user as User, updates);
-  user.save();
+  await user.save();
   return user;
 };

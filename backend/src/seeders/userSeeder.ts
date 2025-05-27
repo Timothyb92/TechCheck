@@ -13,6 +13,7 @@ const Users = [
     locale: 'en-us',
     avatar: 'abc123',
     deleted: false,
+    canApplyJoin: true,
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const Users = [
     locale: 'en-us',
     avatar: '123abc',
     deleted: false,
+    canApplyJoin: false,
   },
   {
     id: 479454123339808830,
@@ -39,6 +41,7 @@ const Users = [
     locale: 'en-US',
     avatar: 'b9a23cd954d1abf0ce826a3d7164c921',
     deleted: false,
+    canApplyJoin: true,
   },
   {
     id: 219525739341545470,
@@ -52,6 +55,7 @@ const Users = [
     locale: 'en-US',
     avatar: 'bf721f702c0b14a49be54b64d6f4d8f6',
     deleted: false,
+    canApplyJoin: true,
   },
 ];
 

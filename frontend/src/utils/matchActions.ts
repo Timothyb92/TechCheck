@@ -39,7 +39,8 @@ export const getAvailableActions = (match: MatchType, user: UserType) => {
     !isApplicant &&
     hasMainCharacter &&
     characterMatch &&
-    rankMatch
+    rankMatch &&
+    user.canApplyJoin
   ) {
     actions.push({
       label: 'Join Match',

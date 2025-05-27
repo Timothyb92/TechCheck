@@ -4,39 +4,28 @@ import {
   useState,
   useEffect,
   ReactNode,
+  SetStateAction,
+  Dispatch,
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
 import { http } from '../api';
 
-type User = {
-  id: number;
-  cfnName?: string;
-  mainCharacterId: number;
-  locale: string;
-  rankId: number;
-  Rank: {
-    id: number;
-    name: string;
-  };
-  Character: {
-    id: number;
-    name: string;
-  };
-};
+import { UserType } from '../types/types';
 
 export const AuthContext = createContext<{
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserType | null;
+  setUser: Dispatch<SetStateAction<UserType | null>>;
 }>({ user: null, setUser: () => {} });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const getUser = async (userId: number): Promise<User> => {
-      const response = await http.get<User>(`/users/${userId}`);
-      return response.data;
+    const getUser = async (userId: number): Promise<UserType> => {
+      const response = await http.get<UserType>(`/users/${userId}`);
+      const user = response.data;
+
+      return user;
     };
 
     const fetchAndSetUser = async () => {
@@ -52,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const token = urlToken || localStorage.getItem('token');
       if (token) {
         try {
-          const decoded = jwtDecode<User>(token);
+          const decoded = jwtDecode<UserType>(token);
           const user = await getUser(decoded.id);
           setUser(user);
         } catch (err) {
