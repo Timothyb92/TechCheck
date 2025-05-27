@@ -9,15 +9,18 @@ import {
   getOneMatch,
 } from '../services/matchServices';
 
-import { getOneUser } from '../services/userServices';
+import { getOneUser, updateUser } from '../services/userServices';
 
 export const matchSocket = (socket: Socket) => {
   const io = ServerSocket.getIO();
 
   socket.on('create match', async (match) => {
     try {
+      const user = await getOneUser(match.playerOneId);
       const newMatch = await createMatch(match);
+      await updateUser(user!.id, { canApplyJoin: false });
 
+      io.to(socket.id).emit('user updated', { canApplyJoin: false });
       io.emit('match created', newMatch);
     } catch (err) {
       console.error(`Error creating match: ${err}`);
@@ -30,6 +33,9 @@ export const matchSocket = (socket: Socket) => {
         ...match,
         status: 'cancelled',
       });
+      await updateUser(match.playerOneId, { canApplyJoin: true });
+
+      io.to(socket.id).emit('user updated', { canApplyJoin: true });
       io.emit('match cancelled', cancelledMatch);
     } catch (err) {
       console.error(err);
@@ -46,6 +52,13 @@ export const matchSocket = (socket: Socket) => {
         applicantCharId: applicant?.mainCharacterId,
         status: 'pending',
       });
+      if (!applicant) return new Error('No applicant found');
+
+      updateUser(applicant.id, {
+        canApplyJoin: false,
+      });
+
+      io.to(socket.id).emit('user updated', { canApplyJoin: false });
       io.emit('applied to match', updatedMatch);
     } catch (err) {
       console.error(err);
@@ -60,6 +73,11 @@ export const matchSocket = (socket: Socket) => {
         playerTwoCfn: null,
         status: 'open',
       });
+      updateUser(match.playerTwoId, {
+        canApplyJoin: true,
+      });
+
+      io.to(socket.id).emit('user updated', { canApplyJoin: true });
       io.emit('match reopened', updatedMatch);
     } catch (err) {
       console.error(err);

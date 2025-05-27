@@ -17,10 +17,21 @@ export interface MatchType {
 
 export interface UserType {
   id: number;
-  cfnName: string;
-  rankId?: number;
-  mainCharacterId?: number;
+  cfnName?: string;
+  rankId: number;
+  mainCharacterId: number | undefined;
   locale: string;
+  matchesCreated?: { status: string }[];
+  matchesJoined?: { status: string }[];
+  canApplyJoin?: boolean;
+  Rank?: {
+    id: number;
+    name: string;
+  };
+  Character?: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface CharacterType {

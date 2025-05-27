@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 
 import { sequelize } from './models';
 import { seedTables } from './seeders/seeders';
@@ -12,7 +13,7 @@ import { ServerSocket } from './sockets';
 import api from './routes/api';
 import auth from './routes/auth';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '/backend/.env') });
 
 const app = express();
 const httpServer = http.createServer(app);
