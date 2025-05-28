@@ -28,12 +28,12 @@ export const CreateMatchForm = () => {
 
   useEffect(() => {
     const getCharacters = async () => {
-      const response = await http.get<CharacterType[]>(`/characters`);
+      const response = await http.get<CharacterType[]>(`/api/characters`);
       setCharacters([...response.data]);
     };
 
     const getRanks = async () => {
-      const response = await http.get<RankType[]>(`/ranks`);
+      const response = await http.get<RankType[]>(`/api/ranks`);
       setRanks([...response.data]);
     };
 

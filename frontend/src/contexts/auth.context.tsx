@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getUser = async (userId: number): Promise<UserType> => {
-      const response = await http.get<UserType>(`/users/${userId}`);
+      const response = await http.get<UserType>(`/api/users/${userId}`);
       const user = response.data;
 
       return user;

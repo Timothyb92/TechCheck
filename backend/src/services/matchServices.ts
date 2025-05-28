@@ -33,7 +33,6 @@ const validateCrateMatch = async (userId: number) => {
 export const createMatch = async (match: InferCreationAttributes<Match>) => {
   if (await validateCrateMatch(match.playerOneId)) {
     const newMatch = await Match.create(match);
-    console.log(match);
     return getOneMatch(newMatch.id);
   } else {
     throw new Error('User already has open match');

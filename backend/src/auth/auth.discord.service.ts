@@ -7,6 +7,7 @@ import {
   DISCORD_TOKEN_ENDPOINT,
   DISCORD_TOKEN_REVOCATION_ENDPOINT,
   DISCORD_REDIRECT_URI,
+  API_BASE_URL,
 } from '../config/env';
 
 type Token = {
@@ -64,7 +65,7 @@ export const exchangeCode = async (code: string): Promise<User & Token> => {
     const userInfo = await userResponse.json();
     const userPlusTokenData = { ...userInfo, ...tokenData, id: +userInfo.id };
 
-    await fetch('http://192.168.5.230:8000/api/users', {
+    await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userPlusTokenData),

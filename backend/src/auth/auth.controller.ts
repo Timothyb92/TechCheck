@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { exchangeCode } from './auth.discord.service';
 
-import { JWT_SECRET } from '../config/env';
+import { JWT_SECRET, API_BASE_URL, CLIENT_BASE_URL } from '../config/env';
 
 export const httpDiscAuth = async (req: Request, res: Response) => {
   try {
@@ -26,7 +26,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
 
     //TODO Change from fetch request to using the internal service to add user to db
-    await fetch('http://192.168.5.230:8000/api/users', {
+    await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       body: JSON.stringify(user),
     });
 
-    return res.redirect(`http://192.168.5.230:5173/lobby?token=${token}`);
+    return res.redirect(`${CLIENT_BASE_URL}/lobby?token=${token}`);
   } catch (err) {
     console.error(err);
   }

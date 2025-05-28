@@ -23,7 +23,7 @@ export const MatchesProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const { data } = await http.get<MatchType[]>('/matches');
+        const { data } = await http.get<MatchType[]>('/api/matches');
         setMatches(data);
       } catch (err) {
         console.error(err);
