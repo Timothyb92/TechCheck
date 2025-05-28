@@ -46,17 +46,18 @@ export class ServerSocket {
     this.io.use((socket, next) => {
       const token = socket.handshake.auth.token;
 
-      if (!token) {
-        return next(new Error('Missing socket token'));
+      if (token) {
+        try {
+          const user = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+          socket.data.user = user;
+          next();
+        } catch (err) {
+          console.warn(
+            `Socket ID ${socket.id} invalid JWT token. Continuing without user`
+          );
+        }
       }
-
-      try {
-        const user = jwt.verify(token, JWT_SECRET!) as JwtPayload;
-        socket.data.user = user;
-        next();
-      } catch (err) {
-        console.error(err);
-      }
+      next();
     });
 
     this.io.on('connect', this.StartListeners);
@@ -65,14 +66,13 @@ export class ServerSocket {
   }
 
   StartListeners = (socket: Socket) => {
+    socket.on('connect_error', (err) => {
+      console.error(err);
+    });
     console.info('New connection from ' + socket.id);
 
     matchSocket(socket);
     userSocket(socket);
-
-    socket.on('handshake', () => {
-      console.info('Handshake received from ' + socket.id);
-    });
 
     socket.on('disconnect', () => {
       console.info('Disconnect received from ' + socket.id);

@@ -11,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { http } from '../api';
 
 import { UserType } from '../types/types';
+import { initializeSocket } from '../sockets/index';
 
 export const AuthContext = createContext<{
   user: UserType | null;
@@ -21,11 +22,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
+    // socket.connect();
     const getUser = async (userId: number): Promise<UserType> => {
       const response = await http.get<UserType>(`/api/users/${userId}`);
-      const user = response.data;
-
-      return user;
+      return response.data;
     };
 
     const fetchAndSetUser = async () => {
@@ -44,11 +44,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           const decoded = jwtDecode<UserType>(token);
           const user = await getUser(decoded.id);
           setUser(user);
+          initializeSocket(token);
+          return;
         } catch (err) {
           console.error(`Invalid token. ${err}`);
-          setUser(null);
+          localStorage.removeItem('token');
         }
       }
+      initializeSocket();
     };
 
     fetchAndSetUser();
