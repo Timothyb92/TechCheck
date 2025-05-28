@@ -19,12 +19,12 @@ export const User = () => {
 
   useEffect(() => {
     const getCharacters = async () => {
-      const response = await http.get<CharacterType[]>(`/characters`);
+      const response = await http.get<CharacterType[]>(`/api/characters`);
       setCharacters(response.data);
     };
 
     const getRanks = async () => {
-      const response = await http.get<RankType[]>(`/ranks`);
+      const response = await http.get<RankType[]>(`/api/ranks`);
       setRanks(response.data);
     };
 
@@ -126,7 +126,7 @@ export const User = () => {
 
               updateUser(updatedUser);
 
-              await http.patch<UserType>(`/users/${user.id}`, updatedUser);
+              await http.patch<UserType>(`/api/users/${user.id}`, updatedUser);
               navigate('/lobby');
             }}
           >
