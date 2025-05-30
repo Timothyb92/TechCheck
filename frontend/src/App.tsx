@@ -9,10 +9,10 @@ import { CreateMatchForm } from './components/create-match-form/createMatchForm.
 import { User } from './routes/user/user.component';
 
 // import { socket } from './sockets/index';
-import { useMatchSocketListeners } from './hooks/useMatchSocketListeners';
+import { useSocketListeners } from './hooks/useSocketListeners';
 
 function App() {
-  useMatchSocketListeners();
+  useSocketListeners();
 
   return (
     <div>

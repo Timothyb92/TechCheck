@@ -24,6 +24,7 @@ export interface UserType {
   matchesCreated?: { status: string }[];
   matchesJoined?: { status: string }[];
   canApplyJoin?: boolean;
+  isAuth?: boolean;
   Rank?: {
     id: number;
     name: string;

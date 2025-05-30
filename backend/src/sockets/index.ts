@@ -1,6 +1,5 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
-import { v4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
 import { matchSocket } from './serverMatchSockets';
@@ -46,33 +45,35 @@ export class ServerSocket {
     this.io.use((socket, next) => {
       const token = socket.handshake.auth.token;
 
-      if (!token) {
-        return next(new Error('Missing socket token'));
-      }
-
-      try {
-        const user = jwt.verify(token, JWT_SECRET!) as JwtPayload;
-        socket.data.user = user;
+      if (token) {
+        try {
+          const user = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+          socket.data.user = user;
+          next();
+        } catch (err) {
+          console.warn(
+            `Socket ID ${socket.id} invalid JWT token. Continuing without user`
+          );
+          next();
+        }
+      } else {
         next();
-      } catch (err) {
-        console.error(err);
       }
     });
 
     this.io.on('connect', this.StartListeners);
 
-    console.info('Socket IO started.');
+    console.info('@@@@@@@@@@@@Socket IO started.@@@@@@@@@@@@@@@@@@');
   }
 
   StartListeners = (socket: Socket) => {
+    socket.on('connect_error', (err) => {
+      console.error(err);
+    });
     console.info('New connection from ' + socket.id);
 
     matchSocket(socket);
     userSocket(socket);
-
-    socket.on('handshake', () => {
-      console.info('Handshake received from ' + socket.id);
-    });
 
     socket.on('disconnect', () => {
       console.info('Disconnect received from ' + socket.id);
