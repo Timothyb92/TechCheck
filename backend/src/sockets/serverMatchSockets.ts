@@ -23,6 +23,7 @@ export const matchSocket = (socket: Socket) => {
   const io = ServerSocket.getIO();
 
   socket.on('create match', (match) => {
+    console.log('server create emit received');
     requireAuth(socket, async () => {
       try {
         const user = await getOneUser(match.playerOneId);
@@ -118,14 +119,4 @@ export const matchSocket = (socket: Socket) => {
       }
     });
   });
-
-  // socket.on('connect', async () => {
-  //   try {
-  //     const ongoingMatches = await getAllOpenMatches();
-
-  //     socket.emit('initial matches fetch', ongoingMatches);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // });
 };

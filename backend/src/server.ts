@@ -31,10 +31,6 @@ app.use((req, res, next) => {
 app.use('/api', api);
 app.use('/auth', auth);
 
-app.get('/api', (req, res) => {
-  res.send('Welcome to TechCheck API!');
-});
-
 setupAssociations();
 
 sequelize

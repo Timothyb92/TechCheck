@@ -1,6 +1,5 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
-import { v4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
 import { matchSocket } from './serverMatchSockets';
@@ -55,14 +54,16 @@ export class ServerSocket {
           console.warn(
             `Socket ID ${socket.id} invalid JWT token. Continuing without user`
           );
+          next();
         }
+      } else {
+        next();
       }
-      next();
     });
 
     this.io.on('connect', this.StartListeners);
 
-    console.info('Socket IO started.');
+    console.info('@@@@@@@@@@@@Socket IO started.@@@@@@@@@@@@@@@@@@');
   }
 
   StartListeners = (socket: Socket) => {

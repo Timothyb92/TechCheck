@@ -4,14 +4,14 @@ import {
   useState,
   useEffect,
   ReactNode,
-  SetStateAction,
   Dispatch,
+  SetStateAction,
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { http } from '../api';
 
 import { UserType } from '../types/types';
-import { initializeSocket } from '../sockets/index';
+import { disconnectSocket, initializeSocket } from '../sockets/index';
 
 export const AuthContext = createContext<{
   user: UserType | null;
@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    // socket.connect();
     const getUser = async (userId: number): Promise<UserType> => {
       const response = await http.get<UserType>(`/api/users/${userId}`);
       return response.data;
@@ -36,25 +35,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (urlToken) {
         localStorage.setItem('token', urlToken);
         window.history.replaceState({}, '', window.location.pathname);
+        window.location.reload();
+        return;
       }
 
       const token = urlToken || localStorage.getItem('token');
+
       if (token) {
+        initializeSocket(token);
+
         try {
           const decoded = jwtDecode<UserType>(token);
-          const user = await getUser(decoded.id);
-          setUser(user);
-          initializeSocket(token);
-          return;
+          const u = await getUser(decoded.id);
+          setUser(u);
         } catch (err) {
-          console.error(`Invalid token. ${err}`);
+          console.error('Failed to decode token or fetch user', err);
           localStorage.removeItem('token');
         }
+      } else {
+        initializeSocket();
       }
-      initializeSocket();
     };
 
     fetchAndSetUser();
+
+    return () => {
+      disconnectSocket();
+    };
   }, []);
 
   return (

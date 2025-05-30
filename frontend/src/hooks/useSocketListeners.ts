@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { getSocket, onSocketReady } from '../sockets/index';
+import { getSocket } from '../sockets/index';
 
 import { MatchesContext } from '../contexts/matches.context';
 import { AuthContext } from '../contexts/auth.context';
@@ -8,16 +8,11 @@ import { MatchType, UserType } from '../types/types';
 
 export const useSocketListeners = () => {
   const { setMatches } = useContext(MatchesContext);
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const setupListeners = async () => {
+    const interval = setInterval(() => {
       try {
-        await onSocketReady();
-        if (!isMounted) return;
-
         const socket = getSocket();
 
         const handleMatchCreated = (newMatch: MatchType) => {
@@ -44,23 +39,25 @@ export const useSocketListeners = () => {
         socket.on('match cancelled', handleUpdateMatch);
         socket.on('user updated', handleUpdateUser);
 
-        return () => {
-          socket.off('match created', handleMatchCreated);
-          socket.off('applied to match', handleUpdateMatch);
-          socket.off('match reopened', handleUpdateMatch);
-          socket.off('match started', handleUpdateMatch);
-          socket.off('match cancelled', handleUpdateMatch);
-          socket.off('user updated', handleUpdateUser);
-        };
+        clearInterval(interval);
       } catch (err) {
-        console.error('Failed to attach socket listeners:', err);
+        console.warn('Socket not ready yet', err);
       }
-    };
-
-    setupListeners();
+    }, 200);
 
     return () => {
-      isMounted = false;
+      clearInterval(interval);
+      try {
+        const socket = getSocket();
+        socket.off('match created');
+        socket.off('applied to match');
+        socket.off('match reopened');
+        socket.off('match started');
+        socket.off('match cancelled');
+        socket.off('user updated');
+      } catch {
+        console.warn('Cleanup skipped: socket not ready yet');
+      }
     };
-  }, [setMatches, setUser, user]);
+  }, [setMatches, setUser]);
 };
