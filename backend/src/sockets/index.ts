@@ -16,6 +16,16 @@ export class ServerSocket {
   public io: Server;
 
   public users: { [uid: string]: string };
+  public userIdToSocketId: { [userId: number]: string } = {};
+  public socketIdToUserId: { [socketId: string]: number } = {};
+
+  public static getSocketIdForUser(userId: number): string | undefined {
+    return ServerSocket.instance.userIdToSocketId[userId];
+  }
+
+  public static getUserIdForSocket(socketId: string): number | undefined {
+    return ServerSocket.instance.socketIdToUserId[socketId];
+  }
 
   static getIO(): Server {
     if (!ServerSocket.instance) {
@@ -72,11 +82,26 @@ export class ServerSocket {
     });
     console.info('New connection from ' + socket.id);
 
+    const user = socket.data.user as JwtPayload | undefined;
+
+    if (user?.id) {
+      this.userIdToSocketId[user.id] = socket.id;
+      this.socketIdToUserId[socket.id] = user.id;
+
+      console.info(`User ${user.id} mapped to socket ${socket.id}`);
+    }
+
     matchSocket(socket);
     userSocket(socket);
 
     socket.on('disconnect', () => {
       console.info('Disconnect received from ' + socket.id);
+
+      const userId = this.socketIdToUserId[socket.id];
+      if (userId) {
+        delete this.userIdToSocketId[userId];
+      }
+      delete this.socketIdToUserId[socket.id];
     });
   };
 }
