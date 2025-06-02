@@ -13,6 +13,9 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
 
   const isCreator = match.playerOneId === user.id;
   const isApplicant = match.playerTwoId === user.id;
+  const isParticipant =
+    match.playerOneId === user.id || match.playerTwoId === user.id;
+  const isOngoing = match.status === 'matched';
   const isOpen = match.status === 'open';
   const isPending = match.status === 'pending';
   const hasMainCharacter = user.mainCharacterId;
@@ -75,6 +78,14 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
         style: 'decline',
       }
     );
+  }
+
+  if (isParticipant && isOngoing) {
+    actions.push({
+      label: 'Complete Match',
+      onClick: () => emitCancelMatch(match),
+      style: 'decline',
+    });
   }
 
   return actions;

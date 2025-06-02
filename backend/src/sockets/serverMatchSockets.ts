@@ -44,7 +44,15 @@ export const matchSocket = (socket: Socket) => {
           ...match,
           status: 'cancelled',
         });
+
         await updateUser(match.playerOneId, { canApplyJoin: true });
+
+        const applicantSocketId =
+          ServerSocket.instance.userIdToSocketId[match.playerTwoId];
+
+        if (applicantSocketId) {
+          io.to(applicantSocketId).emit('user updated', { canApplyJoin: true });
+        }
 
         io.to(socket.id).emit('user updated', { canApplyJoin: true });
         io.emit('match cancelled', cancelledMatch);
