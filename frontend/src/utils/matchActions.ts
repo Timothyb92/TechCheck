@@ -8,7 +8,7 @@ import {
   emitStartMatch,
 } from '../sockets/clientMatchSockets';
 
-export const getAvailableActions = (match: MatchType, user: UserType) => {
+export const getMatchActions = (match: MatchType, user: UserType) => {
   if (!match || !user || !user.rankId) return;
 
   const isCreator = match.playerOneId === user.id;

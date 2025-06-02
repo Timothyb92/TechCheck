@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { getAvailableActions } from '../../utils/matchActions';
+import { getMatchActions } from '../../utils/matchActions';
 
 import { MatchType, UserType } from '../../types/types';
 
@@ -15,7 +15,17 @@ import './matchCard.styles.css';
 export const MatchCard = (match: MatchType) => {
   const { user } = useContext(AuthContext);
 
-  const actions = getAvailableActions(match, user as UserType);
+  const matchActions = getMatchActions(match, user as UserType);
+
+  const canViewCustomRoomId = () => {
+    if (user?.id === match.playerOneId) {
+      return true;
+    } else if (user?.id === match.playerTwoId && match.status === 'matched') {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   //TODO Update button section to use matchActionButton
   if (match.status === 'cancelled' || match.status === 'completed') return;
@@ -57,8 +67,15 @@ export const MatchCard = (match: MatchType) => {
             <Bubble className="rank-bubble">{match.maxRank.name}</Bubble>
           </p>
         </div>
+        <div className="custom-room-id-container">
+          <p>
+            {canViewCustomRoomId() ? (
+              <span>Custom Room ID: {match.customRoomId}</span>
+            ) : null}
+          </p>
+        </div>
         <div className="button-container">
-          {actions?.map((action, index) => {
+          {matchActions?.map((action, index) => {
             return (
               <Button
                 key={index}
