@@ -1,6 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
+import chalk from 'chalk';
 
 import { matchSocket } from './serverMatchSockets';
 import { userSocket } from './serverUserSockets';
@@ -73,14 +74,13 @@ export class ServerSocket {
 
     this.io.on('connect', this.StartListeners);
 
-    console.info('@@@@@@@@@@@@Socket IO started.@@@@@@@@@@@@@@@@@@');
+    console.info(chalk.magenta('Socket IO started'));
   }
 
   StartListeners = (socket: Socket) => {
     socket.on('connect_error', (err) => {
       console.error(err);
     });
-    console.info('New connection from ' + socket.id);
 
     const user = socket.data.user as JwtPayload | undefined;
 
@@ -88,14 +88,16 @@ export class ServerSocket {
       this.userIdToSocketId[user.id] = socket.id;
       this.socketIdToUserId[socket.id] = user.id;
 
-      console.info(`User ${user.id} mapped to socket ${socket.id}`);
+      console.info(
+        chalk.yellow(`User ${user.id} mapped to socket ${socket.id}`)
+      );
     }
 
     matchSocket(socket);
     userSocket(socket);
 
     socket.on('disconnect', () => {
-      console.info('Disconnect received from ' + socket.id);
+      console.info(chalk.red('Disconnect received from ' + socket.id));
 
       const userId = this.socketIdToUserId[socket.id];
       if (userId) {
