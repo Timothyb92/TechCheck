@@ -22,7 +22,6 @@ export const emitCreateMatch = (
     maxRankId,
   };
   try {
-    console.log('emit create match');
     socket.emit('create match', match);
   } catch (err) {
     console.error(err);
@@ -54,7 +53,6 @@ export const emitCancelMatch = (matchData: MatchType) => {
 export const emitApplyToMatch = (match: MatchType) => {
   const socket = getSocket();
   if (!match) return;
-  console.log('emit join match');
   socket.emit('apply to match', match);
 };
 

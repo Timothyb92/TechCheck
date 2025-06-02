@@ -23,7 +23,6 @@ export const matchSocket = (socket: Socket) => {
   const io = ServerSocket.getIO();
 
   socket.on('create match', (match) => {
-    console.log('server create emit received');
     requireAuth(socket, async () => {
       try {
         const user = await getOneUser(match.playerOneId);
@@ -89,11 +88,17 @@ export const matchSocket = (socket: Socket) => {
           playerTwoCfn: null,
           status: 'open',
         });
-        updateUser(match.playerTwoId, {
+        await updateUser(match.playerTwoId, {
           canApplyJoin: true,
         });
 
-        io.to(socket.id).emit('user updated', { canApplyJoin: true });
+        const applicantSocketId =
+          ServerSocket.instance.userIdToSocketId[match.playerTwoId];
+
+        if (applicantSocketId) {
+          io.to(applicantSocketId).emit('user updated', { canApplyJoin: true });
+        }
+
         io.emit('match reopened', updatedMatch);
       } catch (err) {
         console.error(err);
