@@ -132,11 +132,14 @@ export const User = () => {
               setSelectedRank(rank || null);
             }}
           >
-            {ranks.map((rank) => (
-              <option key={rank.id} value={rank.id}>
-                {rank.name}
-              </option>
-            ))}
+            {ranks.map((rank) => {
+              if (rank.id === 1) return;
+              return (
+                <option key={rank.id} value={rank.id - 1}>
+                  {rank.name}
+                </option>
+              );
+            })}
           </select>
         </div>
 
