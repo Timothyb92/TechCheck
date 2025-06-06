@@ -2,7 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { http } from '../../api';
 
+import './user.styles.css';
+
 import { AuthContext } from '../../contexts/auth.context';
+import { getCharacterImage, getRankImage } from '../../utils/getImages';
 import { Button } from '../../components/button/button.component';
 
 import { CharacterType, RankType, UserType } from '../../types/types';
@@ -58,9 +61,46 @@ export const User = () => {
   };
 
   return (
-    <>
-      <div>
-        <form>
+    <div className="user-settings-container">
+      <h1 className="arcade-glow">User Settings</h1>
+      <div className="current-settings">
+        <h2 className="username">
+          {user.cfnName ? user.cfnName : 'New Challenger'}
+        </h2>
+        <div className="name-rank-char">
+          <img
+            className="selected-char-img"
+            src={
+              selectedChar
+                ? getCharacterImage(selectedChar.id)
+                : getCharacterImage(999)
+            }
+            alt="Selected Character"
+          />
+          <img
+            className="selected-rank-img"
+            src={
+              selectedRank ? getRankImage(selectedRank.id) : getRankImage(50)
+            }
+            alt=""
+          />
+        </div>
+      </div>
+      <div className="user-settings">
+        {/* <form> */}
+        <div className="user-settings-selection">
+          <label htmlFor="cfnName">CFN Name</label>
+          <input
+            type="text"
+            id="cfnName"
+            name="CFN Name"
+            required
+            value={cfnName}
+            onChange={(e) => setCfnName(e.target.value)}
+          />
+        </div>
+
+        <div className="user-settings-selection">
           <label htmlFor="characters">Select Your Character</label>
           <select
             name="characters"
@@ -78,9 +118,9 @@ export const User = () => {
               </option>
             ))}
           </select>
+        </div>
 
-          <br />
-
+        <div className="user-settings-selection">
           <label htmlFor="ranks">Select Your Rank</label>
           <select
             name="ranks"
@@ -98,42 +138,32 @@ export const User = () => {
               </option>
             ))}
           </select>
+        </div>
 
-          <br />
+        <Button
+          className="update-user-button arcade-button"
+          type="button"
+          onClick={async () => {
+            if (!selectedChar || !selectedRank || !cfnName) {
+              return;
+            }
+            const updatedUser = {
+              ...user,
+              mainCharacterId: selectedChar.id,
+              rankId: selectedRank.id,
+              cfnName,
+            };
 
-          <label htmlFor="cfnName">CFN Name</label>
-          <input
-            type="text"
-            id="cfnName"
-            name="CFN Name"
-            required
-            value={cfnName}
-            onChange={(e) => setCfnName(e.target.value)}
-          />
-          <br />
-          <Button
-            type="button"
-            onClick={async () => {
-              if (!selectedChar || !selectedRank || !cfnName) {
-                return;
-              }
-              const updatedUser = {
-                ...user,
-                mainCharacterId: selectedChar.id,
-                rankId: selectedRank.id,
-                cfnName,
-              };
+            updateUser(updatedUser);
 
-              updateUser(updatedUser);
-
-              await http.patch<UserType>(`/api/users/${user.id}`, updatedUser);
-              navigate('/lobby');
-            }}
-          >
-            Update User
-          </Button>
-        </form>
+            await http.patch<UserType>(`/api/users/${user.id}`, updatedUser);
+            navigate('/lobby');
+          }}
+        >
+          Update User
+        </Button>
+        {/* </form> */}
       </div>
-    </>
+    </div>
   );
 };
