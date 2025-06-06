@@ -49,7 +49,7 @@ const Matches = [
     locale: 'en-US',
     customRoomId: '43124312',
     minRankId: 34,
-    maxRankId: 43,
+    maxRankId: 40,
   },
 ];
 

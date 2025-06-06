@@ -16,7 +16,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare rankId: number;
   declare mainCharacterId: number;
   declare avatar: string;
-  declare global_name: string;
+  declare global_name?: string;
   declare locale: string;
   declare cfnName: CreationOptional<string>;
   declare deleted: boolean;
@@ -58,7 +58,7 @@ User.init(
     },
     global_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     locale: {
       type: DataTypes.STRING,

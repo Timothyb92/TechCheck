@@ -1,18 +1,127 @@
-/* .match-card {
+.match-card {
+  background: #26004d;
+  border: 1px solid #bb55ff;
+  border-radius: 2px;
+  padding: 16px;
+  color: #e0b3ff;
   display: flex;
-  flex-wrap: wrap;
-} */
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  margin: 10px 0px;
+}
 
-/* .matchup-container {
+.match-card:hover {
+  background: linear-gradient(
+    90deg,
+    #aa33aa 0%,
+    #6b33cc 25%,
+    #3d1a78 50%,
+    #6b33cc 75%,
+    #aa33aa 100%
+  );
+  border: 1px solid #cc66ff;
+  box-shadow: 0 0 6px #cc66ff, 0 0 12px #9933ff;
+  color: #fff;
+}
+
+.match-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(204, 102, 255, 0.08),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+}
+
+.match-card:hover::before {
+  opacity: 1;
+}
+
+.vs-container {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  /* height: 100%; */
+  border: 1px solid red;
+}
+
+.bottom-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid yellow;
+}
+
+.player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #bb55ff;
+  padding: 20px;
+  width: 100%;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.player-one,
+.player-two {
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-} */
-
-/* .status-pending {
-  background-color: red;
+  justify-content: space-between;
+  padding: 20px;
 }
-  */
+
+.player-one-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+  position: relative;
+}
+
+.vs-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80px;
+}
+
+.min-max-rank {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+}
+
+.min-max-rank p {
+  margin: 0;
+}
 
 .notice {
   background-color: yellow;
@@ -22,4 +131,19 @@
 .applied {
   background-color: aquamarine;
   color: black;
+}
+.rank-img {
+  height: 150px;
+}
+
+.player-one .rank-img {
+  margin: -65px -40px -60px -40px;
+}
+
+.player-two .rank-img {
+  margin: -20px -20px -40px -20px;
+}
+
+.char-img {
+  height: 150px;
 }

@@ -15,20 +15,10 @@ function App() {
   useSocketListeners();
 
   return (
-    <div>
+    <div className="app-container">
       <Routes>
         <Route path="/" element={<Navigation />}>
-          <Route
-            index
-            element={
-              <Home
-              // message={''}
-              // createMatchListener={createMatchListener}
-              // updateMatchListener={updateMatchListener}
-              // updateUser={updateUser}
-              />
-            }
-          />
+          <Route index element={<Home />} />
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/create" element={<CreateMatchForm />} />
           <Route path="/user" element={<User />} />

@@ -13,6 +13,7 @@ export interface MatchType {
   locale: string;
   minRank: { name: string; id: number };
   maxRank: { name: string; id: number };
+  player1: { rankId: string };
   customRoomId: string | number;
 }
 
@@ -49,5 +50,5 @@ export interface RankType {
 export interface MatchAction {
   label: string;
   onClick: () => void;
-  style?: 'notify' | 'applied' | 'primary' | 'decline' | 'accept';
+  style?: 'notify' | 'applied' | 'primary' | 'decline' | 'accept' | 'disabled';
 }

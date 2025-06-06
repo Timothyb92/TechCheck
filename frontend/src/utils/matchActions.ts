@@ -52,6 +52,16 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     });
   }
 
+  if (isOpen && !isCreator && !isApplicant) {
+    if (!characterMatch || !rankMatch || !user.canApplyJoin) {
+      actions.push({
+        label: 'Join Match',
+        onClick: () => null,
+        style: 'disabled',
+      });
+    }
+  }
+
   if (isPending && isApplicant) {
     actions.push({
       label: 'Cancel Join',

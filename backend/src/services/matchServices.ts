@@ -1,6 +1,7 @@
 import Match from '../models/matches.model';
 import Character from '../models/characters.model';
 import Rank from '../models/ranks.model';
+import User from '../models/users.model';
 
 import {
   InferCreationAttributes,
@@ -93,6 +94,11 @@ export const getAllOpenMatches = async () => {
         model: Rank,
         as: 'maxRank',
         attributes: ['name', 'id'],
+      },
+      {
+        model: User,
+        as: 'player1',
+        attributes: ['rankId'],
       },
     ],
   });

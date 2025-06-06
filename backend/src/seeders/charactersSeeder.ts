@@ -18,7 +18,7 @@ const characters = [
   { id: 14, name: 'Marisa' },
   { id: 15, name: 'JP' },
   { id: 16, name: 'Zangief' },
-  { id: 17, name: 'Liily' },
+  { id: 17, name: 'Lily' },
   { id: 18, name: 'Cammy' },
   { id: 19, name: 'Rashid' },
   { id: 20, name: 'A.K.I.' },
