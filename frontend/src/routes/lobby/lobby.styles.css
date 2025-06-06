@@ -21,12 +21,13 @@
 
   text-shadow: 0 0 4px #bf00ff, 0 0 8px #bf00ff, 0 0 16px #bf00ff,
     0 0 24px #bf00ff;
-} */
-
-.enabled {
-  background-color: green;
-}
-
-.disabled {
-  background-color: red;
-}
+    
+    .enabled {
+      background-color: green;
+    }
+    
+    .disabled {
+      background-color: red;
+    }
+    
+    } */

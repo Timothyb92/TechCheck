@@ -50,5 +50,5 @@ export interface RankType {
 export interface MatchAction {
   label: string;
   onClick: () => void;
-  style?: 'notify' | 'applied' | 'primary' | 'decline' | 'accept' | 'disabled';
+  style?: string;
 }

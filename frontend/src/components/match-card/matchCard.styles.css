@@ -1,44 +1,33 @@
 .match-card {
-  background: #26004d;
+  background: linear-gradient(90deg, #6b33cc 0%, #3d1a78 25%, #6b33cc 75%);
   border: 1px solid #bb55ff;
   border-radius: 2px;
   padding: 16px;
-  color: #e0b3ff;
+  color: white;
   display: flex;
   flex-direction: column;
   gap: 12px;
   position: relative;
   z-index: 1;
   margin: 10px 0px;
+  transition: box-shadow 0.3s ease;
 }
 
 .match-card:hover {
-  background: linear-gradient(
-    90deg,
-    #aa33aa 0%,
-    #6b33cc 25%,
-    #3d1a78 50%,
-    #6b33cc 75%,
-    #aa33aa 100%
-  );
   border: 1px solid #cc66ff;
-  box-shadow: 0 0 6px #cc66ff, 0 0 12px #9933ff;
-  color: #fff;
+  box-shadow: 0 0 8px #cc66ff, 0 0 16px #cc66ff, 0 0 24px #cc66ff;
 }
 
 .match-card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(204, 102, 255, 0.08),
-    transparent 70%
-  );
-  pointer-events: none;
+  inset: -4px;
+  border-radius: 6px;
+  background: radial-gradient(ellipse at center, transparent 80%);
+  filter: blur(6px);
   opacity: 0;
-  z-index: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
 .match-card:hover::before {
@@ -49,11 +38,9 @@
   display: flex;
   align-items: stretch;
   gap: 10px;
-  /* height: 100%; */
-  border: 1px solid red;
 }
 
-.bottom-row {
+.match-button-row {
   display: flex;
   flex-direction: column;
 }
@@ -63,7 +50,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 1px solid yellow;
 }
 
 .player {
@@ -125,12 +111,10 @@
 
 .notice {
   background-color: yellow;
-  color: black;
 }
 
 .applied {
   background-color: aquamarine;
-  color: black;
 }
 .rank-img {
   height: 150px;
@@ -147,3 +131,10 @@
 .char-img {
   height: 150px;
 }
+
+/* .button-wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  isolation: isolate;
+} */

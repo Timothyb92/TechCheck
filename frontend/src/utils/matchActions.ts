@@ -32,7 +32,7 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Match',
       onClick: () => emitCancelMatch(match),
-      style: 'primary',
+      style: 'cancel-match',
     });
   }
 
@@ -48,7 +48,7 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Join Match',
       onClick: () => emitApplyToMatch(match),
-      style: 'primary',
+      style: 'join-match',
     });
   }
 
@@ -57,7 +57,7 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
       actions.push({
         label: 'Join Match',
         onClick: () => null,
-        style: 'disabled',
+        style: 'join-match-disabled',
       });
     }
   }
@@ -66,26 +66,26 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Join',
       onClick: () => emitReopenMatch(match),
-      style: 'applied',
+      style: 'cancel-join',
     });
   }
 
   if (isPending && isCreator) {
     actions.push(
       {
-        label: 'Decline',
-        onClick: () => emitReopenMatch(match),
-        style: 'decline',
-      },
-      {
         label: 'Accept',
         onClick: () => emitStartMatch(match),
-        style: 'accept',
+        style: 'accept-match',
+      },
+      {
+        label: 'Decline',
+        onClick: () => emitReopenMatch(match),
+        style: 'decline-match',
       },
       {
         label: 'Block User',
         onClick: () => emitBlockUser(match),
-        style: 'decline',
+        style: 'block-user',
       }
     );
   }
@@ -94,7 +94,7 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Complete Match',
       onClick: () => emitCancelMatch(match),
-      style: 'decline',
+      style: 'complete-match',
     });
   }
 
