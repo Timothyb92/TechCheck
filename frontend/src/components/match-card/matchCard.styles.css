@@ -1,25 +1,140 @@
-/* .match-card {
+.match-card {
+  background: linear-gradient(90deg, #6b33cc 0%, #3d1a78 25%, #6b33cc 75%);
+  border: 1px solid #bb55ff;
+  border-radius: 2px;
+  padding: 16px;
+  color: white;
   display: flex;
-  flex-wrap: wrap;
-} */
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  margin: 10px 0px;
+  transition: box-shadow 0.3s ease;
+}
 
-/* .matchup-container {
+.match-card:hover {
+  border: 1px solid #cc66ff;
+  box-shadow: 0 0 8px #cc66ff, 0 0 16px #cc66ff, 0 0 24px #cc66ff;
+}
+
+.match-card::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 6px;
+  background: radial-gradient(ellipse at center, transparent 80%);
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.match-card:hover::before {
+  opacity: 1;
+}
+
+.vs-container {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.match-button-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #bb55ff;
+  padding: 20px;
+  width: 100%;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.player-one,
+.player-two {
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-} */
-
-/* .status-pending {
-  background-color: red;
+  justify-content: space-between;
+  padding: 20px;
 }
-  */
+
+.player-one-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+  position: relative;
+}
+
+.vs-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80px;
+}
+
+.min-max-rank {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+}
+
+.min-max-rank p {
+  margin: 0;
+}
 
 .notice {
   background-color: yellow;
-  color: black;
 }
 
 .applied {
   background-color: aquamarine;
-  color: black;
 }
+.rank-img {
+  height: 150px;
+}
+
+.player-one .rank-img {
+  margin: -65px -40px -60px -40px;
+}
+
+.player-two .rank-img {
+  margin: -20px -20px -40px -20px;
+}
+
+.char-img {
+  height: 150px;
+}
+
+/* .button-wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  isolation: isolate;
+} */

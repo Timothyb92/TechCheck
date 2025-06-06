@@ -1,42 +1,77 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  align-content: center;
+  height: 100%;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.arcade-glow {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: transparent;
+  background-color: #242424;
+
+  -webkit-text-stroke: 1px white;
+
+  text-shadow: 0 0 4px #8f00ff, 0 0 8px #8f00ff, 0 0 16px #8f00ff,
+    0 0 24px #8f00ff;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.arcade-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(to bottom, #8f00ff, #5e00aa);
+  border: 2px solid #d1a3ff;
+  border-radius: 6px;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: inset 0 1px 0 #ffffff88, 0 0 6px #8f00ff, 0 0 12px #8f00ff,
+    0 0 24px #8f00ff;
+
+  position: relative;
+  transition: box-shadow 0.2s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.arcade-button:hover {
+  box-shadow: inset 0 1px 0 #ffffffaa, 0 0 8px #8f00ff, 0 0 16px #8f00ff,
+    0 0 32px #8f00ff;
+  cursor: pointer;
 }
 
-.card {
-  padding: 2em;
+.arcade-button.disabled {
+  position: relative;
+  box-shadow: none;
+  cursor: not-allowed;
+  filter: brightness(0.7);
 }
 
-.read-the-docs {
-  color: #888;
+.arcade-button.disabled::after {
+  content: '⚠️ You must log in and set your Character, Rank, and CFN to create a match';
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(1, 1, 1, 1);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: none;
+  z-index: 1000;
+  border: 1px solid yellow;
+  box-shadow: 0 0 6px yellow;
+}
+
+.arcade-button.disabled:hover::after {
+  display: block;
 }
