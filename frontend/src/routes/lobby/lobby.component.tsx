@@ -36,15 +36,14 @@ export const Lobby = () => {
         ) : (
           <Button className="arcade-button disabled">Create Match</Button>
         )}
-        <div>
-          <span>Open Matches</span>
+        <div className="lobby-section">
+          <h2 className="lobby-section-title">Open Matches</h2>
           <MatchList matches={openMatches} />
         </div>
-        <div>
-          <span>Active Matches</span>
+        <div className="lobby-section">
+          <h2 className="lobby-section-title">Active Matches</h2>
           <MatchList matches={ongoingMatches} />
         </div>
-        <div>Player list</div>
       </div>
     </>
   );

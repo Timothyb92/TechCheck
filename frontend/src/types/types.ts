@@ -15,6 +15,7 @@ export interface MatchType {
   maxRank: { name: string; id: number };
   player1: { rankId: string };
   customRoomId: string | number;
+  applicantCharId?: number;
 }
 
 export interface UserType {

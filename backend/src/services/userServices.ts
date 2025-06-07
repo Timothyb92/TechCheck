@@ -8,6 +8,7 @@ type Updates = {
   rankId?: number;
   cfnName?: string;
   canApplyJoin?: boolean;
+  applicantCharId?: number | null;
 };
 
 import { InferCreationAttributes, InferAttributes } from 'sequelize';

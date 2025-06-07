@@ -95,6 +95,7 @@ export const matchSocket = (socket: Socket) => {
           playerTwoId: null,
           playerTwoCfn: null,
           status: 'open',
+          applicantCharId: null,
         });
         await updateUser(match.playerTwoId, {
           canApplyJoin: true,

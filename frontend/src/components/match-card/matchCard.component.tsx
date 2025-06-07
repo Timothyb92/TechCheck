@@ -59,16 +59,32 @@ export const MatchCard = (match: MatchType) => {
             />
           </div>
 
-          <div className="vs-text">
-            <span>VS</span>
+          <div className="vs-text-container">
+            <p className="vs-text arcade-glow">VS</p>
           </div>
 
           <div className="player player-two">
-            <img
-              className="char-img img"
-              src={getCharacterImage(match.characterTwoId!)}
-              alt=""
-            />
+            <div className="player-two-img-cfn">
+              <img
+                className="char-img img"
+                // src={getCharacterImage(match.characterTwoId!)}
+                src={
+                  match.applicantCharId
+                    ? getCharacterImage(match.applicantCharId)
+                    : getCharacterImage(match.characterTwoId!)
+                }
+                alt=""
+              />
+              <p
+                className={`player-two-cfn ${
+                  !match.playerTwoCfn && 'player-two-cfn-waiting'
+                }`}
+              >
+                {match.playerTwoCfn
+                  ? match.playerTwoCfn
+                  : 'Waiting for Challenger'}
+              </p>
+            </div>
             <div className="min-max-rank match-info">
               <p>
                 Min Rank
@@ -108,11 +124,13 @@ export const MatchCard = (match: MatchType) => {
               );
             })}
           </div>
-          <span className="custom-room-id">
+          <div className="custom-room-id">
             {canViewCustomRoomId() ? (
-              <span>Custom Room ID: {match.customRoomId}</span>
+              <p className="custom-room-text">
+                Custom Room ID: {match.customRoomId}
+              </p>
             ) : null}
-          </span>
+          </div>
         </div>
       </div>
     </>
