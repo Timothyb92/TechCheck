@@ -2,6 +2,8 @@ import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { http } from '../../api';
 
+import './createMatchForm.styles.css';
+
 import { Button } from '../button/button.component';
 
 import { emitCreateMatch } from '../../sockets/clientMatchSockets';
@@ -13,9 +15,9 @@ export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
   const [roomId, setRoomId] = useState('');
   const [ranks, setRanks] = useState<RankType[]>([]);
-  const [minRank, setMinRank] = useState<RankType>({ id: 1, name: 'Unranked' });
+  const [minRank, setMinRank] = useState<RankType>({ id: 1, name: 'Any Rank' });
   const [maxRank, setMaxRank] = useState<RankType>({
-    id: 1,
+    id: 40,
     name: 'Any Rank',
   });
   const [characters, setCharacters] = useState<CharacterType[]>([]);
@@ -25,6 +27,8 @@ export const CreateMatchForm = () => {
   });
 
   const navigate = useNavigate();
+
+  const roomIdExists = roomId.length > 0;
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -42,98 +46,115 @@ export const CreateMatchForm = () => {
   }, []);
 
   return (
-    <>
-      <form>
-        <label htmlFor="Custom Room ID">Room ID</label>
-        <input
-          type="text"
-          name="Custom Room ID"
-          required
-          value={roomId}
-          onChange={(e) => setRoomId(e.target.value)}
-        />
+    <div className="match-form-container">
+      <h1 className="arcade-glow">Create Match</h1>
+      <div className="match-form-options">
+        <div className="match-form-field">
+          <label htmlFor="Custom Room ID">Room ID</label>
+          <span className="required">Required</span>
+          <input
+            className={roomIdExists ? 'form-item' : 'form-item-warning'}
+            type="text"
+            name="Custom Room ID"
+            required
+            value={roomId}
+            onChange={(e) => setRoomId(e.target.value)}
+          />
+        </div>
 
-        <br />
+        <div className="match-form-field">
+          <label htmlFor="characters">Select Opponent Character</label>
+          <select
+            className="form-item"
+            name="characters"
+            id="characters"
+            onChange={(e) => {
+              const charId = Number(e.target.value);
+              const char = characters.find((c) => c.id === charId);
+              setSelectedChar(char || null);
+            }}
+          >
+            {characters.map((char) => (
+              <option key={char.id} value={char.id}>
+                {char.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <label htmlFor="characters">Select Opponent Character</label>
-        <select
-          name="characters"
-          id="characters"
-          onChange={(e) => {
-            const charId = Number(e.target.value);
-            const char = characters.find((c) => c.id === charId);
-            setSelectedChar(char || null);
-          }}
-        >
-          {characters.map((char) => (
-            <option key={char.id} value={char.id}>
-              {char.name}
-            </option>
-          ))}
-        </select>
+        <div className="match-form-field">
+          <label htmlFor="min rank">Minimum Rank Requirement</label>
+          <select
+            className="form-item"
+            name="min rank"
+            id="min rank"
+            onChange={(e) => {
+              const rankId = Number(e.target.value);
+              const rank = ranks.find((r) => r.id === rankId);
+              if (!rank) return new Error('No min rank set');
+              setMinRank(rank);
+            }}
+          >
+            {ranks.map((rank) => (
+              <option key={rank.id} value={rank.id}>
+                {rank.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <br />
-
-        <label htmlFor="min rank">Minimum Rank Requirement</label>
-        <select
-          name="min rank"
-          id="min rank"
-          onChange={(e) => {
-            const rankId = Number(e.target.value);
-            const rank = ranks.find((r) => r.id === rankId);
-            if (!rank) return new Error('No min rank set');
-            setMinRank(rank);
-          }}
-        >
-          {ranks.map((rank) => (
-            <option key={rank.id} value={rank.id}>
-              {rank.name}
-            </option>
-          ))}
-        </select>
-
-        <br />
-
-        <label htmlFor="max rank">Maximum Rank Requirement</label>
-        <select
-          name="max rank"
-          id="max rank"
-          onChange={(e) => {
-            const rankId = Number(e.target.value);
-            const rank = ranks.find((r) => r.id === rankId);
-            if (!rank) return new Error('No max rank set');
-            setMaxRank(rank);
-          }}
-        >
-          {ranks.map((rank) => (
-            <option key={rank.id} value={rank.id}>
-              {rank.name}
-            </option>
-          ))}
-        </select>
-
-        <br />
+        <div className="match-form-field">
+          <label htmlFor="max rank">Maximum Rank Requirement</label>
+          <select
+            className="form-item"
+            name="max rank"
+            id="max rank"
+            onChange={(e) => {
+              const rankId = Number(e.target.value);
+              const rank = ranks.find((r) => r.id === rankId);
+              if (!rank) return new Error('No max rank set');
+              setMaxRank(rank);
+            }}
+          >
+            {ranks.map((rank) => (
+              <option key={rank.id} value={rank.id}>
+                {rank.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <Button
-          onClick={() => {
-            if (!selectedChar || !minRank || !maxRank) {
-              return new Error('Missing character or min/max rank selection');
-            } else if (maxRank < minRank) {
-              return new Error("Max rank can't be higehr than min rank");
-            }
-            emitCreateMatch(
-              user as UserType,
-              roomId,
-              selectedChar.id,
-              minRank.id,
-              maxRank.id
-            );
-            navigate('/lobby');
-          }}
+          className={`create-match-button ${roomIdExists ? '' : 'disabled'}`}
+          onClick={
+            roomIdExists
+              ? () => {
+                  if (!selectedChar || !minRank || !maxRank) {
+                    return new Error(
+                      'Missing character or min/max rank selection'
+                    );
+                  } else if (maxRank < minRank) {
+                    return new Error("Max rank can't be higehr than min rank");
+                  }
+                  emitCreateMatch(
+                    user as UserType,
+                    roomId,
+                    selectedChar.id,
+                    minRank.id,
+                    maxRank.id
+                  );
+                  navigate('/lobby');
+                }
+              : () => {
+                  return new Error('Missing Custom Room ID');
+                }
+          }
+          // onClick={() => {
+          // }}
         >
           Create Match
         </Button>
-      </form>
-    </>
+      </div>
+    </div>
   );
 };
