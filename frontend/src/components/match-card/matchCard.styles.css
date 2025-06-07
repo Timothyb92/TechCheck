@@ -1,5 +1,14 @@
 .match-card {
-  background: linear-gradient(90deg, #6b33cc 0%, #3d1a78 25%, #6b33cc 75%);
+  background: linear-gradient(
+    90deg,
+    #8f008f 0%,
+    #6f006f 0%,
+    #6b00aa 5%,
+    #2d0072 50%,
+    #6b00aa 95%,
+    #8f008f 100%
+  );
+
   border: 1px solid #bb55ff;
   border-radius: 2px;
   padding: 16px;
@@ -11,6 +20,7 @@
   z-index: 1;
   margin: 10px 0px;
   transition: box-shadow 0.3s ease;
+  width: 100%;
 }
 
 .match-card:hover {
@@ -50,6 +60,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  gap: 25px;
 }
 
 .player {
@@ -57,11 +69,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  border: 1px solid #bb55ff;
+  /* border: 1px solid #bb55ff; */
   padding: 20px;
   width: 100%;
   font-size: 18px;
-  background: rgba(255, 255, 255, 0.02);
+  /* background: rgba(255, 255, 255, 0.02); */
 }
 
 .player-one,
@@ -81,13 +93,20 @@
   height: 100%;
   flex: 1;
   position: relative;
+  padding-top: 35px;
 }
 
-.vs-text {
+.vs-text-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.vs-text {
+  background-color: inherit;
+  font-size: 50px;
+  /* font-style: italic; */
 }
 
 .match-info {
@@ -132,9 +151,16 @@
   height: 150px;
 }
 
-/* .button-wrapper {
-  position: relative;
-  z-index: 1;
-  overflow: visible;
-  isolation: isolate;
-} */
+.custom-room-text {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.player-two-cfn {
+  display: inline;
+}
+
+.player-two-cfn-waiting {
+  font-size: 14px;
+  color: #999;
+}
