@@ -2,7 +2,7 @@ import { MatchType, UserType, MatchAction } from '../types/types';
 
 import {
   emitApplyToMatch,
-  emitBlockUser,
+  // emitBlockUser,
   emitReopenMatch,
   emitCancelMatch,
   emitStartMatch,
@@ -81,12 +81,13 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
         label: 'Decline',
         onClick: () => emitReopenMatch(match),
         style: 'decline-match',
-      },
-      {
-        label: 'Block User',
-        onClick: () => emitBlockUser(match),
-        style: 'block-user',
       }
+      //! Future feature
+      // {
+      //   label: 'Block User',
+      //   onClick: () => emitBlockUser(match),
+      //   style: 'block-user',
+      // }
     );
   }
 
