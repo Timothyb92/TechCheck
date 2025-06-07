@@ -11,7 +11,7 @@ import { Button } from '../../components/button/button.component';
 import { CharacterType, RankType, UserType } from '../../types/types';
 
 export const User = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, logout } = useContext(AuthContext);
   const [characters, setCharacters] = useState<CharacterType[]>([]);
   const [selectedChar, setSelectedChar] = useState<CharacterType | null>();
   const [ranks, setRanks] = useState<RankType[]>([]);
@@ -164,6 +164,9 @@ export const User = () => {
           }}
         >
           Update User
+        </Button>
+        <Button className="update-user-button logout-button" onClick={logout}>
+          Logout
         </Button>
         {/* </form> */}
       </div>

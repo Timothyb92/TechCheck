@@ -16,7 +16,8 @@ import { disconnectSocket, initializeSocket } from '../sockets/index';
 export const AuthContext = createContext<{
   user: UserType | null;
   setUser: Dispatch<SetStateAction<UserType | null>>;
-}>({ user: null, setUser: () => {} });
+  logout: () => void;
+}>({ user: null, setUser: () => {}, logout: () => {} });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
@@ -25,6 +26,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const getUser = async (userId: number): Promise<UserType> => {
       const response = await http.get<UserType>(`/api/users/${userId}`);
       return response.data;
+    };
+
+    const refreshAccessToken = async (): Promise<string | null> => {
+      try {
+        const response = await http.post<{ accessToken: string }>(
+          '/auth/refresh',
+          {},
+          { withCredentials: true }
+        );
+        const newToken = response.data.accessToken;
+        localStorage.setItem('token', newToken);
+        initializeSocket(newToken);
+        return newToken;
+      } catch (err) {
+        console.error('Failed to refresh access token:', err);
+        localStorage.removeItem('token');
+        setUser(null);
+        disconnectSocket();
+        return null;
+      }
     };
 
     const fetchAndSetUser = async () => {
@@ -43,14 +64,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (token) {
         initializeSocket(token);
-
         try {
           const decoded = jwtDecode<UserType>(token);
           const u = await getUser(decoded.id);
           setUser(u);
         } catch (err) {
           console.error('Failed to decode token or fetch user', err);
-          localStorage.removeItem('token');
+
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            const decoded = jwtDecode<UserType>(newToken);
+            const u = await getUser(decoded.id);
+            setUser(u);
+          }
         }
       } else {
         initializeSocket();
@@ -64,8 +90,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const logout = async () => {
+    try {
+      await http.post('/auth/logout', {}, { withCredentials: true });
+    } catch (err) {
+      console.warn('Logout failed, clearing locally', err);
+    }
+    localStorage.removeItem('token');
+    disconnectSocket();
+    setUser(null);
+    window.location.href = '/lobby';
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
