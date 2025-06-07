@@ -96,15 +96,15 @@ export const MatchCard = (match: MatchType) => {
           <div className="button-container">
             {matchActions?.map((action, index) => {
               return (
-                <>
-                  <Button
-                    key={index}
-                    onClick={action.onClick}
-                    className={`neon-button ${action.style}`}
-                  >
-                    {action.label}
-                  </Button>
-                </>
+                // <>
+                <Button
+                  key={index}
+                  onClick={action.onClick}
+                  className={`neon-button ${action.style}`}
+                >
+                  {action.label}
+                </Button>
+                // </>
               );
             })}
           </div>

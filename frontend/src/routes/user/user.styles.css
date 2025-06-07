@@ -47,8 +47,8 @@ label {
   font-size: 16px;
 }
 
-input,
-select {
+.user-settings input,
+.user-settings select {
   background-color: #242424;
   color: #eee;
   padding: 10px;
