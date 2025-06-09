@@ -25,16 +25,30 @@ export const Lobby = () => {
       return match.status === 'matched';
     }) || [];
 
+  const hasSettingSelected = !!(
+    user?.rankId &&
+    user.cfnName &&
+    user.mainCharacterId
+  );
+
   return (
     <>
       <div className="lobby-container">
         <h1 className="arcade-glow">Lobby</h1>
-        {user ? (
+        {user && hasSettingSelected ? (
           <Link to="/create">
-            <Button className="arcade-button">Create Match</Button>
+            <Button
+              className={`arcade-button ${
+                !user.canApplyJoin ? 'disabled open-match-disabled' : ''
+              }`}
+            >
+              Create Match
+            </Button>
           </Link>
         ) : (
-          <Button className="arcade-button disabled">Create Match</Button>
+          <Button className="arcade-button disabled login-disabled">
+            Create Match
+          </Button>
         )}
         <div className="lobby-section">
           <h2 className="lobby-section-title">Open Matches</h2>

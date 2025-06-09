@@ -96,7 +96,6 @@
 }
 
 .join-match-disabled::after {
-  content: '⚠️ You do not meet the Character or Rank requirements for this match';
   position: absolute;
   bottom: 120%;
   left: 50%;
@@ -111,6 +110,16 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1000;
+  border: 1px solid yellow;
+  box-shadow: 0 0 6px yellow;
+}
+
+.char-rank-disabled::after {
+  content: '⚠️ You do not meet the Character or Rank requirements for this match';
+}
+
+.match-disabled::after {
+  content: '⚠️ You already have an open match';
 }
 
 .join-match-disabled:hover::after {

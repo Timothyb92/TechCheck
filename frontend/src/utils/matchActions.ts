@@ -53,11 +53,17 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
   }
 
   if (isOpen && !isCreator && !isApplicant) {
-    if (!characterMatch || !rankMatch || !user.canApplyJoin) {
+    if (!user.canApplyJoin) {
       actions.push({
         label: 'Join Match',
         onClick: () => null,
-        style: 'join-match-disabled',
+        style: 'join-match-disabled match-disabled',
+      });
+    } else if (!characterMatch || !rankMatch) {
+      actions.push({
+        label: 'Join Match',
+        onClick: () => null,
+        style: 'join-match-disabled char-rank-disabled',
       });
     }
   }
