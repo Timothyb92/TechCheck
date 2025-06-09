@@ -44,20 +44,44 @@ export const getOneUser = async (id: number) => {
 };
 
 export const createUser = async (user: InferCreationAttributes<User>) => {
+  const {
+    id,
+    username,
+    email,
+    passwordHash,
+    rankId,
+    mainCharacterId,
+    avatar,
+    global_name,
+    locale,
+    cfnName,
+    deleted,
+    canApplyJoin,
+  } = user;
   return await User.findOrCreate({
     where: { id: user.id },
-    defaults: { ...user },
+    defaults: {
+      id,
+      username,
+      email,
+      passwordHash,
+      rankId,
+      mainCharacterId,
+      avatar,
+      global_name,
+      locale,
+      cfnName,
+      deleted,
+      canApplyJoin,
+    },
   });
 };
 
-// export const deleteUser = async (id: number) => {
-//   const user = await User.findByPk(id);
-//   if (!user) {
-//     throw new Error('User not found');
-//   }
-//   user.deleted = true;
-//   await user.save();
-//   return user;
+// export const createUser = async (user: InferCreationAttributes<User>) => {
+//   return await User.findCreateFind({
+//     where: { id: user.id },
+//     defaults: { ...user },
+//   });
 // };
 
 export const updateUser = async (id: number, updates: Updates) => {

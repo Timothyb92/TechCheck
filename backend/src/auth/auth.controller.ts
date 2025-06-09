@@ -25,7 +25,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
     const userId = +user.id;
 
     if (!JWT_SECRET || !JWT_REFRESH_SECRET) {
-      throw new Error(`Missint JWT env variables`);
+      throw new Error(`Missing JWT env variables`);
     }
 
     const payload = {
@@ -38,12 +38,6 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
     });
     const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
       expiresIn: '7d',
-    });
-
-    await RefreshToken.create({
-      userId: +user.id,
-      token: refreshToken,
-      expiresAt: new Date(Date.now() + REFRESH_TOKEN_EXPIRY_MS),
     });
 
     //! Look into httpCookie details and params
@@ -61,6 +55,12 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
+    });
+
+    await RefreshToken.create({
+      userId: +user.id,
+      token: refreshToken,
+      expiresAt: new Date(Date.now() + REFRESH_TOKEN_EXPIRY_MS),
     });
 
     return res.redirect(`${CLIENT_BASE_URL}/lobby?token=${accessToken}`);

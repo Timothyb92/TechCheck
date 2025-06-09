@@ -13,12 +13,12 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare username: string;
   declare email: string;
   declare passwordHash: string;
-  declare rankId: number;
-  declare mainCharacterId: number;
+  declare rankId: number | null;
+  declare mainCharacterId: number | null;
   declare avatar: string;
   declare global_name?: string;
   declare locale: string;
-  declare cfnName: CreationOptional<string>;
+  declare cfnName: CreationOptional<string> | null;
   declare deleted: boolean;
   declare canApplyJoin: boolean;
 }
@@ -46,10 +46,12 @@ User.init(
     rankId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
     },
     mainCharacterId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
     },
     avatar: {
       type: DataTypes.STRING,
@@ -66,6 +68,7 @@ User.init(
     cfnName: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: null,
     },
     deleted: {
       type: DataTypes.BOOLEAN,
