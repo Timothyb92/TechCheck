@@ -12,8 +12,10 @@ import {
 } from 'sequelize';
 
 type Updates = {
-  playerTwoId?: number;
-  characterTwoId?: number;
+  playerTwoId?: number | null;
+  characterTwoId?: number | null;
+  playerTwoCfn?: string | null;
+  applicantCharId?: number | null;
   status?: string;
 };
 
@@ -248,6 +250,44 @@ export const getAllMatchesByUser = async (userId: number) => {
       ],
     });
     return matches;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getActiveMatchesByUser = async (userId: number) => {
+  try {
+    const match = await Match.findOne({
+      where: {
+        [Op.or]: [{ playerOneId: userId }, { playerTwoId: userId }],
+        status: {
+          [Op.notIn]: ['cancelled', 'completed'],
+        },
+      },
+      include: [
+        {
+          model: Character,
+          as: 'characterOne',
+          attributes: ['name'],
+        },
+        {
+          model: Character,
+          as: 'characterTwo',
+          attributes: ['name'],
+        },
+        {
+          model: Rank,
+          as: 'minRank',
+          attributes: ['name', 'id'],
+        },
+        {
+          model: Rank,
+          as: 'maxRank',
+          attributes: ['name', 'id'],
+        },
+      ],
+    });
+    return match;
   } catch (err) {
     console.error(err);
   }

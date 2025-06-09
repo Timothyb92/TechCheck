@@ -5,8 +5,9 @@ import { ServerSocket } from './index';
 import {
   createMatch,
   updateMatch,
-  getAllOpenMatches,
   getOneMatch,
+  getAllOpenMatches,
+  getActiveMatchesByUser,
 } from '../services/matchServices';
 
 import { getOneUser, updateUser } from '../services/userServices';
@@ -21,6 +22,63 @@ const requireAuth = (socket: Socket, cb: () => void) => {
 
 export const matchSocket = (socket: Socket) => {
   const io = ServerSocket.getIO();
+
+  socket.on('user disconnecting', async () => {
+    try {
+      const userId = socket.data?.user?.id;
+      if (!userId) return;
+
+      const match = await getActiveMatchesByUser(userId);
+      if (!match) return;
+
+      const isPlayerOne = +match.playerOneId === userId;
+      const isPlayerTwo = match.playerTwoId && +match.playerTwoId === userId;
+
+      if (isPlayerOne) {
+        const cancelledMatch = await updateMatch(match.id, {
+          ...match,
+          status: 'cancelled',
+        });
+
+        await updateUser(userId, { canApplyJoin: true });
+
+        if (match.playerTwoId) {
+          const playerTwoSocketId =
+            ServerSocket.instance.userIdToSocketId[match.playerTwoId];
+          if (playerTwoSocketId) {
+            io.to(playerTwoSocketId).emit('user updated', {
+              canApplyJoin: true,
+            });
+          }
+        }
+
+        io.to(socket.id).emit('user updated', { canApplyJoin: true });
+        io.emit('match cancelled', cancelledMatch);
+      }
+
+      if (isPlayerTwo) {
+        const reopenedMatch = await updateMatch(match.id, {
+          ...match,
+          playerTwoId: null,
+          playerTwoCfn: null,
+          applicantCharId: null,
+          status: 'open',
+        });
+
+        await updateUser(userId, { canApplyJoin: true });
+
+        const playerTwoSocketId =
+          ServerSocket.instance.userIdToSocketId[userId];
+        if (playerTwoSocketId) {
+          io.to(playerTwoSocketId).emit('user updated', { canApplyJoin: true });
+        }
+
+        io.emit('match reopened', reopenedMatch);
+      }
+    } catch (err) {
+      console.error('Error handling user disconnect:', err);
+    }
+  });
 
   socket.on('create match', (match) => {
     requireAuth(socket, async () => {

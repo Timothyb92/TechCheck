@@ -11,15 +11,11 @@ export const getCustomRoomActions = (match: MatchType, user: UserType) => {
     customRoomActions.push(
       {
         label: 'Edit',
-        onClick: () => {
-          console.log('edit');
-        },
+        onClick: () => {},
       },
       {
         label: 'Copy',
-        onClick: () => {
-          console.log('p1 copy');
-        },
+        onClick: () => {},
       }
     );
   }
@@ -27,9 +23,7 @@ export const getCustomRoomActions = (match: MatchType, user: UserType) => {
   if (isPlayerTwo && matchStarted) {
     customRoomActions.push({
       label: 'Copy',
-      onClick: () => {
-        console.log('p2 copy');
-      },
+      onClick: () => {},
     });
   }
 
