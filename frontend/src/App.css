@@ -46,7 +46,7 @@ body {
   cursor: pointer;
 }
 
-.arcade-button.disabled {
+/* .arcade-button.disabled {
   position: relative;
   box-shadow: none;
   cursor: not-allowed;
@@ -74,4 +74,4 @@ body {
 
 .arcade-button.disabled:hover::after {
   display: block;
-}
+} */
