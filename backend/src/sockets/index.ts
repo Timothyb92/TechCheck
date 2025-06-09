@@ -97,7 +97,13 @@ export class ServerSocket {
     userSocket(socket);
 
     socket.on('disconnect', () => {
-      console.info(chalk.red('Disconnect received from ' + socket.id));
+      console.info(chalk.red('Disconnect received from socketId', socket.id));
+      console.info(
+        chalk.red(
+          'Disconnect received from userId',
+          this.socketIdToUserId[socket.id]
+        )
+      );
 
       const userId = this.socketIdToUserId[socket.id];
       if (userId) {

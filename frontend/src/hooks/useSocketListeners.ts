@@ -32,6 +32,11 @@ export const useSocketListeners = () => {
           });
         };
 
+        const handleBeforeUnload = () => {
+          socket.emit('user disconnecting');
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
         socket.on('match created', handleMatchCreated);
         socket.on('applied to match', handleUpdateMatch);
         socket.on('match reopened', handleUpdateMatch);
@@ -55,6 +60,9 @@ export const useSocketListeners = () => {
         socket.off('match started');
         socket.off('match cancelled');
         socket.off('user updated');
+        window.removeEventListener('beforeunload', () => {
+          socket.emit('user disconnecting');
+        });
       } catch {
         console.warn('Cleanup skipped: socket not ready yet');
       }
