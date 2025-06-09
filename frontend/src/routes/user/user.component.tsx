@@ -28,7 +28,8 @@ export const User = () => {
 
     const getRanks = async () => {
       const response = await http.get<RankType[]>(`/api/ranks`);
-      setRanks(response.data);
+      const ranksWithoutANy = response.data.filter((rank) => rank.id !== 1);
+      setRanks(ranksWithoutANy);
     };
 
     getRanks();
@@ -87,7 +88,6 @@ export const User = () => {
         </div>
       </div>
       <div className="user-settings">
-        {/* <form> */}
         <div className="user-settings-selection">
           <label htmlFor="cfnName">CFN Name</label>
           <input
@@ -168,7 +168,6 @@ export const User = () => {
         <Button className="update-user-button logout-button" onClick={logout}>
           Logout
         </Button>
-        {/* </form> */}
       </div>
     </div>
   );
