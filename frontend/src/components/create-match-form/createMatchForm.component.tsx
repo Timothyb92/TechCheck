@@ -85,7 +85,7 @@ export const CreateMatchForm = () => {
             name="min rank"
             id="min rank"
             onChange={(e) => {
-              const rankId = Number(e.target.value);
+              const rankId = Number(e.target.value) - 1;
               const rank = ranks.find((r) => r.id === rankId);
               if (!rank) return new Error('No min rank set');
               setMinRank(rank);
@@ -106,7 +106,7 @@ export const CreateMatchForm = () => {
             name="max rank"
             id="max rank"
             onChange={(e) => {
-              const rankId = Number(e.target.value);
+              const rankId = Number(e.target.value) - 1;
               const rank = ranks.find((r) => r.id === rankId);
               if (!rank) return new Error('No max rank set');
               setMaxRank(rank);
