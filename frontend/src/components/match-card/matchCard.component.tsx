@@ -29,7 +29,10 @@ export const MatchCard = (match: MatchType) => {
   return (
     <>
       <div
-        className={`match-card status-${match.status} ${
+        className={`
+          match-card ${
+            canViewCustomRoomId() && match.status === 'matched' ? 'alert' : ''
+          } ${
           user && match.status === 'pending' && match.playerOneId === user.id
             ? 'notice'
             : ''
@@ -67,7 +70,6 @@ export const MatchCard = (match: MatchType) => {
             <div className="player-two-img-cfn">
               <img
                 className="char-img img"
-                // src={getCharacterImage(match.characterTwoId!)}
                 src={
                   match.applicantCharId
                     ? getCharacterImage(match.applicantCharId)

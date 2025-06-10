@@ -46,32 +46,15 @@ body {
   cursor: pointer;
 }
 
-/* .arcade-button.disabled {
-  position: relative;
-  box-shadow: none;
-  cursor: not-allowed;
-  filter: brightness(0.7);
-}
+@media (max-width: 480px) {
+  .arcade-glow {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
 
-.arcade-button.disabled::after {
-  content: '⚠️ You must log in and set your Character, Rank, and CFN to create a match';
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(1, 1, 1, 1);
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-  display: none;
-  z-index: 1000;
-  border: 1px solid yellow;
-  box-shadow: 0 0 6px yellow;
+  .arcade-button {
+    padding: 8px 14px;
+    font-size: 14px;
+    gap: 6px;
+  }
 }
-
-.arcade-button.disabled:hover::after {
-  display: block;
-} */

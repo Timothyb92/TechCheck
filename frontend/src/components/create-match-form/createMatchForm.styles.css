@@ -116,3 +116,31 @@
 .create-match-button.disabled:hover::after {
   display: block;
 }
+
+/* ... existing styles ... */
+
+@media (max-width: 480px) {
+  .match-form-options,
+  .match-form-field,
+  .match-form-field-disabled,
+  .create-match-button {
+    width: 95%;
+  }
+
+  .form-item,
+  .form-item-warning {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .create-match-button {
+    padding: 8px 14px;
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  .create-match-button.disabled::after {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
