@@ -6,12 +6,5 @@ interface BubbleProps {
 }
 
 export const Bubble = ({ children, ...otherProps }: BubbleProps) => {
-  return (
-    // <>
-    //   <div {...otherProps}>
-    //     <span>{children}</span>
-    //   </div>
-    // </>
-    <span {...otherProps}>{children}</span>
-  );
+  return <span {...otherProps}>{children}</span>;
 };

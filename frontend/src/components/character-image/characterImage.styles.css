@@ -1,9 +1,0 @@
-.character-image {
-  height: 200px;
-}
-
-@media (max-width: 480px) {
-  .character-image {
-    height: 120px;
-  }
-}

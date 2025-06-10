@@ -1,7 +1,5 @@
 import Match from '../models/matches.model';
 
-// type MatchSeedData = Omit<Partial<Match>, 'id'> & { id?: number };
-
 const Matches = [
   {
     playerOneId: 1,

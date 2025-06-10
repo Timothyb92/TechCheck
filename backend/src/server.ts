@@ -23,10 +23,10 @@ new ServerSocket(httpServer);
 
 app.use(cors());
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(`[${req.method}] ${req.path}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.info(`[${req.method}] ${req.path}`);
+//   next();
+// });
 
 app.use('/api', api);
 app.use('/auth', auth);

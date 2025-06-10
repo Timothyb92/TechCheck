@@ -1,7 +1,5 @@
 import express from 'express';
 
-// import { authenticateJWT } from '../middleware/authenticateJWT';
-
 import {
   httpGetAllMatches,
   httpGetOneMatch,
@@ -21,8 +19,6 @@ matchRouter.route('/joined-by/:id').get(httpGetAllMatchesJoinedByUser);
 matchRouter.route('/all-by/:id').get(httpGetAllMatchesByUser);
 matchRouter.route('/all').get(httpGetAllMatches);
 matchRouter.route('/:id').get(httpGetOneMatch);
-
-// matchRouter.use(authenticateJWT);
 
 matchRouter.route('/').post(httpCreateMatch);
 matchRouter.route('/:id').put(httpUpdateMatch);

@@ -77,13 +77,6 @@ export const createUser = async (user: InferCreationAttributes<User>) => {
   });
 };
 
-// export const createUser = async (user: InferCreationAttributes<User>) => {
-//   return await User.findCreateFind({
-//     where: { id: user.id },
-//     defaults: { ...user },
-//   });
-// };
-
 export const updateUser = async (id: number, updates: Updates) => {
   const user = await getOneUser(id);
 

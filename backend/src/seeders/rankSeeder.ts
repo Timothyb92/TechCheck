@@ -42,10 +42,6 @@ const Ranks = [
   { id: 39, name: 'Grand Master' },
   { id: 40, name: 'Ultimate Master' },
   { id: 41, name: 'Legend' },
-  // { id: 42, name: 'Master 1600 - 1699 MR' },
-  // { id: 43, name: 'Master 1700 - 1799 MR' },
-  // { id: 44, name: 'Master 1800+ MR' },
-  // { id: 999, name: 'Any Rank' },
 ];
 
 export const seedRanks = async () => {

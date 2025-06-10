@@ -8,6 +8,16 @@ body {
   color: rgba(255, 255, 255, 0.87);
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.main-content {
+  flex: 1;
+}
+
 .arcade-glow {
   font-family: 'Press Start 2P', cursive;
   font-size: 24px;
