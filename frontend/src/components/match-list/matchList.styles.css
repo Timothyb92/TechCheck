@@ -4,3 +4,9 @@
   align-items: center;
   width: 80%;
 }
+
+@media (max-width: 480px) {
+  .match-list-container {
+    width: 95%;
+  }
+}
