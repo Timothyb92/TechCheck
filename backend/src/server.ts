@@ -34,7 +34,7 @@ app.use('/auth', auth);
 setupAssociations();
 
 sequelize
-  .sync({ force: true, logging: false })
+  .sync()
   .then(async () => {
     seedTables();
   })
