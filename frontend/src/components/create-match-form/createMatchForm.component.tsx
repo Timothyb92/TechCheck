@@ -145,8 +145,6 @@ export const CreateMatchForm = () => {
                   return new Error('Missing Custom Room ID');
                 }
           }
-          // onClick={() => {
-          // }}
         >
           Create Match
         </Button>

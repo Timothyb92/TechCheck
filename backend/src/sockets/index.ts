@@ -87,24 +87,12 @@ export class ServerSocket {
     if (user?.id) {
       this.userIdToSocketId[user.id] = socket.id;
       this.socketIdToUserId[socket.id] = user.id;
-
-      console.info(
-        chalk.yellow(`User ${user.id} mapped to socket ${socket.id}`)
-      );
     }
 
     matchSocket(socket);
     userSocket(socket);
 
     socket.on('disconnect', () => {
-      console.info(chalk.red('Disconnect received from socketId', socket.id));
-      console.info(
-        chalk.red(
-          'Disconnect received from userId',
-          this.socketIdToUserId[socket.id]
-        )
-      );
-
       const userId = this.socketIdToUserId[socket.id];
       if (userId) {
         delete this.userIdToSocketId[userId];

@@ -114,7 +114,6 @@ export const MatchCard = (match: MatchType) => {
           <div className="button-container">
             {matchActions?.map((action, index) => {
               return (
-                // <>
                 <Button
                   key={index}
                   onClick={action.onClick}
@@ -122,7 +121,6 @@ export const MatchCard = (match: MatchType) => {
                 >
                   {action.label}
                 </Button>
-                // </>
               );
             })}
           </div>

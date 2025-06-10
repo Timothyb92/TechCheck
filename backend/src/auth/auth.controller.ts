@@ -40,7 +40,6 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       expiresIn: '7d',
     });
 
-    //! Look into httpCookie details and params
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -48,7 +47,6 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       maxAge: REFRESH_TOKEN_EXPIRY_MS,
     });
 
-    //TODO Change from fetch request to using the internal service to add user to db
     await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: {
@@ -100,7 +98,7 @@ export const httpRefreshToken = async (req: Request, res: Response) => {
     console.error('Token refresh failed', err);
     return res
       .status(403)
-      .json({ mesasge: 'Refresh token expired or invalid' });
+      .json({ message: 'Refresh token expired or invalid' });
   }
 };
 
