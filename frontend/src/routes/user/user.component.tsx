@@ -7,6 +7,7 @@ import './user.styles.css';
 import { AuthContext } from '../../contexts/auth.context';
 import { getCharacterImage, getRankImage } from '../../utils/getImages';
 import { Button } from '../../components/button/button.component';
+import { CharacterList } from '../../components/character-list/characterList.component';
 
 import { CharacterType, RankType, UserType } from '../../types/types';
 
@@ -102,22 +103,16 @@ export const User = () => {
 
         <div className="user-settings-selection">
           <label htmlFor="characters">Select Your Character</label>
-          <select
-            name="characters"
-            id="characters"
-            value={selectedChar?.id ?? ''}
-            onChange={(e) => {
+          <CharacterList
+            characters={characters}
+            options={{ showAnyCharacter: false }}
+            selectedChar={selectedChar}
+            onChangeCallback={(e) => {
               const charId = Number(e.target.value);
               const char = characters.find((c) => c.id === charId);
               setSelectedChar(char || null);
             }}
-          >
-            {characters.map((char) => (
-              <option key={char.id} value={char.id}>
-                {char.name}
-              </option>
-            ))}
-          </select>
+          ></CharacterList>
         </div>
 
         <div className="user-settings-selection">

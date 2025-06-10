@@ -5,6 +5,7 @@ import { http } from '../../api';
 import './createMatchForm.styles.css';
 
 import { Button } from '../button/button.component';
+import { CharacterList } from '../character-list/characterList.component';
 
 import { emitCreateMatch } from '../../sockets/clientMatchSockets';
 import { AuthContext } from '../../contexts/auth.context';
@@ -64,22 +65,17 @@ export const CreateMatchForm = () => {
 
         <div className="match-form-field">
           <label htmlFor="characters">Select Opponent Character</label>
-          <select
+          <CharacterList
+            characters={characters}
             className="form-item"
-            name="characters"
-            id="characters"
-            onChange={(e) => {
+            options={{ showAnyCharacter: true }}
+            selectedChar={selectedChar}
+            onChangeCallback={(e) => {
               const charId = Number(e.target.value);
               const char = characters.find((c) => c.id === charId);
               setSelectedChar(char || null);
             }}
-          >
-            {characters.map((char) => (
-              <option key={char.id} value={char.id}>
-                {char.name}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className="match-form-field">
