@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 
 import { sequelize } from './models';
 import { seedTables } from './seeders/seeders';
@@ -11,7 +12,7 @@ import { setupAssociations } from './models/associations';
 import { ServerSocket } from './sockets';
 
 import api from './routes/api';
-import auth from './routes/auth';
+import authRouter from './auth/auth.routes';
 
 dotenv.config({ path: path.resolve(__dirname, '/backend/.env') });
 
@@ -22,15 +23,28 @@ const isDev = process.env.NODE_ENV === 'development';
 
 new ServerSocket(httpServer);
 
-app.use(cors());
-app.use(express.json());
-// app.use((req, res, next) => {
-//   console.info(`[${req.method}] ${req.path}`);
-//   next();
-// });
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? 'https://www.techcheck.gg'
+        : process.env.CLIENT_BASE_URL,
+    credentials: true,
+  })
+);
 
+app.use(express.json());
+
+if (isDev) {
+  app.use((req, res, next) => {
+    console.info(`[${req.method}] ${req.path}`);
+    next();
+  });
+}
+
+app.use(cookieParser());
 app.use('/api', api);
-app.use('/auth', auth);
+app.use('/api/auth', authRouter);
 
 setupAssociations();
 

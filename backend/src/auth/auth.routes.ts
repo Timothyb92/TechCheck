@@ -2,10 +2,11 @@ import express from 'express';
 
 import { httpDiscAuth, httpRefreshToken, httpLogout } from './auth.controller';
 
-const discAuthRouter = express.Router();
+const authRouter = express.Router();
 
-discAuthRouter.route('/callback').get(httpDiscAuth);
-discAuthRouter.post('/refresh', httpRefreshToken);
-discAuthRouter.post('/logout', httpLogout);
+authRouter.get('/discord/callback', httpDiscAuth);
 
-export default discAuthRouter;
+authRouter.post('/refresh', httpRefreshToken);
+authRouter.post('/logout', httpLogout);
+
+export default authRouter;

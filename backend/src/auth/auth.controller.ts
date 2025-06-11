@@ -8,10 +8,17 @@ import {
   JWT_REFRESH_SECRET,
   API_BASE_URL,
   CLIENT_BASE_URL,
+  NODE_ENV,
 } from '../config/env';
 
-const ACCESS_TOKEN_EXPIRY = '15m';
+const ACCESS_TOKEN_EXPIRY = NODE_ENV === 'development' ? '30s' : '15m';
 const REFRESH_TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+interface JwtPayload {
+  id: string;
+  cfnName?: string;
+  exp?: number;
+}
 
 export const httpDiscAuth = async (req: Request, res: Response) => {
   try {
@@ -28,7 +35,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       throw new Error(`Missing JWT env variables`);
     }
 
-    const payload = {
+    const payload: JwtPayload = {
       id: user.id,
       cfnName: user.cfnName,
     };
@@ -45,6 +52,7 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: REFRESH_TOKEN_EXPIRY_MS,
+      path: '/',
     });
 
     await fetch(`${API_BASE_URL}/api/users`, {
@@ -89,7 +97,12 @@ export const httpRefreshToken = async (req: Request, res: Response) => {
     if (!stored)
       return res.status(403).json({ message: 'Invalid refresh token' });
 
-    const newAccessToken = jwt.sign(payload, JWT_SECRET!, {
+    const newPayload = {
+      id: payload.id,
+      cfnName: payload.cfnName,
+    };
+
+    const newAccessToken = jwt.sign(newPayload, JWT_SECRET!, {
       expiresIn: ACCESS_TOKEN_EXPIRY,
     });
 
