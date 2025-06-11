@@ -49,7 +49,11 @@ export const MatchCard = (match: MatchType) => {
               <div className="rank-center">
                 <img
                   className="rank-img img"
-                  src={getRankImage(2)}
+                  src={getRankImage(
+                    match.player1 && match.player1.rankId !== undefined
+                      ? match.player1.rankId
+                      : 50
+                  )}
                   alt="Player 1 rank"
                 />
               </div>

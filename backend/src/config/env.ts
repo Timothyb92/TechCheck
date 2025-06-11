@@ -14,3 +14,4 @@ export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 export const API_BASE_URL = process.env.API_BASE_URL;
 export const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL;
 export const CLIENT_BUILD_URL = process.env.CLIENT_BUILD_URL;
+export const NODE_ENV = process.env.NODE_ENV;
