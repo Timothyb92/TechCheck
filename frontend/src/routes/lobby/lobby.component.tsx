@@ -34,6 +34,17 @@ export const Lobby = () => {
   return (
     <>
       <div className="lobby-container">
+        <div className="cta">
+          <p>
+            TechCheck helps Street Fighter 6 players connect based on rank and
+            main character, so you can practice specific match-ups and improve
+            faster.
+          </p>
+          <p>
+            Choose your main, set your rank, and find the right sparring partner
+            in seconds.
+          </p>
+        </div>
         <h1 className="arcade-glow">Lobby</h1>
         {user && hasSettingSelected ? (
           <Link to="/create">
