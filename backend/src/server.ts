@@ -18,6 +18,7 @@ dotenv.config({ path: path.resolve(__dirname, '/backend/.env') });
 const app = express();
 const httpServer = http.createServer(app);
 const PORT: number = Number(process.env.PORT) || 8000;
+const isDev = process.env.NODE_ENV === 'development';
 
 new ServerSocket(httpServer);
 
@@ -34,7 +35,7 @@ app.use('/auth', auth);
 setupAssociations();
 
 sequelize
-  .sync()
+  .sync({ force: isDev })
   .then(async () => {
     seedTables();
   })

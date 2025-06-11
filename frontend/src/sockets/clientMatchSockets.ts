@@ -20,6 +20,7 @@ export const emitCreateMatch = (
     characterTwoId,
     minRankId,
     maxRankId,
+    player1: { rankId: user.rankId },
   };
   try {
     socket.emit('create match', match);

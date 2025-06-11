@@ -87,8 +87,13 @@ export const matchSocket = (socket: Socket) => {
         const newMatch = await createMatch(match);
         await updateUser(user!.id, { canApplyJoin: false });
 
+        const createdMatch = {
+          ...newMatch?.get({ plain: true }),
+          player1: match.player1,
+        };
+
         io.to(socket.id).emit('user updated', { canApplyJoin: false });
-        io.emit('match created', newMatch);
+        io.emit('match created', createdMatch);
       } catch (err) {
         console.error(`Error creating match: ${err}`);
       }
