@@ -27,7 +27,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === 'production'
-        ? 'https://www.techcheck.gg'
+        ? ['https://www.techcheck.gg', 'https://techcheck.gg']
         : process.env.CLIENT_BASE_URL,
     credentials: true,
   })
