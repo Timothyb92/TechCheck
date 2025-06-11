@@ -129,6 +129,30 @@ export const getOneMatch = async (matchId: number) => {
         as: 'maxRank',
         attributes: ['name', 'id'],
       },
+      {
+        model: User,
+        as: 'player1',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+        ],
+      },
+      {
+        model: User,
+        as: 'player2',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+        ],
+      },
     ],
   });
 };
