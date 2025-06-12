@@ -51,6 +51,8 @@ export const httpDiscAuth = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      domain:
+        process.env.NODE_ENV === 'production' ? '.techcheck.gg' : undefined,
       maxAge: REFRESH_TOKEN_EXPIRY_MS,
       path: '/',
     });
