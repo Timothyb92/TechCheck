@@ -25,6 +25,14 @@ export const getAllUsers = async () => {
         attributes: ['name', 'id'],
       },
     ],
+    attributes: [
+      'id',
+      'rankId',
+      'mainCharacterId',
+      'cfnName',
+      'locale',
+      'canApplyJoin',
+    ],
   });
 };
 
@@ -39,6 +47,14 @@ export const getOneUser = async (id: number) => {
         model: Character,
         attributes: ['name'],
       },
+    ],
+    attributes: [
+      'id',
+      'rankId',
+      'mainCharacterId',
+      'cfnName',
+      'locale',
+      'canApplyJoin',
     ],
   });
 };
