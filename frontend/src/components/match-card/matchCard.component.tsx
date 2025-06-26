@@ -27,7 +27,7 @@ export const MatchCard = (match: MatchType) => {
   return (
     <>
       <div
-        className={`relative z-[1] my-2 flex w-full flex-col items-center justify-center rounded-sm border border-[#bb55ff] bg-gradient-to-r from-[#8f008f] via-[#2d0072] to-[#8f008f] px-0 py-4 text-white transition-shadow before:absolute before:inset-[-4px] before:rounded before:bg-[radial-gradient(ellipse_at_center,transparent_80%)] before:opacity-0 before:blur hover:shadow-[0_0_8px_#cc66ff,0_0_16px_#cc66ff,0_0_24px_#cc66ff] hover:before:opacity-100 sm:p-4 ${
+        className={`relative z-[1] my-2 mb-6 flex w-full flex-col items-center justify-center rounded-sm border border-[#bb55ff] bg-gradient-to-r from-[#8f008f] via-[#2d0072] to-[#8f008f] px-0 py-4 text-white transition-shadow before:absolute before:inset-[-4px] before:rounded before:bg-[radial-gradient(ellipse_at_center,transparent_80%)] before:opacity-0 before:blur hover:shadow-[0_0_8px_#cc66ff,0_0_16px_#cc66ff,0_0_24px_#cc66ff] hover:before:opacity-100 sm:p-4 ${
           canViewCustomRoomId() && match.status === 'matched' ? 'alert' : ''
         } ${
           user && match.status === 'pending' && match.playerOneId === user.id
