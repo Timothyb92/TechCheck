@@ -1,4 +1,4 @@
-.lobby-section {
+/* .lobby-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,4 +84,4 @@
 
 .disabled:hover::after {
   display: block;
-}
+} */

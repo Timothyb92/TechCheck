@@ -1,4 +1,102 @@
-:root {
+@import 'tailwindcss';
+
+.arcade-glow {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: transparent;
+  background-color: #242424;
+  display: block;
+  line-height: 1;
+  margin: 0;
+
+  -webkit-text-stroke: 1px white;
+
+  text-shadow:
+    0 0 4px #8f00ff,
+    0 0 8px #8f00ff,
+    0 0 16px #8f00ff,
+    0 0 24px #8f00ff;
+}
+
+.arcade-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(to bottom, #8f00ff, #5e00aa);
+  border: 2px solid #d1a3ff;
+  border-radius: 6px;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow:
+    inset 0 1px 0 #ffffff88,
+    0 0 6px #8f00ff,
+    0 0 12px #8f00ff,
+    0 0 24px #8f00ff;
+
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+
+.arcade-button:hover {
+  box-shadow:
+    inset 0 1px 0 #ffffffaa,
+    0 0 8px #8f00ff,
+    0 0 16px #8f00ff,
+    0 0 32px #8f00ff;
+  cursor: pointer;
+}
+
+.disabled {
+  position: relative;
+  box-shadow: none;
+  cursor: not-allowed;
+  filter: brightness(0.7);
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  cursor: not-allowed;
+}
+
+.disabled * {
+  cursor: not-allowed;
+}
+
+.disabled::after {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(1, 1, 1, 1);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: none;
+  z-index: 1000;
+  border: 1px solid yellow;
+  box-shadow: 0 0 6px yellow;
+}
+
+.login-disabled::after {
+  content: '⚠️ You must log in and set your Character, Rank, and CFN to create a match';
+}
+
+.open-match-disabled::after {
+  content: '⚠️ You already have an open match';
+}
+
+.disabled:hover::after {
+  display: block;
+}
+
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -85,7 +183,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* ✅ Mobile Responsiveness */
 @media (max-width: 480px) {
   h1 {
     font-size: 2em;
@@ -100,4 +197,4 @@ button:focus-visible {
     flex-direction: column;
     padding: 1rem;
   }
-}
+} */

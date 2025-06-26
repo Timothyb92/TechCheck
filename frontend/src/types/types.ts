@@ -52,4 +52,6 @@ export interface MatchAction {
   label: string;
   onClick: () => void;
   style?: string;
+  variant: string;
+  tooltip?: string;
 }

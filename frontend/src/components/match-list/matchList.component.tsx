@@ -11,7 +11,7 @@ interface MatchListProps {
 export const MatchList = ({ matches }: MatchListProps) => {
   return (
     <>
-      <div className="match-list-container">
+      <div className="mt-5 flex w-full flex-col">
         {matches ? (
           matches.map((match) => {
             if (match.status !== 'cancelled' && match.status !== 'completed') {

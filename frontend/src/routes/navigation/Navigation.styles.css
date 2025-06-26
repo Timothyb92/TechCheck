@@ -1,4 +1,4 @@
-.nav-container {
+/* .nav-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -43,12 +43,7 @@
   color: white;
 }
 
-/* .user-settings-button {
-  background-color: #b23b89;
-  color: #f8f1f5;
-} */
-
 .discord-icon {
   width: 20px;
   height: 20px;
-}
+} */
