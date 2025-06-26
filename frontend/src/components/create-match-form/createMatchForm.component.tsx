@@ -27,6 +27,13 @@ export const CreateMatchForm = () => {
     name: 'Any Character',
   });
 
+  const styles = {
+    formItem:
+      'w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]',
+    formItemWarning:
+      'w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_red,0_0_6px_red,0_0_12px_red]',
+  };
+
   const navigate = useNavigate();
 
   const roomIdExists = roomId.length > 0;
@@ -47,14 +54,17 @@ export const CreateMatchForm = () => {
   }, []);
 
   return (
-    <div className="match-form-container">
+    <div className="my-6 flex w-[95%] flex-col items-center justify-center sm:w-[80%]">
       <h1 className="arcade-glow">Create Match</h1>
-      <div className="match-form-options">
-        <div className="match-form-field">
-          <label htmlFor="Custom Room ID">Room ID</label>
-          <span className="required">Required</span>
+
+      <div className="flex w-full flex-col items-start">
+        <div className="my-6 flex w-full flex-col items-start gap-4">
+          <label htmlFor="Custom Room ID" className="text-[20px] font-bold">
+            Room ID
+          </label>
+          <span className="text-sm text-[#a4a4a4]">Required</span>
           <input
-            className={roomIdExists ? 'form-item' : 'form-item-warning'}
+            className={roomIdExists ? styles.formItem : styles.formItemWarning}
             type="text"
             name="Custom Room ID"
             required
@@ -63,11 +73,13 @@ export const CreateMatchForm = () => {
           />
         </div>
 
-        <div className="match-form-field">
-          <label htmlFor="characters">Select Opponent Character</label>
+        <div className="my-6 flex w-full flex-col items-start gap-4">
+          <label htmlFor="characters" className="text-[20px] font-bold">
+            Select Opponent Character
+          </label>
           <CharacterList
             characters={characters}
-            className="form-item"
+            className={styles.formItem}
             options={{ showAnyCharacter: true }}
             selectedChar={selectedChar}
             onChangeCallback={(e) => {
@@ -78,10 +90,12 @@ export const CreateMatchForm = () => {
           />
         </div>
 
-        <div className="match-form-field">
-          <label htmlFor="min rank">Minimum Rank Requirement</label>
+        <div className="my-6 flex w-full flex-col items-start gap-4">
+          <label htmlFor="min rank" className="text-[20px] font-bold">
+            Minimum Rank Requirement
+          </label>
           <select
-            className="form-item"
+            className={styles.formItem}
             name="min rank"
             id="min rank"
             onChange={(e) => {
@@ -99,10 +113,12 @@ export const CreateMatchForm = () => {
           </select>
         </div>
 
-        <div className="match-form-field">
-          <label htmlFor="max rank">Maximum Rank Requirement</label>
+        <div className="my-6 flex w-full flex-col items-start gap-4">
+          <label htmlFor="max rank" className="text-[20px] font-bold">
+            Maximum Rank Requirement
+          </label>
           <select
-            className="form-item"
+            className={styles.formItem}
             name="max rank"
             id="max rank"
             onChange={(e) => {
@@ -121,7 +137,7 @@ export const CreateMatchForm = () => {
         </div>
 
         <Button
-          className={`create-match-button ${roomIdExists ? '' : 'disabled'}`}
+          className={`arcade-button mt-4 w-full items-center justify-center text-center ${roomIdExists ? '' : 'disabled'}`}
           onClick={
             roomIdExists
               ? () => {

@@ -1,7 +1,5 @@
 import { FaEnvelope } from 'react-icons/fa';
 
-import './footer.styles.css';
-
 export const Footer = () => {
   return (
     <footer className="mt-8 flex w-full flex-col items-center justify-center gap-3 border-t border-[#334155] bg-[#0f172a] py-6 text-sm text-[#d1d5db] sm:flex-row sm:gap-20">

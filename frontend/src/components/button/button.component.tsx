@@ -15,7 +15,6 @@ interface ButtonProps {
     | 'complete'
     | 'disabled'
     | string;
-  tooltip?: string;
   [key: string]: unknown;
 }
 
@@ -30,7 +29,7 @@ const variantMap: Record<NonNullable<ButtonProps['variant']>, string> = {
   complete:
     'bg-[#9518e0] border border-[#cc66ff] hover:shadow-[inset_0_1px_0_#a117f4,0_0_8px_#a117f4,0_0_16px_#a117f4]',
   disabled:
-    'bg-[#2d5f2f] text-[#ccc] border border-[#3a6d3d] cursor-not-allowed pointer-events-none',
+    'bg-[#2d5f2f] text-[#ccc] border border-[#3a6d3d] cursor-not-allowed',
 };
 
 export const Button = ({
@@ -38,7 +37,6 @@ export const Button = ({
   onClick,
   className,
   variant,
-  tooltip,
   ...otherProps
 }: ButtonProps) => {
   const variantClasses = variant ? variantMap[variant] : '';
@@ -46,25 +44,10 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className={clsx(
-        'neon-button',
-        className,
-        variantClasses,
-        variant === 'disabled' && 'join-match-disabled'
-      )}
+      className={clsx('neon-button', className, variantClasses)}
       {...otherProps}
     >
       {children}
-      {variant === 'disabled' && tooltip && (
-        <span
-          className={clsx('tooltip', {
-            'char-rank-disabled': tooltip.includes('Character'),
-            'match-disabled': tooltip.includes('open match'),
-          })}
-        >
-          {tooltip}
-        </span>
-      )}
     </button>
   );
 };

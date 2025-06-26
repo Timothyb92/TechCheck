@@ -8,8 +8,6 @@ import { Button } from '../button/button.component';
 
 import { AuthContext } from '../../contexts/auth.context';
 
-import './matchCard.styles.css';
-
 export const MatchCard = (match: MatchType) => {
   const { user } = useContext(AuthContext);
   const matchActions = getMatchActions(match, user as UserType);
@@ -94,7 +92,7 @@ export const MatchCard = (match: MatchType) => {
                 <Button
                   key={index}
                   onClick={action.onClick}
-                  className="neon-button mb-2 cursor-pointer rounded-md py-1 font-semibold text-white"
+                  className={`${action.style} neon-button mb-2 cursor-pointer rounded-md py-1 font-semibold text-white sm:px-2`}
                   variant={action.variant}
                   tooltip={action.tooltip}
                 >

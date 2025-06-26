@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import './lobby.styles.css';
-
 import { MatchList } from '../../components/match-list/matchList.component';
 import { Button } from '../../components/button/button.component';
 

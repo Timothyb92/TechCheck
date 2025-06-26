@@ -56,10 +56,3 @@
 .join-match-disabled:hover::after {
   opacity: 1;
 }
-
-@media (max-width: 480px) {
-  .join-match-disabled::after {
-    font-size: 10px;
-    padding: 4px 6px;
-  }
-}

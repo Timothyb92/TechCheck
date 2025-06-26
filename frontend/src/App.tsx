@@ -1,7 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 
-import './App.css';
-
 import { Navigation } from './routes/navigation/Navigation.component';
 import { Lobby } from './routes/lobby/lobby.component';
 import { CreateMatchForm } from './components/create-match-form/createMatchForm.component';

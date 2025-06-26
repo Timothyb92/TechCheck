@@ -6,8 +6,6 @@ import { AuthContext } from '../../contexts/auth.context';
 import { getAuthUrl, VITEurl } from '../../utils/getAuthUrl';
 import { Button } from '../../components/button/button.component';
 
-import './Navigation.styles.css';
-
 export const Navigation = () => {
   const { user } = useContext(AuthContext);
 

@@ -59,7 +59,7 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
       actions.push({
         label: 'Join Match',
         onClick: () => null,
-        // style: 'join-match-disabled match-disabled',
+        style: 'join-match-disabled match-disabled',
         variant: 'disabled',
         tooltip: '⚠️ You already have an open match',
       });
@@ -67,8 +67,8 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
       actions.push({
         label: 'Join Match',
         onClick: () => null,
-        // style: 'join-match-disabled char-rank-disabled',
-        variant: 'join',
+        style: 'join-match-disabled char-rank-disabled',
+        variant: 'disabled',
         tooltip:
           '⚠️ You do not meet the Character or Rank requirements for this match',
       });
