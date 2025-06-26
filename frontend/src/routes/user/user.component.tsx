@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { http } from '../../api';
 
-import './user.styles.css';
-
 import { AuthContext } from '../../contexts/auth.context';
 import { getCharacterImage, getRankImage } from '../../utils/getImages';
 import { Button } from '../../components/button/button.component';
@@ -63,15 +61,15 @@ export const User = () => {
   };
 
   return (
-    <div className="user-settings-container">
+    <div className="my-6 flex w-[95%] flex-col items-center justify-center sm:w-[80%]">
       <h1 className="arcade-glow">User Settings</h1>
-      <div className="current-settings">
-        <h2 className="username">
+      <div className="my-6 flex flex-col items-center gap-2">
+        <h2 className="text-2xl font-bold">
           {user.cfnName ? user.cfnName : 'New Challenger'}
         </h2>
-        <div className="name-rank-char">
+        <div className="flex flex-row items-center gap-8">
           <img
-            className="selected-char-img"
+            className="h-24"
             src={
               selectedChar
                 ? getCharacterImage(selectedChar.id)
@@ -80,7 +78,7 @@ export const User = () => {
             alt="Selected Character"
           />
           <img
-            className="selected-rank-img"
+            className="h-20"
             src={
               selectedRank ? getRankImage(selectedRank.id) : getRankImage(50)
             }
@@ -88,9 +86,12 @@ export const User = () => {
           />
         </div>
       </div>
-      <div className="user-settings">
-        <div className="user-settings-selection">
-          <label htmlFor="cfnName">CFN Name</label>
+
+      <div className="flex w-[80%] flex-col items-start gap-6">
+        <div className="flex w-full flex-col items-start gap-2">
+          <label htmlFor="cfnName" className="text-2xl font-bold">
+            CFN Name
+          </label>
           <input
             type="text"
             id="cfnName"
@@ -98,15 +99,19 @@ export const User = () => {
             required
             value={cfnName}
             onChange={(e) => setCfnName(e.target.value)}
+            className="w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]"
           />
         </div>
 
-        <div className="user-settings-selection">
-          <label htmlFor="characters">Select Your Character</label>
+        <div className="flex w-full flex-col items-start gap-2">
+          <label htmlFor="characters" className="text-2xl font-bold">
+            Select Your Character
+          </label>
           <CharacterList
             characters={characters}
             options={{ showAnyCharacter: false }}
             selectedChar={selectedChar}
+            className="w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]"
             onChangeCallback={(e) => {
               const charId = Number(e.target.value);
               const char = characters.find((c) => c.id === charId);
@@ -115,12 +120,15 @@ export const User = () => {
           ></CharacterList>
         </div>
 
-        <div className="user-settings-selection">
-          <label htmlFor="ranks">Select Your Rank</label>
+        <div className="flex w-full flex-col items-start gap-2">
+          <label htmlFor="ranks" className="text-2xl font-bold">
+            Select Your Rank
+          </label>
           <select
             name="ranks"
             id="ranks"
             value={selectedRank?.id ?? ''}
+            className="w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]"
             onChange={(e) => {
               const rankId = Number(e.target.value);
               const rank = ranks.find((r) => r.id === rankId);
@@ -137,9 +145,11 @@ export const User = () => {
             })}
           </select>
         </div>
+      </div>
 
+      <div className="my-6 flex w-[80%] flex-col items-center gap-6">
         <Button
-          className="update-user-button arcade-button"
+          className="arcade-button flex w-full items-center justify-center text-xl font-bold text-white"
           type="button"
           onClick={async () => {
             if (!selectedChar || !selectedRank || !cfnName) {
@@ -160,7 +170,10 @@ export const User = () => {
         >
           Update User
         </Button>
-        <Button className="update-user-button logout-button" onClick={logout}>
+        <Button
+          className="flex w-full items-center justify-center rounded-md border-2 border-[#ff4d6d] bg-gradient-to-b from-[#e20000] to-[#b10000] px-4 py-2 text-xl font-bold text-white shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#ff1a1a,0_0_12px_#ff1a1a,0_0_24px_#ff1a1a] transition-shadow duration-200 text-shadow-lg hover:shadow-[inset_0_1px_0_#ffffffaa,0_0_8px_#ff3333,0_0_16px_#ff3333,0_0_32px_#ff3333]"
+          onClick={logout}
+        >
           Logout
         </Button>
       </div>

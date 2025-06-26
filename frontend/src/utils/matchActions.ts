@@ -32,7 +32,8 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Match',
       onClick: () => emitCancelMatch(match),
-      style: 'cancel-match',
+      // style: 'cancel-match',
+      variant: 'cancel',
     });
   }
 
@@ -48,7 +49,8 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Join Match',
       onClick: () => emitApplyToMatch(match),
-      style: 'join-match',
+      // style: 'join-match',
+      variant: 'join',
     });
   }
 
@@ -58,12 +60,17 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
         label: 'Join Match',
         onClick: () => null,
         style: 'join-match-disabled match-disabled',
+        variant: 'disabled',
+        tooltip: '⚠️ You already have an open match',
       });
     } else if (!characterMatch || !rankMatch) {
       actions.push({
         label: 'Join Match',
         onClick: () => null,
         style: 'join-match-disabled char-rank-disabled',
+        variant: 'disabled',
+        tooltip:
+          '⚠️ You do not meet the Character or Rank requirements for this match',
       });
     }
   }
@@ -72,7 +79,8 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Join',
       onClick: () => emitReopenMatch(match),
-      style: 'cancel-join',
+      // style: 'cancel-join',
+      variant: 'cancel',
     });
   }
 
@@ -81,12 +89,14 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
       {
         label: 'Accept',
         onClick: () => emitStartMatch(match),
-        style: 'accept-match',
+        // style: 'accept-match',
+        variant: 'accept',
       },
       {
         label: 'Decline',
         onClick: () => emitReopenMatch(match),
-        style: 'decline-match',
+        // style: 'decline-match',
+        variant: 'decline',
       }
       //! Future feature
       // {
@@ -101,7 +111,8 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Complete Match',
       onClick: () => emitCancelMatch(match),
-      style: 'complete-match',
+      // style: 'complete-match',
+      variant: 'complete',
     });
   }
 

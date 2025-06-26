@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import './lobby.styles.css';
-
 import { MatchList } from '../../components/match-list/matchList.component';
 import { Button } from '../../components/button/button.component';
 
@@ -33,9 +31,9 @@ export const Lobby = () => {
 
   return (
     <>
-      <div className="lobby-container">
-        <div className="cta">
-          <p>
+      <div className="w-[95%] sm:w-[80%]">
+        <div className="mb-6 text-[16px] sm:text-[20px]">
+          <p className="py-8">
             TechCheck helps Street Fighter 6 players connect based on rank and
             main character, so you can practice specific match-ups and improve
             faster.
@@ -45,11 +43,11 @@ export const Lobby = () => {
             in seconds.
           </p>
         </div>
-        <h1 className="arcade-glow">Lobby</h1>
+        <h1 className="arcade-glow py-5">Lobby</h1>
         {user && hasSettingSelected ? (
           <Link to="/create">
             <Button
-              className={`arcade-button ${
+              className={`arcade-button mb-8 ${
                 !user.canApplyJoin ? 'disabled open-match-disabled' : ''
               }`}
             >
@@ -57,16 +55,24 @@ export const Lobby = () => {
             </Button>
           </Link>
         ) : (
-          <Button className="arcade-button disabled login-disabled">
+          <Button className="arcade-button disabled login-disabled mb-8">
             Create Match
           </Button>
         )}
-        <div className="lobby-section">
-          <h2 className="lobby-section-title">Open Matches</h2>
+
+        <div className="mb-10">
+          <div className="relative inline-block">
+            <h2 className="pb-2 text-3xl font-bold">Open Matches</h2>
+            <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white shadow-[0_0_4px_#8f00ff,0_0_8px_#8f00ff,0_0_16px_#8f00ff,0_0_24px_#8f00ff]"></div>
+          </div>
           <MatchList matches={openMatches} />
         </div>
-        <div className="lobby-section">
-          <h2 className="lobby-section-title">Active Matches</h2>
+
+        <div className="mb-10">
+          <div className="relative inline-block">
+            <h2 className="pb-2 text-3xl font-bold">Active Matches</h2>
+            <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white shadow-[0_0_4px_#8f00ff,0_0_8px_#8f00ff,0_0_16px_#8f00ff,0_0_24px_#8f00ff]"></div>
+          </div>
           <MatchList matches={ongoingMatches} />
         </div>
       </div>
