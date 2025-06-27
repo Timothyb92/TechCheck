@@ -5,6 +5,7 @@ import { MatchType, UserType } from '../../types/types';
 import { getCharacterImage, getRankImage } from '../../utils/getImages';
 
 import { Button } from '../button/button.component';
+import { FlagIcon } from '../flag-icon/flagIcon';
 
 import { AuthContext } from '../../contexts/auth.context';
 
@@ -41,6 +42,7 @@ export const MatchCard = (match: MatchType) => {
       >
         <div className="player-info mb-1 flex w-full flex-row items-center justify-between">
           <div className="flex w-1/3 flex-col items-center gap-2">
+            <FlagIcon className="" locale={match.locale} />
             <img
               className="h-10 sm:h-20"
               src={getCharacterImage(match.characterOneId)}
