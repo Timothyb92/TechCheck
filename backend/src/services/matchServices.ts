@@ -35,6 +35,9 @@ const validateCrateMatch = async (userId: number) => {
 
 export const createMatch = async (match: InferCreationAttributes<Match>) => {
   if (await validateCrateMatch(match.playerOneId)) {
+    if (match.maxRankId < match.minRankId && match.maxRankId !== 999) {
+      throw new Error("Max rank can't be lower than min rank");
+    }
     const newMatch = await Match.create(match);
     return getOneMatch(newMatch.id);
   } else {

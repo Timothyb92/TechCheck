@@ -16,9 +16,11 @@ export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
   const [roomId, setRoomId] = useState('');
   const [ranks, setRanks] = useState<RankType[]>([]);
-  const [minRank, setMinRank] = useState<RankType>({ id: 1, name: 'Any Rank' });
+  const [minRank, setMinRank] = useState<RankType>(
+    ranks.find((r) => r.id === 999) || { id: 999, name: 'Any Character' }
+  );
   const [maxRank, setMaxRank] = useState<RankType>({
-    id: 40,
+    id: 999,
     name: 'Any Rank',
   });
   const [characters, setCharacters] = useState<CharacterType[]>([]);
@@ -36,8 +38,6 @@ export const CreateMatchForm = () => {
 
   const navigate = useNavigate();
 
-  const roomIdExists = roomId.length > 0;
-
   useEffect(() => {
     const getCharacters = async () => {
       const response = await http.get<CharacterType[]>(`/api/characters`);
@@ -52,6 +52,10 @@ export const CreateMatchForm = () => {
     getRanks();
     getCharacters();
   }, []);
+
+  const roomIdExists = roomId.length > 0;
+  const isValidRankSelection =
+    minRank.id === 999 || maxRank.id === 999 || minRank.id <= maxRank.id;
 
   return (
     <div className="my-6 flex w-[95%] flex-col items-center justify-center sm:w-[80%]">
@@ -97,9 +101,10 @@ export const CreateMatchForm = () => {
           <select
             className={styles.formItem}
             name="min rank"
-            id="min rank"
+            id="min-rank"
+            value={minRank.id}
             onChange={(e) => {
-              const rankId = Number(e.target.value) - 1;
+              const rankId = Number(e.target.value);
               const rank = ranks.find((r) => r.id === rankId);
               if (!rank) return new Error('No min rank set');
               setMinRank(rank);
@@ -119,10 +124,11 @@ export const CreateMatchForm = () => {
           </label>
           <select
             className={styles.formItem}
-            name="max rank"
+            name="max-rank"
             id="max rank"
+            value={maxRank.id}
             onChange={(e) => {
-              const rankId = Number(e.target.value) - 1;
+              const rankId = Number(e.target.value);
               const rank = ranks.find((r) => r.id === rankId);
               if (!rank) return new Error('No max rank set');
               setMaxRank(rank);
@@ -137,7 +143,8 @@ export const CreateMatchForm = () => {
         </div>
 
         <Button
-          className={`arcade-button mt-4 w-full items-center justify-center text-center ${roomIdExists ? '' : 'disabled'}`}
+          className={`arcade-button mt-4 w-full items-center justify-center text-center ${roomIdExists ? '' : 'disabled room-id-disabled'} ${roomIdExists && !isValidRankSelection ? 'disabled max-rank-disabled' : ''}`}
+          disabled={!isValidRankSelection || !roomIdExists}
           onClick={
             roomIdExists
               ? () => {
@@ -145,15 +152,13 @@ export const CreateMatchForm = () => {
                     return new Error(
                       'Missing character or min/max rank selection'
                     );
-                  } else if (maxRank < minRank) {
-                    return new Error("Max rank can't be higehr than min rank");
                   }
                   emitCreateMatch(
                     user as UserType,
                     roomId,
                     selectedChar.id,
-                    minRank.id,
-                    maxRank.id
+                    minRank.id === 999 ? 1 : minRank.id,
+                    maxRank.id === 999 ? 40 : maxRank.id
                   );
                   navigate('/lobby');
                 }
