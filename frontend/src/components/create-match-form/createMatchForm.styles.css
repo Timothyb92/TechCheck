@@ -1,27 +1,9 @@
-.disabled {
-  position: relative;
-  box-shadow: none;
-  cursor: not-allowed;
-  filter: brightness(0.7);
+.room-id-disabled::after {
+  content: '⚠️ You must enter a Custom Room ID';
 }
 
-.disabled::after {
-  content: '⚠️ You must enter a Custom Room ID';
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(1, 1, 1, 1);
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-  display: none;
-  z-index: 1000;
-  border: 1px solid yellow;
-  box-shadow: 0 0 6px yellow;
+.max-rank-disabled::after {
+  content: '⚠️ Max rank must be equal to or higher than min rank';
 }
 
 .disabled:hover::after {
