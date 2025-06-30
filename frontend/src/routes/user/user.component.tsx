@@ -27,8 +27,8 @@ export const User = () => {
 
     const getRanks = async () => {
       const response = await http.get<RankType[]>(`/api/ranks`);
-      const ranksWithoutANy = response.data.filter((rank) => rank.id !== 1);
-      setRanks(ranksWithoutANy);
+      const ranksWithoutAny = response.data.filter((rank) => rank.id !== 999);
+      setRanks(ranksWithoutAny);
     };
 
     getRanks();
@@ -136,9 +136,8 @@ export const User = () => {
             }}
           >
             {ranks.map((rank) => {
-              if (rank.id === 1) return;
               return (
-                <option key={rank.id} value={rank.id - 1}>
+                <option key={rank.id} value={rank.id}>
                   {rank.name}
                 </option>
               );
