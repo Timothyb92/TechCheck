@@ -68,6 +68,32 @@ export const getAllMatches = async () => {
         as: 'maxRank',
         attributes: ['name', 'id'],
       },
+      {
+        model: User,
+        as: 'player1',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+      },
+      {
+        model: User,
+        as: 'player2',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+      },
     ],
   });
 };
@@ -100,10 +126,36 @@ export const getAllOpenMatches = async () => {
         as: 'maxRank',
         attributes: ['name', 'id'],
       },
+      // {
+      //   model: User,
+      //   as: 'player1',
+      //   attributes: ['rankId'],
+      // },
       {
         model: User,
         as: 'player1',
-        attributes: ['rankId'],
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+      },
+      {
+        model: User,
+        as: 'player2',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
       },
     ],
   });
@@ -142,6 +194,7 @@ export const getOneMatch = async (matchId: number) => {
           'cfnName',
           'canApplyJoin',
           'locale',
+          'userCode',
         ],
       },
       {
@@ -154,6 +207,7 @@ export const getOneMatch = async (matchId: number) => {
           'cfnName',
           'canApplyJoin',
           'locale',
+          'userCode',
         ],
       },
     ],

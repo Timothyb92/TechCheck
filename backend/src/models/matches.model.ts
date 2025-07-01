@@ -23,7 +23,7 @@ class Match extends Model<
   declare applicantCharId?: number;
   declare creatorSocketId?: string;
   declare locale: string;
-  declare customRoomId: string;
+  // declare customRoomId: string;
   declare minRankId: number;
   declare maxRankId: number;
 }
@@ -81,10 +81,10 @@ Match.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    customRoomId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    // customRoomId: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
     maxRankId: {
       type: DataTypes.INTEGER,
       allowNull: false,

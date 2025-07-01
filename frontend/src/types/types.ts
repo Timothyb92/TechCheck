@@ -13,14 +13,17 @@ export interface MatchType {
   locale: string;
   minRank: { name: string; id: number };
   maxRank: { name: string; id: number };
-  player1: { rankId: number };
-  customRoomId: string | number;
+  player1: { rankId: number; userCode: string };
+  player2?: { rankId: number; userCode?: string };
+  // customRoomId: string | number;
   applicantCharId?: number;
+  applicantRankId?: number;
 }
 
 export interface UserType {
   id: number;
   cfnName?: string;
+  userCode?: string;
   rankId: number;
   mainCharacterId: number | undefined;
   locale: string;

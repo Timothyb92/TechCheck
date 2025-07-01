@@ -36,6 +36,7 @@ export const matchSocket = (socket: Socket) => {
 
       if (isPlayerOne) {
         const cancelledMatch = await updateMatch(match.id, {
+          //! Better to make a cancel match service rather than update?
           ...match,
           status: 'cancelled',
         });

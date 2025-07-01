@@ -4,7 +4,7 @@ import { MatchType, UserType } from '../types/types';
 
 export const emitCreateMatch = (
   user: UserType,
-  customRoomId: string,
+  // customRoomId: string,
   characterTwoId: number,
   minRankId: number,
   maxRankId: number
@@ -15,7 +15,7 @@ export const emitCreateMatch = (
     characterOneId: user.mainCharacterId,
     creatorSocketId: socket.id,
     playerOneCfn: user.cfnName,
-    customRoomId,
+    // customRoomId,
     locale: user.locale,
     characterTwoId,
     minRankId,

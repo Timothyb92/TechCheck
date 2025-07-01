@@ -19,6 +19,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare global_name?: string;
   declare locale: string;
   declare cfnName: CreationOptional<string> | null;
+  declare userCode: CreationOptional<string> | null;
   declare deleted: boolean;
   declare canApplyJoin: boolean;
 }
@@ -69,6 +70,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: true,
       defaultValue: null,
+    },
+    userCode: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     deleted: {
       type: DataTypes.BOOLEAN,

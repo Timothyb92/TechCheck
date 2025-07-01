@@ -53,6 +53,7 @@ export const getOneUser = async (id: number) => {
       'rankId',
       'mainCharacterId',
       'cfnName',
+      'userCode',
       'locale',
       'canApplyJoin',
     ],
