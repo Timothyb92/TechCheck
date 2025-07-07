@@ -11,7 +11,7 @@ import {
   NODE_ENV,
 } from '../config/env';
 
-const ACCESS_TOKEN_EXPIRY = NODE_ENV === 'development' ? '30s' : '15m';
+const ACCESS_TOKEN_EXPIRY = NODE_ENV === 'development' ? '5m' : '15m';
 const REFRESH_TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 interface JwtPayload {

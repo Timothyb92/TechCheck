@@ -14,7 +14,6 @@ import { CharacterType, UserType, RankType } from '../../types/types';
 
 export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
-  // const [roomId, setRoomId] = useState('');
   const [ranks, setRanks] = useState<RankType[]>([]);
   const [minRank, setMinRank] = useState<RankType>(
     ranks.find((r) => r.id === 999) || { id: 999, name: 'Any Character' }
@@ -53,7 +52,6 @@ export const CreateMatchForm = () => {
     getCharacters();
   }, []);
 
-  // const roomIdExists = roomId.length > 0;
   const isValidRankSelection =
     minRank.id === 999 || maxRank.id === 999 || minRank.id <= maxRank.id;
 
@@ -62,21 +60,6 @@ export const CreateMatchForm = () => {
       <h1 className="arcade-glow">Create Match</h1>
 
       <div className="flex w-full flex-col items-start">
-        {/* <div className="my-6 flex w-full flex-col items-start gap-4">
-          <label htmlFor="Custom Room ID" className="text-[20px] font-bold">
-            Room ID
-          </label>
-          <span className="text-sm text-[#a4a4a4]">Required</span>
-          <input
-            className={roomIdExists ? styles.formItem : styles.formItemWarning}
-            type="text"
-            name="Custom Room ID"
-            required
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-          />
-        </div> */}
-
         <div className="my-6 flex w-full flex-col items-start gap-4">
           <label htmlFor="characters" className="text-[20px] font-bold">
             Select Opponent Character
@@ -143,12 +126,9 @@ export const CreateMatchForm = () => {
         </div>
 
         <Button
-          // className={`arcade-button mt-4 w-full items-center justify-center text-center ${roomIdExists ? '' : 'disabled room-id-disabled'} ${roomIdExists && !isValidRankSelection ? 'disabled max-rank-disabled' : ''}`}
           className={`arcade-button text-center' mt-4 w-full items-center justify-center ${!isValidRankSelection ? 'disabled max-rank-disabled' : ''}`}
-          // disabled={!isValidRankSelection || !roomIdExists}
           disabled={!isValidRankSelection}
           onClick={
-            // roomIdExists
             isValidRankSelection
               ? () => {
                   if (!selectedChar || !minRank || !maxRank) {
@@ -158,7 +138,6 @@ export const CreateMatchForm = () => {
                   }
                   emitCreateMatch(
                     user as UserType,
-                    // roomId,
                     selectedChar.id,
                     minRank.id === 999 ? 1 : minRank.id,
                     maxRank.id === 999 ? 40 : maxRank.id

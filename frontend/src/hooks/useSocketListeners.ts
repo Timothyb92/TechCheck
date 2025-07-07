@@ -26,10 +26,6 @@ export const useSocketListeners = () => {
         };
 
         const handleReopenMatch = (match: MatchType) => {
-          if (match.player2) {
-            delete match.player2;
-          }
-
           setMatches((prev) =>
             prev.map((m) => (m.id === match.id ? match : m))
           );
@@ -43,10 +39,7 @@ export const useSocketListeners = () => {
         };
 
         const handleCancelMatch = (match: MatchType) => {
-          setMatches((prev) =>
-            // prev.map((m) => (m.id === match.id ? match : m))
-            prev.filter((m) => m.id !== match.id)
-          );
+          setMatches((prev) => prev.filter((m) => m.id !== match.id));
         };
 
         const handleBeforeUnload = () => {
@@ -56,10 +49,8 @@ export const useSocketListeners = () => {
         window.addEventListener('beforeunload', handleBeforeUnload);
         socket.on('match created', handleMatchCreated);
         socket.on('applied to match', handleUpdateMatch);
-        // socket.on('match reopened', handleUpdateMatch);
         socket.on('match reopened', handleReopenMatch);
         socket.on('match started', handleUpdateMatch);
-        // socket.on('match cancelled', handleUpdateMatch);
         socket.on('match cancelled', handleCancelMatch);
         socket.on('user updated', handleUpdateUser);
 

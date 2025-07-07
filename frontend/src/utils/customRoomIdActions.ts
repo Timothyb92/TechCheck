@@ -1,8 +1,8 @@
 import { MatchType, UserType } from '../types/types';
 
 export const getCustomRoomActions = (match: MatchType, user: UserType) => {
-  const isCreator = match.playerOneId === user.id;
-  const isPlayerTwo = match.playerTwoId === user.id;
+  const isCreator = match.playerOne.id === user.id;
+  const isPlayerTwo = match.playerTwo?.id === user.id;
   const matchStarted = match.status === 'matched';
 
   const customRoomActions = [];

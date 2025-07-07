@@ -1,23 +1,36 @@
 export interface MatchType {
-  id?: number;
-  playerOneId: number;
-  playerOneCfn: string;
-  playerTwoId?: number;
-  playerTwoCfn: string;
-  characterOneId: number;
-  characterOne: { name: string };
-  characterTwoId?: number;
-  characterTwo: { name: string };
-  status?: string;
-  creatorSocketId?: string;
-  locale: string;
+  id?: string;
+  status: string;
+  applicantCharId?: number;
+  characterTwoId: number;
   minRank: { name: string; id: number };
   maxRank: { name: string; id: number };
-  player1: { rankId: number; userCode: string };
-  player2?: { rankId: number; userCode?: string };
-  // customRoomId: string | number;
-  applicantCharId?: number;
-  applicantRankId?: number;
+  playerOne: {
+    id: number;
+    rankId: number;
+    mainCharacterid: number;
+    cfnName: string;
+    canApplyjoin: boolean;
+    locale: string;
+    userCode: string;
+    Character: {
+      id: number;
+      name: string;
+    };
+  };
+  playerTwo?: {
+    id: number;
+    rankId: number;
+    mainCharacterid: number;
+    cfnName: string;
+    canApplyjoin: boolean;
+    locale: string;
+    userCode: string;
+    Character: {
+      id: number;
+      name: string;
+    };
+  };
 }
 
 export interface UserType {

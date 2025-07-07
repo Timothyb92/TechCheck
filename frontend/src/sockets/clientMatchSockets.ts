@@ -4,7 +4,6 @@ import { MatchType, UserType } from '../types/types';
 
 export const emitCreateMatch = (
   user: UserType,
-  // customRoomId: string,
   characterTwoId: number,
   minRankId: number,
   maxRankId: number
@@ -12,11 +11,6 @@ export const emitCreateMatch = (
   const socket = getSocket();
   const match = {
     playerOneId: user.id,
-    characterOneId: user.mainCharacterId,
-    creatorSocketId: socket.id,
-    playerOneCfn: user.cfnName,
-    // customRoomId,
-    locale: user.locale,
     characterTwoId,
     minRankId,
     maxRankId,
@@ -34,10 +28,8 @@ export const emitUpdateMatch = (user: UserType, match: MatchType) => {
 
   switch (match.status) {
     case 'pending':
-      if (!user.cfnName) return;
-      match.playerTwoId = user.id;
-      match.playerTwoCfn = user.cfnName;
-      match.characterTwoId = user.mainCharacterId;
+      if (!user.cfnName || !match.playerTwo) return;
+      match.playerTwo.id = user.id;
       break;
 
     case 'cancelled':

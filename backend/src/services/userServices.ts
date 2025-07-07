@@ -41,11 +41,11 @@ export const getOneUser = async (id: number) => {
     include: [
       {
         model: Rank,
-        attributes: ['name'],
+        attributes: ['id', 'name'],
       },
       {
         model: Character,
-        attributes: ['name'],
+        attributes: ['id', 'name'],
       },
     ],
     attributes: [
