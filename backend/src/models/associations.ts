@@ -1,12 +1,8 @@
 import { models } from './index';
 const { User, Match, Rank, Character, UserBlock, RefreshToken } = models;
 
-Match.belongsTo(User, { foreignKey: 'playerOneId', as: 'player1' });
-Match.belongsTo(User, { foreignKey: 'playerTwoId', as: 'player2' });
-Match.belongsTo(Character, {
-  foreignKey: 'characterOneId',
-  as: 'characterOne',
-});
+Match.belongsTo(User, { foreignKey: 'playerOneId', as: 'playerOne' });
+Match.belongsTo(User, { foreignKey: 'playerTwoId', as: 'playerTwo' });
 Match.belongsTo(Character, {
   foreignKey: 'characterTwoId',
   as: 'characterTwo',
@@ -25,10 +21,6 @@ User.hasMany(UserBlock, { foreignKey: 'blockedId', as: 'blocksReceived' });
 User.hasMany(RefreshToken, { foreignKey: 'userId' });
 
 Character.hasMany(User, { foreignKey: 'mainCharacterId' });
-Character.hasMany(Match, {
-  foreignKey: 'characterOneId',
-  as: 'characterOne',
-});
 Character.hasMany(Match, {
   foreignKey: 'characterTwoId',
   as: 'characterTwo',

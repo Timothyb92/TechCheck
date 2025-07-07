@@ -2,7 +2,7 @@ import { MatchType, UserType, MatchAction } from '../types/types';
 
 import {
   emitApplyToMatch,
-  // emitBlockUser,
+  // ! Future feature emitBlockUser,
   emitReopenMatch,
   emitCancelMatch,
   emitStartMatch,
@@ -11,10 +11,10 @@ import {
 export const getMatchActions = (match: MatchType, user: UserType) => {
   if (!match || !user || !user.rankId) return;
 
-  const isCreator = match.playerOneId === user.id;
-  const isApplicant = match.playerTwoId === user.id;
+  const isCreator = match.playerOne.id === user.id;
+  const isApplicant = match.playerTwo?.id === user.id;
   const isParticipant =
-    match.playerOneId === user.id || match.playerTwoId === user.id;
+    match.playerOne.id === user.id || match.playerTwo?.id === user.id;
   const isOngoing = match.status === 'matched';
   const isOpen = match.status === 'open';
   const isPending = match.status === 'pending';
@@ -32,7 +32,6 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Match',
       onClick: () => emitCancelMatch(match),
-      // style: 'cancel-match',
       variant: 'cancel',
     });
   }
@@ -49,7 +48,6 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Join Match',
       onClick: () => emitApplyToMatch(match),
-      // style: 'join-match',
       variant: 'join',
     });
   }
@@ -79,7 +77,6 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Cancel Join',
       onClick: () => emitReopenMatch(match),
-      // style: 'cancel-join',
       variant: 'cancel',
     });
   }
@@ -89,20 +86,18 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
       {
         label: 'Accept',
         onClick: () => emitStartMatch(match),
-        // style: 'accept-match',
         variant: 'accept',
       },
       {
         label: 'Decline',
         onClick: () => emitReopenMatch(match),
-        // style: 'decline-match',
         variant: 'decline',
       }
       //! Future feature
       // {
       //   label: 'Block User',
       //   onClick: () => emitBlockUser(match),
-      //   style: 'block-user',
+      //   variant: 'block-user',
       // }
     );
   }
@@ -111,7 +106,6 @@ export const getMatchActions = (match: MatchType, user: UserType) => {
     actions.push({
       label: 'Complete Match',
       onClick: () => emitCancelMatch(match),
-      // style: 'complete-match',
       variant: 'complete',
     });
   }

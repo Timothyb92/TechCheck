@@ -25,7 +25,7 @@ export const matchSocket = (socket: Socket) => {
 
   socket.on('user disconnecting', async () => {
     try {
-      const userId = socket.data?.user?.id;
+      const userId = +socket.data?.user?.id;
       if (!userId) return;
 
       const match = await getActiveMatchesByUser(userId);
@@ -40,30 +40,45 @@ export const matchSocket = (socket: Socket) => {
           status: 'cancelled',
         });
 
-        await updateUser(userId, { canApplyJoin: true });
-
         if (match.playerTwoId) {
           const playerTwoSocketId =
             ServerSocket.instance.userIdToSocketId[match.playerTwoId];
-          if (playerTwoSocketId) {
-            io.to(playerTwoSocketId).emit('user updated', {
-              canApplyJoin: true,
-            });
-          }
+
+          await updateUser(match.playerTwoId, { canApplyJoin: true });
+          io.to(playerTwoSocketId).emit('user updated', { canApplyJoin: true });
         }
+
+        await updateUser(userId, { canApplyJoin: true });
 
         io.to(socket.id).emit('user updated', { canApplyJoin: true });
         io.emit('match cancelled', cancelledMatch);
       }
 
       if (isPlayerTwo) {
-        const reopenedMatch = await updateMatch(match.id, {
-          ...match,
-          playerTwoId: null,
-          playerTwoCfn: null,
-          applicantCharId: null,
-          status: 'open',
-        });
+        const isOngoingMatch = match.status === 'matched';
+        const playerOneSocketId =
+          ServerSocket.instance.userIdToSocketId[match.playerOneId];
+
+        if (isOngoingMatch) {
+          const updatedMatch = await updateMatch(match.id, {
+            ...match,
+            status: 'completed',
+          });
+
+          await updateUser(match.playerOneId, { canApplyJoin: true });
+
+          io.to(playerOneSocketId).emit('user updated', { canApplyJoin: true });
+          io.emit('match cancelled', updatedMatch);
+        } else {
+          const updatedMatch = await updateMatch(match.id, {
+            ...match,
+            playerTwoId: null,
+            applicantCharId: match.characterTwoId,
+            status: 'open',
+          });
+
+          io.emit('match reopened', updatedMatch);
+        }
 
         await updateUser(userId, { canApplyJoin: true });
 
@@ -72,8 +87,6 @@ export const matchSocket = (socket: Socket) => {
         if (playerTwoSocketId) {
           io.to(playerTwoSocketId).emit('user updated', { canApplyJoin: true });
         }
-
-        io.emit('match reopened', reopenedMatch);
       }
     } catch (err) {
       console.error('Error handling user disconnect:', err);
@@ -105,6 +118,9 @@ export const matchSocket = (socket: Socket) => {
 
         await updateUser(match.playerOneId, { canApplyJoin: true });
 
+        const playerOneSocketId =
+          ServerSocket.instance.userIdToSocketId[match.playerOneId];
+
         const applicantSocketId =
           ServerSocket.instance.userIdToSocketId[match.playerTwoId];
 
@@ -112,6 +128,7 @@ export const matchSocket = (socket: Socket) => {
           io.to(applicantSocketId).emit('user updated', { canApplyJoin: true });
         }
 
+        io.to(playerOneSocketId).emit('user updated', { canApplyJoin: true });
         io.to(socket.id).emit('user updated', { canApplyJoin: true });
         io.emit('match cancelled', cancelledMatch);
       } catch (err) {
@@ -124,10 +141,22 @@ export const matchSocket = (socket: Socket) => {
     requireAuth(socket, async () => {
       try {
         const applicant = await getOneUser(socket.data.user.id);
+        const playerTwoInput = {
+          id: applicant?.id,
+          rankId: applicant?.rankId,
+          mainCharacterId: applicant?.mainCharacterId,
+          cfnName: applicant?.cfnName,
+          canApplyJoin: applicant?.canApplyJoin,
+          locale: applicant?.locale,
+          userCode: applicant?.userCode,
+          Character: {
+            id: applicant?.mainCharacterId,
+          },
+        };
         const updatedMatch = await updateMatch(match.id, {
           ...match,
           playerTwoId: applicant?.id,
-          playerTwoCfn: applicant?.cfnName,
+          playerTwo: playerTwoInput,
           applicantCharId: applicant?.mainCharacterId,
           status: 'pending',
         });

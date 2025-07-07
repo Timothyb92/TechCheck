@@ -9,7 +9,7 @@ export const matchActionButton = (
 ) => {
   if (!user) return null;
 
-  const isOwner = match.playerOneId === user.id;
+  const isOwner = match.playerOne.id === user.id;
 
   switch (match.status) {
     case 'open':

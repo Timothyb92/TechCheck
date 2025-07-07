@@ -14,16 +14,10 @@ class Match extends Model<
 > {
   declare id: CreationOptional<number>;
   declare playerOneId: number;
-  declare playerOneCfn?: string;
-  declare characterOneId: number;
   declare status: string;
   declare playerTwoId?: number;
-  declare playerTwoCfn?: string;
   declare characterTwoId: number;
   declare applicantCharId?: number;
-  declare creatorSocketId?: string;
-  declare locale: string;
-  declare customRoomId: string;
   declare minRankId: number;
   declare maxRankId: number;
 }
@@ -37,14 +31,6 @@ Match.init(
     },
     playerOneId: {
       type: DataTypes.BIGINT,
-      allowNull: false,
-    },
-    playerOneCfn: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    characterOneId: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
     status: {
@@ -61,10 +47,6 @@ Match.init(
       type: DataTypes.BIGINT,
       allowNull: true,
     },
-    playerTwoCfn: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     characterTwoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -72,18 +54,6 @@ Match.init(
     applicantCharId: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    creatorSocketId: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    locale: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    customRoomId: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     maxRankId: {
       type: DataTypes.INTEGER,
@@ -94,7 +64,11 @@ Match.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: 'Match' }
+  {
+    sequelize,
+    modelName: 'Match',
+    defaultScope: {},
+  }
 );
 
 export default Match;

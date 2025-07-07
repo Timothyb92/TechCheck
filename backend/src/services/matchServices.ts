@@ -49,16 +49,6 @@ export const getAllMatches = async () => {
   return await Match.findAll({
     include: [
       {
-        model: Character,
-        as: 'characterOne',
-        attributes: ['name'],
-      },
-      {
-        model: Character,
-        as: 'characterTwo',
-        attributes: ['name'],
-      },
-      {
         model: Rank,
         as: 'minRank',
         attributes: ['name', 'id'],
@@ -68,7 +58,48 @@ export const getAllMatches = async () => {
         as: 'maxRank',
         attributes: ['name', 'id'],
       },
+      {
+        model: User,
+        as: 'playerOne',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
+        ],
+      },
+      {
+        model: User,
+        as: 'playerTwo',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
+        ],
+      },
     ],
+    attributes: {
+      exclude: ['playerOneId', 'playerTwoId', 'minRankId', 'maxRankId'],
+    },
   });
 };
 
@@ -81,16 +112,6 @@ export const getAllOpenMatches = async () => {
     },
     include: [
       {
-        model: Character,
-        as: 'characterOne',
-        attributes: ['name', 'id'],
-      },
-      {
-        model: Character,
-        as: 'characterTwo',
-        attributes: ['name', 'id'],
-      },
-      {
         model: Rank,
         as: 'minRank',
         attributes: ['name', 'id'],
@@ -102,8 +123,41 @@ export const getAllOpenMatches = async () => {
       },
       {
         model: User,
-        as: 'player1',
-        attributes: ['rankId'],
+        as: 'playerOne',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
+        ],
+      },
+      {
+        model: User,
+        as: 'playerTwo',
+        attributes: [
+          'id',
+          'rankId',
+          'mainCharacterId',
+          'cfnName',
+          'canApplyJoin',
+          'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
+        ],
       },
     ],
   });
@@ -114,13 +168,8 @@ export const getOneMatch = async (matchId: number) => {
     include: [
       {
         model: Character,
-        as: 'characterOne',
-        attributes: ['name'],
-      },
-      {
-        model: Character,
         as: 'characterTwo',
-        attributes: ['name'],
+        attributes: ['id', 'name'],
       },
       {
         model: Rank,
@@ -134,7 +183,7 @@ export const getOneMatch = async (matchId: number) => {
       },
       {
         model: User,
-        as: 'player1',
+        as: 'playerOne',
         attributes: [
           'id',
           'rankId',
@@ -142,11 +191,18 @@ export const getOneMatch = async (matchId: number) => {
           'cfnName',
           'canApplyJoin',
           'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
         ],
       },
       {
         model: User,
-        as: 'player2',
+        as: 'playerTwo',
         attributes: [
           'id',
           'rankId',
@@ -154,6 +210,13 @@ export const getOneMatch = async (matchId: number) => {
           'cfnName',
           'canApplyJoin',
           'locale',
+          'userCode',
+        ],
+        include: [
+          {
+            model: Character,
+            attributes: ['id', 'name'],
+          },
         ],
       },
     ],
@@ -174,7 +237,7 @@ export const updateMatch = async (matchId: number, updates: Updates) => {
 
     Object.assign(match, updates);
     await match.save();
-    return match;
+    return await getOneMatch(matchId);
   } catch (err) {
     console.error(err);
     throw err;
@@ -185,28 +248,6 @@ export const getAllMatchesCreatedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
       where: { playerOneId: userId },
-      include: [
-        {
-          model: Character,
-          as: 'characterOne',
-          attributes: ['name'],
-        },
-        {
-          model: Character,
-          as: 'characterTwo',
-          attributes: ['name'],
-        },
-        {
-          model: Rank,
-          as: 'minRank',
-          attributes: ['name', 'id'],
-        },
-        {
-          model: Rank,
-          as: 'maxRank',
-          attributes: ['name', 'id'],
-        },
-      ],
     });
     return matchesCreated;
   } catch (err) {
@@ -218,28 +259,6 @@ export const getAllMatchesJoinedByUser = async (userId: number) => {
   try {
     const matchesCreated = await Match.findAll({
       where: { playerTwoId: userId },
-      include: [
-        {
-          model: Character,
-          as: 'characterOne',
-          attributes: ['name'],
-        },
-        {
-          model: Character,
-          as: 'characterTwo',
-          attributes: ['name'],
-        },
-        {
-          model: Rank,
-          as: 'minRank',
-          attributes: ['name', 'id'],
-        },
-        {
-          model: Rank,
-          as: 'maxRank',
-          attributes: ['name', 'id'],
-        },
-      ],
     });
     return matchesCreated;
   } catch (err) {
@@ -253,28 +272,6 @@ export const getAllMatchesByUser = async (userId: number) => {
       where: {
         [Op.or]: [{ playerOneId: userId }, { playerTwoId: userId }],
       },
-      include: [
-        {
-          model: Character,
-          as: 'characterOne',
-          attributes: ['name'],
-        },
-        {
-          model: Character,
-          as: 'characterTwo',
-          attributes: ['name'],
-        },
-        {
-          model: Rank,
-          as: 'minRank',
-          attributes: ['name', 'id'],
-        },
-        {
-          model: Rank,
-          as: 'maxRank',
-          attributes: ['name', 'id'],
-        },
-      ],
     });
     return matches;
   } catch (err) {
@@ -293,24 +290,42 @@ export const getActiveMatchesByUser = async (userId: number) => {
       },
       include: [
         {
-          model: Character,
-          as: 'characterOne',
-          attributes: ['name'],
+          model: User,
+          as: 'playerOne',
+          attributes: [
+            'id',
+            'rankId',
+            'mainCharacterId',
+            'cfnName',
+            'canApplyJoin',
+            'locale',
+            'userCode',
+          ],
+          include: [
+            {
+              model: Character,
+              attributes: ['id', 'name'],
+            },
+          ],
         },
         {
-          model: Character,
-          as: 'characterTwo',
-          attributes: ['name'],
-        },
-        {
-          model: Rank,
-          as: 'minRank',
-          attributes: ['name', 'id'],
-        },
-        {
-          model: Rank,
-          as: 'maxRank',
-          attributes: ['name', 'id'],
+          model: User,
+          as: 'playerTwo',
+          attributes: [
+            'id',
+            'rankId',
+            'mainCharacterId',
+            'cfnName',
+            'canApplyJoin',
+            'locale',
+            'userCode',
+          ],
+          include: [
+            {
+              model: Character,
+              attributes: ['id', 'name'],
+            },
+          ],
         },
       ],
     });

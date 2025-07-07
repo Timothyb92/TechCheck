@@ -35,25 +35,28 @@ export const Lobby = () => {
         <div className="mb-6 text-[16px] sm:text-[20px]">
           <p className="py-8">
             TechCheck helps Street Fighter 6 players connect based on rank and
-            main character, so you can practice specific match-ups and improve
-            faster.
+            main character so you can practice specific match-ups and improve
+            faster. Choose your main, set your rank, and find the right sparring
+            partner in seconds.
           </p>
           <p>
-            Choose your main, set your rank, and find the right sparring partner
-            in seconds.
+            Set up a custom room in game, and search your opponent's CFN name or
+            User ID to invite them to your lobby.
           </p>
         </div>
         <h1 className="arcade-glow py-5">Lobby</h1>
         {user && hasSettingSelected ? (
-          <Link to="/create">
-            <Button
-              className={`arcade-button mb-8 ${
-                !user.canApplyJoin ? 'disabled open-match-disabled' : ''
-              }`}
-            >
-              Create Match
-            </Button>
-          </Link>
+          <Button
+            className={`arcade-button mb-8 ${
+              !user.canApplyJoin ? 'disabled open-match-disabled' : ''
+            }`}
+          >
+            {user.canApplyJoin ? (
+              <Link to="/create">Create Match</Link>
+            ) : (
+              <span>Create Match</span>
+            )}
+          </Button>
         ) : (
           <Button className="arcade-button disabled login-disabled mb-8">
             Create Match

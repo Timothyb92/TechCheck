@@ -16,6 +16,7 @@ export const User = () => {
   const [ranks, setRanks] = useState<RankType[]>([]);
   const [selectedRank, setSelectedRank] = useState<RankType | null>(null);
   const [cfnName, setCfnName] = useState<string | undefined>('');
+  const [userCode, setUserCode] = useState<string | undefined>('');
 
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ export const User = () => {
     if (!user || characters.length === 0 || ranks.length === 0) return;
 
     setCfnName(user.cfnName ?? '');
+    setUserCode(user.userCode ?? '');
 
     if (user.mainCharacterId) {
       const char = characters.find((c) => c.id === user.mainCharacterId);
@@ -67,6 +69,9 @@ export const User = () => {
         <h2 className="text-2xl font-bold">
           {user.cfnName ? user.cfnName : 'New Challenger'}
         </h2>
+        <p>
+          {user.userCode ? `User Code: ${user.userCode}` : 'Missing User Code'}
+        </p>
         <div className="flex flex-row items-center gap-8">
           <img
             className="h-24"
@@ -99,6 +104,21 @@ export const User = () => {
             required
             value={cfnName}
             onChange={(e) => setCfnName(e.target.value)}
+            className="w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]"
+          />
+        </div>
+
+        <div className="flex w-full flex-col items-start gap-2">
+          <label htmlFor="cfnName" className="text-2xl font-bold">
+            User Code
+          </label>
+          <input
+            type="text"
+            id="userCode"
+            name="User Code"
+            required
+            value={userCode}
+            onChange={(e) => setUserCode(e.target.value)}
             className="w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]"
           />
         </div>
@@ -157,6 +177,7 @@ export const User = () => {
             const updatedUser = {
               ...user,
               mainCharacterId: selectedChar.id,
+              userCode,
               rankId: selectedRank.id,
               cfnName,
             };
