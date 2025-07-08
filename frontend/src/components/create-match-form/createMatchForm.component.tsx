@@ -15,6 +15,7 @@ import { CharacterType, UserType, RankType } from '../../types/types';
 export const CreateMatchForm = () => {
   const { user } = useContext(AuthContext);
   const [ranks, setRanks] = useState<RankType[]>([]);
+  const [passcode, setPasscode] = useState('');
   const [minRank, setMinRank] = useState<RankType>(
     ranks.find((r) => r.id === 999) || { id: 999, name: 'Any Character' }
   );
@@ -60,6 +61,21 @@ export const CreateMatchForm = () => {
       <h1 className="arcade-glow">Create Match</h1>
 
       <div className="flex w-full flex-col items-start">
+        <div className="my-6 flex w-full flex-col items-start gap-4">
+          <label htmlFor="Custom Room ID" className="text-[20px] font-bold">
+            Custom Room Passcode
+          </label>
+          <input
+            className={styles.formItem}
+            type="text"
+            name="Custom Room ID"
+            required
+            value={passcode}
+            maxLength={4}
+            onChange={(e) => setPasscode(e.target.value)}
+          />
+        </div>
+
         <div className="my-6 flex w-full flex-col items-start gap-4">
           <label htmlFor="characters" className="text-[20px] font-bold">
             Select Opponent Character
@@ -138,6 +154,7 @@ export const CreateMatchForm = () => {
                   }
                   emitCreateMatch(
                     user as UserType,
+                    passcode,
                     selectedChar.id,
                     minRank.id === 999 ? 1 : minRank.id,
                     maxRank.id === 999 ? 40 : maxRank.id

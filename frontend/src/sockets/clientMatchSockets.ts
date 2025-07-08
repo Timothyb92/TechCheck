@@ -4,6 +4,7 @@ import { MatchType, UserType } from '../types/types';
 
 export const emitCreateMatch = (
   user: UserType,
+  passcode: string,
   characterTwoId: number,
   minRankId: number,
   maxRankId: number
@@ -11,6 +12,7 @@ export const emitCreateMatch = (
   const socket = getSocket();
   const match = {
     playerOneId: user.id,
+    passcode,
     characterTwoId,
     minRankId,
     maxRankId,
