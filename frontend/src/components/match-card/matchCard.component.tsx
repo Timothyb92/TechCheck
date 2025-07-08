@@ -56,8 +56,14 @@ export const MatchCard = (match: MatchType) => {
             )}
           </div>
 
-          <div className="flex w-1/3 flex-col items-center">
+          <div className="relative flex w-1/3 flex-col items-center">
             <p className="arcade-glow">VS</p>
+            {canViewMatchDetails() && (
+              <div className="absolute top-[2.5rem] flex flex-col">
+                <span>Custom Room</span>
+                <span>Passcode: {match.passcode}</span>
+              </div>
+            )}
           </div>
 
           <div className="z-10 flex w-1/3 flex-col items-center gap-2">

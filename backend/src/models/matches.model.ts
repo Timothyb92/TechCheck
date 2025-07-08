@@ -20,6 +20,7 @@ class Match extends Model<
   declare applicantCharId?: number;
   declare minRankId: number;
   declare maxRankId: number;
+  declare passcode?: string;
 }
 
 Match.init(
@@ -62,6 +63,10 @@ Match.init(
     minRankId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    passcode: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

@@ -31,6 +31,7 @@ export interface MatchType {
       name: string;
     };
   };
+  passcode?: string;
 }
 
 export interface UserType {
