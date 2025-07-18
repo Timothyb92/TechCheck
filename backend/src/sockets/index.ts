@@ -1,7 +1,6 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
-import chalk from 'chalk';
 
 import { matchSocket } from './serverMatchSockets';
 import { userSocket } from './serverUserSockets';
@@ -74,7 +73,7 @@ export class ServerSocket {
 
     this.io.on('connect', this.StartListeners);
 
-    console.info(chalk.magenta('Socket IO started'));
+    console.info('Socket IO started');
   }
 
   StartListeners = (socket: Socket) => {
