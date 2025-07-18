@@ -8,10 +8,6 @@
     "dev": "concurrently \"npm run dev --prefix backend\" \"sleep 0.5 && npm run dev --prefix frontend\"",
     "format": "prettier \"**/*.{js,ts,tsx,json,css,md}\" --write"
   },
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
   "dependencies": {
     "react-icons": "^5.5.0"
   }
