@@ -10,7 +10,7 @@ Now live at **[https://techcheck.gg](https://techcheck.gg)**
 
 ### Backend
 
-- **Node.js** & **Express** – REST API
+- **Node.js** & **Express** – REST API with Socket.io for real-time features
 - **PostgreSQL** – Relational database
 - **Sequelize** – ORM for database access
 - **JWT** – Secure authentication
@@ -18,7 +18,7 @@ Now live at **[https://techcheck.gg](https://techcheck.gg)**
 
 ### Frontend
 
-- **React** – UI development
+- **React** – UI development with Socket.io client integration
 - **Vite** – Build tooling
 - **Axios** – API requests
 
@@ -27,9 +27,8 @@ Now live at **[https://techcheck.gg](https://techcheck.gg)**
 ## 🚀 Live Deployment
 
 - **Frontend**: [https://techcheck.gg](https://techcheck.gg) (Vercel)
-- **Backend**: Hosted on Render
+- **Backend**: Hosted on Railway
 - **Database**: PostgreSQL (Railway)
-- **OAuth**: Discord Developer Portal
 
 ---
 
@@ -99,14 +98,6 @@ npm install
 ---
 
 ### 5. Start the App
-
-#### Option 1: Combined start
-
-```bash
-npm run dev
-```
-
-#### Option 2: Separate start
 
 ```bash
 # Terminal 1 - backend
