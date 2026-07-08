@@ -30,6 +30,8 @@ const characters = [
   { id: 26, name: 'Elena' },
   { id: 27, name: 'Sagat' },
   { id: 28, name: 'C. Viper' },
+  { id: 29, name: 'Alex' },
+  { id: 30, name: 'Ingrid' },
 ];
 
 export const seedCharacters = async () => {
