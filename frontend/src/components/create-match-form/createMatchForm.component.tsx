@@ -28,13 +28,7 @@ export const CreateMatchForm = () => {
     id: 999,
     name: 'Any Character',
   });
-
-  const styles = {
-    formItem:
-      'w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_#ffffff88,0_0_6px_#8f00ff,0_0_12px_#8f00ff]',
-    formItemWarning:
-      'w-full rounded-md bg-[#242424] px-4 py-2 text-lg font-semibold text-[#eee] shadow-[inset_0_1px_0_red,0_0_6px_red,0_0_12px_red]',
-  };
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -49,125 +43,145 @@ export const CreateMatchForm = () => {
       setRanks([...response.data]);
     };
 
-    getRanks();
-    getCharacters();
+    Promise.all([getRanks(), getCharacters()]).finally(() =>
+      setIsLoading(false)
+    );
   }, []);
 
   const isValidRankSelection =
     minRank.id === 999 || maxRank.id === 999 || minRank.id <= maxRank.id;
 
   return (
-    <div className="my-6 flex w-[95%] flex-col items-center justify-center sm:w-[80%]">
-      <h1 className="arcade-glow">Create Match</h1>
+    <div className="my-6 flex w-[95%] flex-col items-center justify-center sm:w-[80%] sm:max-w-3xl">
+      <h1 className="arcade-glow mb-8">Create Match</h1>
 
-      <div className="flex w-full flex-col items-start">
-        <div className="my-6 flex w-full flex-col items-start gap-4">
-          <label htmlFor="Custom Room ID" className="text-[20px] font-bold">
-            Custom Room Passcode
-          </label>
-          <input
-            className={styles.formItem}
-            type="text"
-            name="Custom Room ID"
-            required
-            value={passcode}
-            maxLength={4}
-            onChange={(e) => setPasscode(e.target.value)}
-          />
-        </div>
+      <div className="panel w-full p-5 sm:p-8">
+        {isLoading ? (
+          <p className="py-10 text-center text-white/60">
+            Loading characters and ranks…
+          </p>
+        ) : (
+          <div className="flex w-full flex-col items-start gap-6">
+            <div className="flex w-full flex-col items-start gap-2">
+              <label
+                htmlFor="Custom Room ID"
+                className="text-[18px] font-bold"
+              >
+                Custom Room Passcode
+              </label>
+              <input
+                className="field-input"
+                type="text"
+                name="Custom Room ID"
+                placeholder="e.g. 1234"
+                required
+                value={passcode}
+                maxLength={4}
+                onChange={(e) => setPasscode(e.target.value)}
+              />
+            </div>
 
-        <div className="my-6 flex w-full flex-col items-start gap-4">
-          <label htmlFor="characters" className="text-[20px] font-bold">
-            Select Opponent Character
-          </label>
-          <CharacterList
-            characters={characters}
-            className={styles.formItem}
-            options={{ showAnyCharacter: true }}
-            selectedChar={selectedChar}
-            onChangeCallback={(e) => {
-              const charId = Number(e.target.value);
-              const char = characters.find((c) => c.id === charId);
-              setSelectedChar(char || null);
-            }}
-          />
-        </div>
+            <div className="flex w-full flex-col items-start gap-2">
+              <label htmlFor="characters" className="text-[18px] font-bold">
+                Select Opponent Character
+              </label>
+              <CharacterList
+                characters={characters}
+                className="field-select"
+                options={{ showAnyCharacter: true }}
+                selectedChar={selectedChar}
+                onChangeCallback={(e) => {
+                  const charId = Number(e.target.value);
+                  const char = characters.find((c) => c.id === charId);
+                  setSelectedChar(char || null);
+                }}
+              />
+            </div>
 
-        <div className="my-6 flex w-full flex-col items-start gap-4">
-          <label htmlFor="min rank" className="text-[20px] font-bold">
-            Minimum Rank Requirement
-          </label>
-          <select
-            className={styles.formItem}
-            name="min rank"
-            id="min-rank"
-            value={minRank.id}
-            onChange={(e) => {
-              const rankId = Number(e.target.value);
-              const rank = ranks.find((r) => r.id === rankId);
-              if (!rank) return new Error('No min rank set');
-              setMinRank(rank);
-            }}
-          >
-            {ranks.map((rank) => (
-              <option key={rank.id} value={rank.id}>
-                {rank.name}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="flex w-full flex-col items-start gap-2">
+                <label htmlFor="min rank" className="text-[18px] font-bold">
+                  Minimum Rank
+                </label>
+                <select
+                  className="field-select"
+                  name="min rank"
+                  id="min-rank"
+                  value={minRank.id}
+                  onChange={(e) => {
+                    const rankId = Number(e.target.value);
+                    const rank = ranks.find((r) => r.id === rankId);
+                    if (!rank) return new Error('No min rank set');
+                    setMinRank(rank);
+                  }}
+                >
+                  {ranks.map((rank) => (
+                    <option key={rank.id} value={rank.id}>
+                      {rank.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <div className="my-6 flex w-full flex-col items-start gap-4">
-          <label htmlFor="max rank" className="text-[20px] font-bold">
-            Maximum Rank Requirement
-          </label>
-          <select
-            className={styles.formItem}
-            name="max-rank"
-            id="max rank"
-            value={maxRank.id}
-            onChange={(e) => {
-              const rankId = Number(e.target.value);
-              const rank = ranks.find((r) => r.id === rankId);
-              if (!rank) return new Error('No max rank set');
-              setMaxRank(rank);
-            }}
-          >
-            {ranks.map((rank) => (
-              <option key={rank.id} value={rank.id}>
-                {rank.name}
-              </option>
-            ))}
-          </select>
-        </div>
+              <div className="flex w-full flex-col items-start gap-2">
+                <label htmlFor="max rank" className="text-[18px] font-bold">
+                  Maximum Rank
+                </label>
+                <select
+                  className={`field-select ${!isValidRankSelection ? 'field-error' : ''}`}
+                  name="max-rank"
+                  id="max rank"
+                  value={maxRank.id}
+                  onChange={(e) => {
+                    const rankId = Number(e.target.value);
+                    const rank = ranks.find((r) => r.id === rankId);
+                    if (!rank) return new Error('No max rank set');
+                    setMaxRank(rank);
+                  }}
+                >
+                  {ranks.map((rank) => (
+                    <option key={rank.id} value={rank.id}>
+                      {rank.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {!isValidRankSelection && (
+              <p className="-mt-4 text-sm text-red-400">
+                Max rank must be equal to or higher than min rank.
+              </p>
+            )}
 
-        <Button
-          className={`arcade-button text-center' mt-4 w-full items-center justify-center ${!isValidRankSelection ? 'disabled max-rank-disabled' : ''}`}
-          disabled={!isValidRankSelection}
-          onClick={
-            isValidRankSelection
-              ? () => {
-                  if (!selectedChar || !minRank || !maxRank) {
-                    return new Error(
-                      'Missing character or min/max rank selection'
-                    );
-                  }
-                  emitCreateMatch(
-                    user as UserType,
-                    passcode,
-                    selectedChar.id,
-                    minRank.id === 999 ? 1 : minRank.id,
-                    maxRank.id === 999 ? 40 : maxRank.id
-                  );
-                  navigate('/lobby');
-                }
-              : () => {
-                  return new Error('Missing Custom Room ID');
-                }
-          }
-        >
-          Create Match
-        </Button>
+            <Button
+              className={`arcade-button mt-2 w-full items-center justify-center text-center ${!isValidRankSelection ? 'disabled max-rank-disabled' : ''}`}
+              disabled={!isValidRankSelection}
+              onClick={
+                isValidRankSelection
+                  ? () => {
+                      if (!selectedChar || !minRank || !maxRank) {
+                        return new Error(
+                          'Missing character or min/max rank selection'
+                        );
+                      }
+                      emitCreateMatch(
+                        user as UserType,
+                        passcode,
+                        selectedChar.id,
+                        minRank.id === 999 ? 1 : minRank.id,
+                        maxRank.id === 999 ? 40 : maxRank.id
+                      );
+                      navigate('/lobby');
+                    }
+                  : () => {
+                      return new Error('Missing Custom Room ID');
+                    }
+              }
+            >
+              Create Match
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

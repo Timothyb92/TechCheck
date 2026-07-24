@@ -1,11 +1,62 @@
 @import 'tailwindcss';
 
+:root {
+  --tc-bg: #19181c;
+  --tc-surface: #242424;
+  --tc-surface-elevated: #2b2a30;
+  --tc-purple: #8f00ff;
+  --tc-purple-soft: #a94dff;
+  --tc-magenta: #cc66ff;
+  --tc-magenta-deep: #5e00aa;
+  --tc-border: rgba(191, 128, 255, 0.35);
+  --tc-glow-sm: 0 0 6px var(--tc-purple), 0 0 12px var(--tc-purple);
+  --tc-glow-md:
+    0 0 6px var(--tc-purple), 0 0 12px var(--tc-purple),
+    0 0 24px var(--tc-purple);
+  --tc-glow-lg:
+    0 0 8px var(--tc-purple), 0 0 16px var(--tc-purple),
+    0 0 32px var(--tc-purple);
+}
+
+* {
+  scrollbar-color: var(--tc-purple) var(--tc-bg);
+}
+
+body {
+  background-color: var(--tc-bg);
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(143, 0, 255, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 90% 100%,
+      rgba(204, 102, 255, 0.08),
+      transparent 55%
+    ),
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+  background-size:
+    100% 100%,
+    100% 100%,
+    100% 40px;
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--tc-purple);
+  color: #fff;
+}
+
 .arcade-glow {
   font-family: 'Press Start 2P', sans-serif;
   font-size: 24px;
   letter-spacing: 2px;
   color: transparent;
-  background-color: #242424;
+  background-color: transparent;
   display: block;
   line-height: 1;
   margin: 0;
@@ -13,19 +64,156 @@
   -webkit-text-stroke: 1px white;
 
   text-shadow:
-    0 0 4px #8f00ff,
-    0 0 8px #8f00ff,
-    0 0 16px #8f00ff,
-    0 0 24px #8f00ff;
+    0 0 4px var(--tc-purple),
+    0 0 8px var(--tc-purple),
+    0 0 16px var(--tc-purple),
+    0 0 24px var(--tc-purple);
+}
+
+.section-heading {
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #fff;
+  box-shadow: var(--tc-glow-md);
+}
+
+.panel {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--tc-border);
+  background: linear-gradient(
+    180deg,
+    rgba(46, 30, 61, 0.5),
+    rgba(36, 36, 36, 0.6)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 24px rgba(143, 0, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.field-input,
+.field-select {
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(191, 128, 255, 0.25);
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #eee;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: #8a8a92;
+  font-weight: 400;
+}
+
+.field-input:hover,
+.field-select:hover {
+  border-color: rgba(191, 128, 255, 0.5);
+}
+
+.field-input:focus,
+.field-select:focus {
+  outline: none;
+  border-color: var(--tc-purple-soft);
+  background-color: rgba(0, 0, 0, 0.35);
+  box-shadow: var(--tc-glow-sm);
+}
+
+.field-input.field-error,
+.field-select.field-error {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 6px rgba(255, 30, 30, 0.5);
+}
+
+.field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23cc99ff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.empty-state {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px dashed rgba(191, 128, 255, 0.3);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: #a9a4b0;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid;
+  backdrop-filter: blur(2px);
+}
+
+.status-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.status-pill--open {
+  color: #7eff00;
+  border-color: rgba(126, 255, 0, 0.4);
+  background: rgba(126, 255, 0, 0.08);
+}
+
+.status-pill--pending {
+  color: #ffcc33;
+  border-color: rgba(255, 204, 51, 0.4);
+  background: rgba(255, 204, 51, 0.08);
+}
+
+.status-pill--matched {
+  color: var(--tc-magenta);
+  border-color: rgba(204, 102, 255, 0.4);
+  background: rgba(204, 102, 255, 0.08);
 }
 
 .arcade-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  background: linear-gradient(to bottom, #8f00ff, #5e00aa);
+  background: linear-gradient(to bottom, var(--tc-purple), var(--tc-magenta-deep));
   border: 2px solid #d1a3ff;
-  border-radius: 6px;
+  border-radius: 8px;
   color: white;
   padding: 10px 20px;
   font-weight: 600;
@@ -33,21 +221,29 @@
   text-shadow: 1px 1px 2px #000;
   box-shadow:
     inset 0 1px 0 #ffffff88,
-    0 0 6px #8f00ff,
-    0 0 12px #8f00ff,
-    0 0 24px #8f00ff;
+    0 0 6px var(--tc-purple),
+    0 0 12px var(--tc-purple);
 
   position: relative;
-  transition: box-shadow 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
 }
 
-.arcade-button:hover {
+.arcade-button:hover,
+.arcade-button:focus-visible {
   box-shadow:
     inset 0 1px 0 #ffffffaa,
-    0 0 8px #8f00ff,
-    0 0 16px #8f00ff,
-    0 0 32px #8f00ff;
+    0 0 8px var(--tc-purple),
+    0 0 16px var(--tc-purple),
+    0 0 32px var(--tc-purple);
+  transform: translateY(-2px);
   cursor: pointer;
+  outline: none;
+}
+
+.arcade-button:active {
+  transform: translateY(0);
 }
 
 .disabled {
@@ -59,6 +255,7 @@
 
 .disabled:hover {
   cursor: not-allowed;
+  transform: none;
 }
 
 .disabled * {
