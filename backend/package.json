@@ -25,6 +25,11 @@
     "socket.io": "^4.8.1",
     "uuid": "^11.1.0"
   },
+  "overrides": {
+    "sequelize": {
+      "uuid": "^11.1.1"
+    }
+  },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.17",
