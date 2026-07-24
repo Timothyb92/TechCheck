@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "react-icons": "^5.5.0"
+  },
+  "overrides": {
+    "shell-quote": "^1.9.0"
   }
 }
