@@ -3,6 +3,10 @@
   position: relative;
   z-index: 10;
   isolation: isolate;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    box-shadow 0.2s ease;
 }
 
 .neon-button::before {
@@ -17,8 +21,24 @@
   pointer-events: none;
 }
 
-.neon-button:hover::before {
+.neon-button:hover::before,
+.neon-button:focus-visible::before {
   opacity: 0.7;
+}
+
+.neon-button:hover,
+.neon-button:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.neon-button:active {
+  transform: translateY(0);
+}
+
+.neon-button:disabled,
+.neon-button.disabled {
+  transform: none;
 }
 
 .join-match-disabled {

@@ -9,6 +9,12 @@ import { FlagIcon } from '../flag-icon/flagIcon';
 
 import { AuthContext } from '../../contexts/auth.context';
 
+const statusPillMap: Record<string, { label: string; className: string }> = {
+  open: { label: 'Open', className: 'status-pill--open' },
+  pending: { label: 'Pending', className: 'status-pill--pending' },
+  matched: { label: 'Matched', className: 'status-pill--matched' },
+};
+
 export const MatchCard = (match: MatchType) => {
   const { user } = useContext(AuthContext);
   const matchActions = getMatchActions(match, user as UserType);
@@ -25,10 +31,12 @@ export const MatchCard = (match: MatchType) => {
 
   if (match.status === 'cancelled' || match.status === 'completed') return;
 
+  const statusPill = statusPillMap[match.status];
+
   return (
     <>
       <div
-        className={`relative z-[1] my-2 mb-6 flex w-full flex-col items-center justify-center rounded-sm border border-[#bb55ff] bg-gradient-to-r from-[#8f008f] via-[#2d0072] to-[#8f008f] px-0 py-4 text-white transition-shadow before:absolute before:inset-[-4px] before:rounded before:bg-[radial-gradient(ellipse_at_center,transparent_80%)] before:opacity-0 before:blur hover:shadow-[0_0_8px_#cc66ff,0_0_16px_#cc66ff,0_0_24px_#cc66ff] hover:before:opacity-100 sm:p-4 ${
+        className={`relative z-[1] my-2 mb-6 flex w-full flex-col items-center justify-center rounded-xl border border-[#bb55ff] bg-gradient-to-r from-[#8f008f] via-[#2d0072] to-[#8f008f] px-0 py-4 text-white transition-all duration-200 before:absolute before:inset-[-4px] before:rounded before:bg-[radial-gradient(ellipse_at_center,transparent_80%)] before:opacity-0 before:blur hover:-translate-y-0.5 hover:shadow-[0_0_8px_#cc66ff,0_0_16px_#cc66ff,0_0_24px_#cc66ff] hover:before:opacity-100 sm:p-4 ${
           canViewMatchDetails() && match.status === 'matched' ? 'alert' : ''
         } ${
           user && match.status === 'pending' && match.playerOne.id === user.id
@@ -40,6 +48,13 @@ export const MatchCard = (match: MatchType) => {
             : ''
         }`}
       >
+        {statusPill && (
+          <span
+            className={`status-pill ${statusPill.className} absolute -top-3 left-1/2 z-10 -translate-x-1/2`}
+          >
+            {statusPill.label}
+          </span>
+        )}
         <div className="player-info mb-1 flex w-full flex-row items-center justify-between">
           <div className="z-10 flex w-1/3 flex-col items-center gap-2">
             <FlagIcon className="" locale={match.playerOne.locale} />
@@ -95,6 +110,8 @@ export const MatchCard = (match: MatchType) => {
             )}
           </div>
         </div>
+
+        <div className="my-2 h-px w-[90%] bg-white/15"></div>
 
         <div className="flex w-full flex-row items-center justify-between">
           <div className="flex w-1/3 flex-col items-center">
